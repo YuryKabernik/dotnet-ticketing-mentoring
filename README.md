@@ -8,3 +8,6 @@
 - **Ticket** – document (digital or printed), serving as evidence of admission price of some event.  Tickets should include information about the event, the date and time of the event, venue and seats that have been paid for or booked.
 - **Customer** – an authenticated user who searches for tickets for an event of interest to him and buys a ticket through an online system
 - **Event Manager** – the user of the system who is responsible for administering the event (setting up the manifest, configuring the offer)
+
+# Data Model
+![Exemplary Data Model](./static/ticketing-exemplary-data-model.jpg)
