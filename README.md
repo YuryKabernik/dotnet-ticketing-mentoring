@@ -12,8 +12,8 @@
 # Data Model
 ![Exemplary Data Model](./static/ticketing-exemplary-data-model.jpg)
 
-Event to Venue - 1 to * = venue may have multiple events, but event may occure on a single venue;
-Venue -> Section -> Row -> Seat = template of full venue configuration, specific venue configurations;
-Event -> EventSections {event id from template} -> EventRows {event section id} -> EventSeats {event seat id, price} = event-specific prices for seats;
+- Event to Venue - 1 to * = venue may have multiple events, but event may occure on a single venue;
+- Venue -> Section -> Row -> Seat = template of full venue configuration, specific venue configurations;
+- Event -> EventSections {event id from template} -> EventRows {event section id} -> EventSeats {event seat id, price} = event-specific prices for seats;
 
 Omit model Offer to simplify schema.
