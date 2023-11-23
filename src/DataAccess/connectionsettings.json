@@ -1,0 +1,6 @@
+{
+    "TicketingDatabase": {
+        "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=Ticketing;Trusted_Connection=True;",
+        "Timeout": 30
+    }
+}

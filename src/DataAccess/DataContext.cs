@@ -8,15 +8,32 @@ namespace Ticketing.DataAccess;
 
 public class DataContext : DbContext
 {
-    private readonly IOptions<DatabaseSettings> options;
+    private readonly DatabaseSettings settings;
 
-    public DataContext(IOptions<DatabaseSettings> options)
+    public DataContext(DatabaseSettings settings)
     {
-        this.options = options;
+        this.settings = settings;
     }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Order> Orders { get; set; }
+
+    #region Venue sets
     public DbSet<Venue> Venues { get; set; }
+    public DbSet<Section> Sections { get; set; }
+    public DbSet<Row> Rows { get; set; }
+    public DbSet<Seat> Seats { get; set; }
+    #endregion
+
+    #region Event sets
     public DbSet<Event> Events { get; set; }
+    public DbSet<EventSection> EventSections { get; set; }
+    public DbSet<EventRow> EventRows { get; set; }
+    public DbSet<EventSeat> EventSeats { get; set; }
+    #endregion
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(this.settings.ConnectionString);
+    }
 }
