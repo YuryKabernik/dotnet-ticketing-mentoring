@@ -1,4 +1,4 @@
-﻿namespace Ticketing.DataAccess.Models.Venue;
+﻿namespace Ticketing.DataAccess.Entities.Venue;
 
 public class Row
 {

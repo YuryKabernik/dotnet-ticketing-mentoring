@@ -1,4 +1,4 @@
-﻿namespace Ticketing.DataAccess.Models.Event;
+﻿namespace Ticketing.DataAccess.Entities.Event;
 
 public class EventSection
 {
