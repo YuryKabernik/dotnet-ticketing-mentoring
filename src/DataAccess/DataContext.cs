@@ -34,6 +34,14 @@ public class DataContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(this.settings.ConnectionString);
+        int timeoutSeconds = TimeSpan.FromSeconds(this.settings.Timeout).Seconds;
+        TimeSpan retryDelaySeconds = TimeSpan.FromSeconds(this.settings.RetryDelay);
+
+        optionsBuilder.UseSqlServer(
+            this.settings.ConnectionString,
+            providerOptions => providerOptions
+                .CommandTimeout(timeoutSeconds)
+                .EnableRetryOnFailure(this.settings.RetryCount, retryDelaySeconds, default)
+        );
     }
 }
