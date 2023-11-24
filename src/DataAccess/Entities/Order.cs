@@ -1,8 +1,19 @@
-﻿namespace Ticketing.DataAccess.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using Ticketing.DataAccess.Entities.Event;
+
+namespace Ticketing.DataAccess.Entities;
 
 public class Order
 {
-    public required int Id { get; set; }
-    public required int UserId { get; set; }
-    public required int SeatId { get; set; }
+    [Key]
+    [Required]
+    public int Id { get; set; }
+
+    [Required]
+    public int UserId { get; set; }
+    public virtual User User { get; set; } = null!;
+
+    [Required]
+    public int SeatId { get; set; }
+    public virtual EventSeat Seat { get; set; } = null!;
 }
