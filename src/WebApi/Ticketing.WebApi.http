@@ -1,66 +1,6 @@
 @Ticketing.WebApi_HostAddress = http://localhost:5108
 
-// Venues
-GET {{Ticketing.WebApi_HostAddress}}/venues
-Accept: application/json
-
-###
-
-GET {{Ticketing.WebApi_HostAddress}}/venues/{venue_id}/sections
-Accept: application/json
-
-###
-
-// Events
-GET {{Ticketing.WebApi_HostAddress}}/events
-Accept: application/json
-
-###
-
-GET {{Ticketing.WebApi_HostAddress}}/events/{event_id}/sections/{section_id}/seats
-Accept: application/json
-
-###
-
-// Orders
-GET {{Ticketing.WebApi_HostAddress}}/orders/carts/{cart_id}
-Accept: application/json
-
-###
-
-POST {{Ticketing.WebApi_HostAddress}}/orders/carts/{cart_id}
-Accept: application/json
-
-{
-    "EventId": 1,
-    "SeatId": 1,
-    "PriceId": 1 
-}
-
-###
-
-DELETE {{Ticketing.WebApi_HostAddress}}/orders/carts/{cart_id}/events/{event_id}/seats/{seat_id}
-Accept: application/json
-
-###
-
-PUT {{Ticketing.WebApi_HostAddress}}/orders/carts/{cart_id}/book
-Accept: application/json
-
-###
-
-// Payments
-GET {{Ticketing.WebApi_HostAddress}}/payments/{payment_id}
-Accept: application/json
-
-###
-
-POST {{Ticketing.WebApi_HostAddress}}/payments/{payment_id}/complete
-Accept: application/json
-
-###
-
-POST {{Ticketing.WebApi_HostAddress}}/payments/{payment_id}/failed
+GET {{Ticketing.WebApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
