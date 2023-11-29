@@ -27,7 +27,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
-    public Results<BadRequest, Ok<CartInfo>> PostCart(Guid cartId, [FromBody] SelectedSeatBody selectedSeat)
+    public Results<BadRequest, Ok<CartInfo>> PostCart(Guid cartId, [FromBody] SeatSelection seatDetails)
     {
         return TypedResults.Ok(this.Carts[cartId]);
     }
