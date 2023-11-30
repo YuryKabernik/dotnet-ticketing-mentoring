@@ -30,7 +30,7 @@ Create Async REST APIs with ASP.NET Core. Use DAL designed in prev module. The f
     - GET /events/{event_id}/sections/{section_id}/seats
         - list of seats (section_id, row_id, seat_id) with seats’ status (id, name) and price options (id, name)
 3. Orders
-    - GET orders/carts /{cart_id}
+    - GET orders/carts/{cart_id}
         - gets list of items in a cart (cart_id is a uuid, generated and stored the client side)
     - POST orders/carts/{cart_id}
         - takes object of event_id, seat_id and price_id as a payload and adds a seat to the cart. Returns a cart state (with total amount) back to the caller.
