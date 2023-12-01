@@ -23,5 +23,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Ticketing.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Ticketing.DataAccess.Entities;
-using Ticketing.DataAccess.Entities.Event;
-using Ticketing.DataAccess.Entities.Venue;
+using Ticketing.Domain.Entities;
+using Ticketing.Domain.Entities.Event;
+using Ticketing.Domain.Entities.Venue;
 
 namespace Ticketing.DataAccess;
 
@@ -34,6 +33,13 @@ public class DataContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        base.OnConfiguring(optionsBuilder);
+
+        this.UseSqlServer(optionsBuilder);
+    }
+
+    private void UseSqlServer(DbContextOptionsBuilder optionsBuilder)
+    {
         int timeoutSeconds = TimeSpan.FromSeconds(this.settings.Timeout).Seconds;
         TimeSpan retryDelaySeconds = TimeSpan.FromSeconds(this.settings.RetryDelay);
 
@@ -43,5 +49,12 @@ public class DataContext : DbContext
                 .CommandTimeout(timeoutSeconds)
                 .EnableRetryOnFailure(this.settings.RetryCount, retryDelaySeconds, default)
         );
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
     }
 }
