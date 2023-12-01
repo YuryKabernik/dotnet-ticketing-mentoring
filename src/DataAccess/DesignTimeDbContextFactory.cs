@@ -9,15 +9,16 @@ namespace Ticketing.DataAccess;
 /// </summary>
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataContext>
 {
+    private static DatabaseSettings _settings = new DatabaseSettings()
+    {
+        ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Ticketing;Trusted_Connection=True;",
+        Timeout = 30,
+        RetryCount = 3,
+        RetryDelay = 5
+    };
+
     public DataContext CreateDbContext(string[] args)
     {
-        DatabaseSettings _settings = new()
-        {
-            ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Ticketing;Trusted_Connection=True;",
-            Timeout = 30,
-            RetryCount = 3,
-            RetryDelay = 5
-        };
 
         return new DataContext(_settings);
     }
