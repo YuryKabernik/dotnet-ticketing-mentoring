@@ -8,7 +8,6 @@ public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
 {
     public void Configure(EntityTypeBuilder<Address> builder)
     {
-        builder.ToTable("Addresses");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Country)

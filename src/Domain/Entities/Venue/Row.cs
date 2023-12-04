@@ -6,5 +6,5 @@ public class Row
 
     public required string Label { get; set; }
 
-    public required virtual Section Section { get; set; } = null!;
+    public virtual Section? Section { get; set; }
 }

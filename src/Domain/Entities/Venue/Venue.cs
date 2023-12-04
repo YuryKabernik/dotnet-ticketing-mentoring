@@ -6,7 +6,7 @@ public class Venue
     
     public required string Name { get; set; }
     
-    public required Address Address { get; set; } = null!;
+    public Address? Address { get; set; }
 }
 
 public class Address

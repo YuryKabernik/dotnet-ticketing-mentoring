@@ -6,5 +6,5 @@ public class Section
 
     public required string Label { get; set; }
 
-    public required virtual Venue Venue { get; set; } = null!;
+    public virtual Venue? Venue { get; set; }
 }

@@ -6,7 +6,7 @@ public class Order
 {
     public int Id { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 
-    public virtual EventSeat Seat { get; set; } = null!;
+    public virtual EventSeat? Seat { get; set; }
 }
