@@ -12,9 +12,9 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataContex
     private static DatabaseSettings _settings = new DatabaseSettings()
     {
         ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Ticketing;Trusted_Connection=True;",
-        Timeout = 30,
-        RetryCount = 3,
-        RetryDelay = 5
+        TimeoutSeconds = 30,
+        RetryAttempts = 3,
+        RetryDelaySeconds = 5
     };
 
     public DataContext CreateDbContext(string[] args)

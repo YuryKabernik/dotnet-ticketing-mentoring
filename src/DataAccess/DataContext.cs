@@ -40,14 +40,14 @@ public class DataContext : DbContext
 
     private void UseSqlServer(DbContextOptionsBuilder optionsBuilder)
     {
-        int timeoutSeconds = TimeSpan.FromSeconds(this.settings.Timeout).Seconds;
-        TimeSpan retryDelaySeconds = TimeSpan.FromSeconds(this.settings.RetryDelay);
+        TimeSpan timeout = TimeSpan.FromSeconds(this.settings.TimeoutSeconds);
+        TimeSpan delay = TimeSpan.FromSeconds(this.settings.RetryDelaySeconds);
 
         optionsBuilder.UseSqlServer(
             this.settings.ConnectionString,
             providerOptions => providerOptions
-                .CommandTimeout(timeoutSeconds)
-                .EnableRetryOnFailure(this.settings.RetryCount, retryDelaySeconds, default)
+                .CommandTimeout(timeout.Seconds)
+                .EnableRetryOnFailure(this.settings.RetryAttempts, delay, default)
         );
     }
 
