@@ -6,7 +6,9 @@ public class Venue
     
     public required string Name { get; set; }
     
-    public Address? Address { get; set; }
+    public virtual Address? Address { get; set; }
+
+    public virtual IEnumerable<Section>? Sections { get; set; }
 }
 
 public class Address
