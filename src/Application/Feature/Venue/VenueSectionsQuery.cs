@@ -5,8 +5,11 @@ using Ticketing.Domain.Entities.Venue;
 namespace Ticketing.Application;
 
 public record VenueSectionsRequest(int VenueId);
-public record VenueSectionsResponse(IList<Section> Sections);
+public record VenueSectionsResponse(IEnumerable<Section> Sections);
 
+/// <summary>
+/// Query all sections for the venue.
+/// </summary>
 public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSectionsResponse>
 {
     private readonly IRepository<Venue> repository;
@@ -20,6 +23,6 @@ public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSecti
     {
         var venue = await this.repository.FirstAsync(request.VenueId);
 
-        return new VenueSectionsResponse(venue.Sections?.ToList()!);
+        return new VenueSectionsResponse(venue?.Sections?.ToList()!);
     }
 }
