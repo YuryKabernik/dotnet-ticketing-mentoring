@@ -42,6 +42,8 @@ public class DataContext : DbContext, IUnitOfWork
         base.OnConfiguring(optionsBuilder);
 
         this.UseSqlServer(optionsBuilder);
+
+        optionsBuilder.UseLazyLoadingProxies();
     }
 
     private void UseSqlServer(DbContextOptionsBuilder optionsBuilder)
