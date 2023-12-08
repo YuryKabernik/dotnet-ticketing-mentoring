@@ -13,13 +13,13 @@ public class EventQuery : IRepository<Event>
         this.context = context;
     }
 
-    public async Task<Event?> FirstAsync(int id)
+    public async Task<Event?> FirstAsync(int eventId, CancellationToken cancellation)
     {
-        return await this.context.Events.SingleAsync(e => e.Id == id);
+        return await this.context.Events.SingleAsync(e => e.Id == eventId, cancellation);
     }
 
-    public async Task<IEnumerable<Event>?> ListAsync()
+    public async Task<IEnumerable<Event>?> ListAsync(CancellationToken cancellation)
     {
-        return await this.context.Events.ToArrayAsync();
+        return await this.context.Events.ToArrayAsync(cancellation);
     }
 }

@@ -17,7 +17,7 @@ public class VenuesQuery : IQueryHandler<VenuesQueryRequest, VenuesQueryResponse
         this.repository = repository;
     }
 
-    public async Task<VenuesQueryResponse> Execute(VenuesQueryRequest request)
+    public async Task<VenuesQueryResponse> ExecuteAsync(VenuesQueryRequest request)
     {
         var result = await this.repository.ListAsync();
 

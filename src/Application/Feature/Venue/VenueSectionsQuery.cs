@@ -19,7 +19,7 @@ public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSecti
         this.repository = repository;
     }
 
-    public async Task<VenueSectionsResponse> Execute(VenueSectionsRequest request)
+    public async Task<VenueSectionsResponse> ExecuteAsync(VenueSectionsRequest request)
     {
         var venue = await this.repository.FirstAsync(request.VenueId);
 

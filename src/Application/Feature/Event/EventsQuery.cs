@@ -16,9 +16,9 @@ public class EventsQuery : IQueryHandler<EventsRequest, EventsResponse>
         this.repository = repository;
     }
 
-    public async Task<EventsResponse> Execute(EventsRequest request)
+    public async Task<EventsResponse> ExecuteAsync(EventsRequest request, CancellationToken cancellation)
     {
-        var result = await this.repository.ListAsync();
+        var result = await this.repository.ListAsync(cancellation);
 
         return new EventsResponse(result!);
     }

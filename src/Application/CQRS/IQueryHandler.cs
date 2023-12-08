@@ -2,5 +2,5 @@
 
 public interface IQueryHandler<TRequest, TResponse>
 {
-    Task<TResponse> Execute(TRequest request);
+    Task<TResponse> ExecuteAsync(TRequest request, CancellationToken cancellation);
 }

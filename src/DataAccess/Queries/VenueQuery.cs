@@ -13,13 +13,13 @@ public class VenueQuery : IRepository<Venue>
         this.context = context;
     }
 
-    public async Task<Venue?> FirstAsync(int venueId)
+    public async Task<Venue?> FirstAsync(int venueId, CancellationToken cancellation)
     {
-        return await this.context.Venues.SingleAsync(venue => venue.Id == venueId);
+        return await this.context.Venues.SingleAsync(venue => venue.Id == venueId, cancellation);
     }
 
-    public async Task<IEnumerable<Venue>?> ListAsync()
+    public async Task<IEnumerable<Venue>?> ListAsync(CancellationToken cancellation)
     {
-        return await this.context.Venues.ToListAsync();
+        return await this.context.Venues.ToListAsync(cancellation);
     }
 }
