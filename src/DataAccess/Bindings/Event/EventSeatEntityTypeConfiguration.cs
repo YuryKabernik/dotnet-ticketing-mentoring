@@ -13,8 +13,7 @@ public class EventSeatEntityTypeConfiguration : IEntityTypeConfiguration<EventSe
         builder.Navigation(p => p.Row)
             .IsRequired();
         
-        builder.Property(p => p.Price)
-            .HasColumnType("money")
+        builder.Navigation(p => p.Price)
             .IsRequired();
     }
 }

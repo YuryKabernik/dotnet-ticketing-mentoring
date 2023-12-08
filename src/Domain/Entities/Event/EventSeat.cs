@@ -6,5 +6,5 @@ public class EventSeat
 
     public virtual EventRow? Row { get; set; }
 
-    public required decimal Price { get; set; }
+    public virtual Price? Price { get; set; }
 }
