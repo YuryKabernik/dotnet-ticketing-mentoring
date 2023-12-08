@@ -4,18 +4,14 @@ using Ticketing.Domain.Entities.Event;
 
 namespace Ticketing.DataAccess;
 
-public class PriceEntityTypeConfiguration : IEntityTypeConfiguration<Price>
+public class StatusEntityTypeConfiguration : IEntityTypeConfiguration<Status>
 {
-    public void Configure(EntityTypeBuilder<Price> builder)
+    public void Configure(EntityTypeBuilder<Status> builder)
     {
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Name)
-            .HasMaxLength(200)
-            .IsRequired();
-
-        builder.Property(p => p.Amount)
-            .HasColumnType("money")
+            .HasMaxLength(200)            
             .IsRequired();
     }
 }

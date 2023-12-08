@@ -1,6 +1,4 @@
-﻿using Ticketing.Domain.Entities.Event;
-
-namespace Ticketing.Domain;
+﻿namespace Ticketing.Domain.Entities.Event;
 
 public class Price
 {
