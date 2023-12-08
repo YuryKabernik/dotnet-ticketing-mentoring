@@ -19,9 +19,9 @@ public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSecti
         this.repository = repository;
     }
 
-    public async Task<VenueSectionsResponse> ExecuteAsync(VenueSectionsRequest request)
+    public async Task<VenueSectionsResponse> ExecuteAsync(VenueSectionsRequest request, CancellationToken cancellation)
     {
-        var venue = await this.repository.FirstAsync(request.VenueId);
+        var venue = await this.repository.FirstAsync(request.VenueId, cancellation);
 
         return new VenueSectionsResponse(venue?.Sections?.ToList()!);
     }

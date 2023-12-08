@@ -17,10 +17,10 @@ public class VenuesQuery : IQueryHandler<VenuesQueryRequest, VenuesQueryResponse
         this.repository = repository;
     }
 
-    public async Task<VenuesQueryResponse> ExecuteAsync(VenuesQueryRequest request)
+    public async Task<VenuesQueryResponse> ExecuteAsync(VenuesQueryRequest request, CancellationToken cancellation)
     {
-        var result = await this.repository.ListAsync();
+        var result = await this.repository.ListAsync(cancellation);
 
-        return new VenuesQueryResponse(result);
+        return new VenuesQueryResponse(result!);
     }
 }
