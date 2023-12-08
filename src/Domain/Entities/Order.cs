@@ -8,7 +8,7 @@ public class Order
 
     public virtual User? User { get; set; }
 
-    public virtual EventSeat? Seat { get; set; }
-
     public virtual Status? Status { get; set; }
+
+    public virtual ICollection<EventSeat>? Seats { get; set; } = new List<EventSeat>();
 }

@@ -7,4 +7,6 @@ public class EventSeat
     public virtual EventRow? Row { get; set; }
 
     public virtual Price? Price { get; set; }
+
+    public virtual Order? Order { get; set; }
 }

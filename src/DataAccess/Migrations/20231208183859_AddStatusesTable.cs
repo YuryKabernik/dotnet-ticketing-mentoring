@@ -46,7 +46,7 @@ namespace Ticketing.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Orders_Statuses_StatusId",
+                name: "FK_Orders_Status_StatusId",
                 table: "Orders");
 
             migrationBuilder.DropTable(

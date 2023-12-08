@@ -8,6 +8,8 @@ public class StatusEntityTypeConfiguration : IEntityTypeConfiguration<Status>
 {
     public void Configure(EntityTypeBuilder<Status> builder)
     {
+        builder.ToTable("Statuses");
+
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Name)

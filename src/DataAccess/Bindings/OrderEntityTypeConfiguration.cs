@@ -10,7 +10,10 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
     {
         builder.HasKey(p => p.Id);
 
-        builder.Navigation(p => p.User).IsRequired();
-        builder.Navigation(p => p.Seat).IsRequired();
+        builder.Navigation(p => p.User)
+            .IsRequired();
+
+        builder.Navigation(p => p.Status)
+            .IsRequired();
     }
 }
