@@ -9,9 +9,9 @@ public record EventsResponse(IEnumerable<Event> Events);
 
 public class EventsQuery : IQueryHandler<EventsRequest, EventsResponse>
 {
-    private readonly IRepository<Event> repository;
+    private readonly IEventRepository repository;
 
-    public EventsQuery(IRepository<Event> repository)
+    public EventsQuery(IEventRepository repository)
     {
         this.repository = repository;
     }

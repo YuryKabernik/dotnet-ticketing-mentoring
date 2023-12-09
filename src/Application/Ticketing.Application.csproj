@@ -10,4 +10,13 @@
     <ProjectReference Include="..\Domain\Ticketing.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Riok.Mapperly" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CQRS\" />
+    <Folder Include="Feature\" />
+  </ItemGroup>
+
 </Project>
