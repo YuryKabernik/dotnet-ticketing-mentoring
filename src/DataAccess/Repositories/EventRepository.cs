@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ticketing.Domain;
+using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Entities.Event;
 
-namespace Ticketing.DataAccess;
+namespace Ticketing.DataAccess.Repositories;
 
-public class EventQuery : IEventRepository
+public class EventRepository : IEventRepository
 {
     private readonly DataContext context;
 
-    public EventQuery(DataContext context)
+    public EventRepository(DataContext context)
     {
         this.context = context;
     }

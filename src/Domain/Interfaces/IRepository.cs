@@ -1,7 +1,7 @@
-﻿namespace Ticketing.Domain;
+﻿namespace Ticketing.Domain.Interfaces;
 
-public interface IRepository<TEntity>
+public interface IRepository<TEntity, TEntityId>
 {
-    Task<TEntity?> FirstAsync(int id, CancellationToken cancellation);
+    Task<TEntity?> FirstAsync(TEntityId entityId, CancellationToken cancellation);
     Task<IEnumerable<TEntity>?> ListAsync(CancellationToken cancellation);
 }

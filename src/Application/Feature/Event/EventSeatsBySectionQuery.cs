@@ -1,5 +1,5 @@
 ﻿using Ticketing.Application.CQRS;
-using Ticketing.Domain;
+using Ticketing.Domain.Interfaces;
 
 namespace Ticketing.Application;
 

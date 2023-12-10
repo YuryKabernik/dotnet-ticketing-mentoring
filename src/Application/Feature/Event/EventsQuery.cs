@@ -1,6 +1,6 @@
 ﻿using Ticketing.Application.CQRS;
-using Ticketing.Domain;
 using Ticketing.Domain.Entities.Event;
+using Ticketing.Domain.Interfaces;
 
 namespace Ticketing.Application;
 

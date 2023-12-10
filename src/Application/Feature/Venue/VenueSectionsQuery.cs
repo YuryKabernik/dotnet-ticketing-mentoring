@@ -1,6 +1,6 @@
 ﻿using Ticketing.Application.CQRS;
-using Ticketing.Domain;
 using Ticketing.Domain.Entities.Venue;
+using Ticketing.Domain.Interfaces;
 
 namespace Ticketing.Application;
 
@@ -12,9 +12,9 @@ public record VenueSectionsResponse(IEnumerable<Section> Sections);
 /// </summary>
 public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSectionsResponse>
 {
-    private readonly IRepository<Venue> repository;
+    private readonly IRepository<Venue, int> repository;
 
-    public VenueSectionsQuery(IRepository<Venue> repository)
+    public VenueSectionsQuery(IRepository<Venue, int> repository)
     {
         this.repository = repository;
     }

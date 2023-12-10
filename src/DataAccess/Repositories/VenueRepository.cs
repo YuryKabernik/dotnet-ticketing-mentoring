@@ -1,21 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ticketing.Domain;
+using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Entities.Venue;
 
-namespace Ticketing.DataAccess;
+namespace Ticketing.DataAccess.Repositories;
 
-public class VenueQuery : IRepository<Venue>
+public class VenueRepository : IRepository<Venue, int>
 {
     private readonly DataContext context;
 
-    public VenueQuery(DataContext context)
+    public VenueRepository(DataContext context)
     {
         this.context = context;
     }
 
     public async Task<Venue?> FirstAsync(int venueId, CancellationToken cancellation)
     {
-        return await this.context.Venues.SingleAsync(venue => venue.Id == venueId, cancellation);
+        return await this.context.Venues.SingleOrDefaultAsync(venue => venue.Id == venueId, cancellation);
     }
 
     public async Task<IEnumerable<Venue>?> ListAsync(CancellationToken cancellation)
