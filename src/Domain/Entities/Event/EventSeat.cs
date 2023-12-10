@@ -9,4 +9,6 @@ public class EventSeat
     public virtual Price? Price { get; set; }
 
     public virtual Order? Order { get; set; }
+    
+    public virtual Cart? Cart { get; set; }
 }

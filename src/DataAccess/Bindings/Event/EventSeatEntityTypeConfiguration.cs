@@ -18,5 +18,8 @@ public class EventSeatEntityTypeConfiguration : IEntityTypeConfiguration<EventSe
 
         builder.Navigation(p => p.Order)
             .IsRequired(false);
+
+        builder.Navigation(p => p.Cart)
+            .IsRequired(false);
     }
 }

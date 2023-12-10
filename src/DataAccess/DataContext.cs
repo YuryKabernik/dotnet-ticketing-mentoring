@@ -16,6 +16,7 @@ public class DataContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<Cart> Carts { get; set; }
 
     #region Venue sets
     public DbSet<Venue> Venues { get; set; }
