@@ -16,14 +16,14 @@ public class CartRepository : ICartRepository
 
     public async Task AddSeat(Guid cartId, EventSeat seat, CancellationToken cancellation)
     {
-        var cart = await this.FirstAsync(cartId, cancellation);
+        var cart = await this.GetAsync(cartId, cancellation);
         
         cart!.Seats.Add(seat!);
 
         await this.context.SaveChangesAsync(cancellation);
     }
 
-    public async Task<Cart?> FirstAsync(Guid cartId, CancellationToken cancellation)
+    public async Task<Cart?> GetAsync(Guid cartId, CancellationToken cancellation)
     {
         return await this.context.Carts.SingleOrDefaultAsync(e => e.Guid == cartId, cancellation);
     }

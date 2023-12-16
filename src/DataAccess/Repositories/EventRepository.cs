@@ -13,7 +13,7 @@ public class EventRepository : IEventRepository
         this.context = context;
     }
 
-    public async Task<Event?> FirstAsync(int eventId, CancellationToken cancellation)
+    public async Task<Event?> GetAsync(int eventId, CancellationToken cancellation)
     {
         return await this.context.Events.SingleAsync(e => e.Id == eventId, cancellation);
     }

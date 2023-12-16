@@ -2,6 +2,7 @@
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Interfaces;
+using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application;
 
@@ -10,16 +11,16 @@ public record CartResponse(Guid CartId, IEnumerable<EventSeat> Seats);
 
 public class CartQuery : IQueryHandler<CartRequest, CartResponse>
 {
-    private readonly IRepository<Cart, Guid> repository;
+    private readonly ICartRepository repository;
 
-    public CartQuery(IRepository<Cart, Guid> repository)
+    public CartQuery(ICartRepository repository)
     {
         this.repository = repository;
     }
 
     public async Task<CartResponse> ExecuteAsync(CartRequest request, CancellationToken cancellation)
     {
-        var result = await this.repository.FirstAsync(request.CartId, cancellation);
+        var result = await this.repository.GetAsync(request.CartId, cancellation);
 
         return new(
             result!.Guid,

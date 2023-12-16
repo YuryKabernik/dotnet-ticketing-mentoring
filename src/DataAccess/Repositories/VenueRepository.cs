@@ -13,7 +13,7 @@ public class VenueRepository : IRepository<Venue, int>
         this.context = context;
     }
 
-    public async Task<Venue?> FirstAsync(int venueId, CancellationToken cancellation)
+    public async Task<Venue?> GetAsync(int venueId, CancellationToken cancellation)
     {
         return await this.context.Venues.SingleOrDefaultAsync(venue => venue.Id == venueId, cancellation);
     }

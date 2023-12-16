@@ -1,5 +1,5 @@
 ﻿using Ticketing.Application.CQRS;
-using Ticketing.Domain.Interfaces;
+using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application;
 
@@ -12,19 +12,18 @@ public record EventSeatsBySectionRequest(int EventId, int SectionId);
 /// </summary>
 public class EventSeatsBySectionQuery : IQueryHandler<EventSeatsBySectionRequest, EventSeatsBySectionResponse>
 {
-    private readonly IEventRepository repository;
+    private readonly IEventSeatRepository repository;
 
-    public EventSeatsBySectionQuery(IEventRepository repository)
+    public EventSeatsBySectionQuery(IEventSeatRepository repository)
     {
         this.repository = repository;
     }
 
     public async Task<EventSeatsBySectionResponse> ExecuteAsync(
         EventSeatsBySectionRequest request,
-        CancellationToken cancellation
-    )
+        CancellationToken cancellation)
     {
-        var seats = await this.repository.GetSeatsAsync(request.EventId, request.SectionId, cancellation);
+        var seats = await this.repository.GetAsync(request.EventId, request.SectionId, cancellation);
         var seatDetails = seats.Select(EventSeatMapper.ToDetailedResponse);
 
         return new EventSeatsBySectionResponse(seatDetails);

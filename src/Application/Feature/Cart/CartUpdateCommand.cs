@@ -1,4 +1,4 @@
-﻿using Ticketing.Domain.Interfaces;
+﻿using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application;
 
@@ -18,11 +18,12 @@ public class CartUpdateCommand : ICommandHandler<UpdateCartRequest>
 
     public async Task ExecuteAsync(UpdateCartRequest request, CancellationToken cancellation)
     {
-        var seat = await this.seatRepository.FirstAsync(request.Payload.SeatId, cancellation);
+        var seat = await this.seatRepository.GetAsync(request.Payload.SeatId, cancellation);
 
         if (seat?.Row?.Section?.Event?.Id == request.Payload.EventId)
         {
-            await this.cartRepository.AddSeat(request.CartId, seat, cancellation);
+            var cart = await this.cartRepository.GetAsync(request.CartId, cancellation);
+            cart?.Seats.Add(seat);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Ticketing.Application.CQRS;
 using Ticketing.Domain.Entities.Venue;
-using Ticketing.Domain.Interfaces;
+using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application;
 
@@ -12,16 +12,16 @@ public record VenueSectionsResponse(IEnumerable<Section> Sections);
 /// </summary>
 public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSectionsResponse>
 {
-    private readonly IRepository<Venue, int> repository;
+    private readonly IVenueRepository repository;
 
-    public VenueSectionsQuery(IRepository<Venue, int> repository)
+    public VenueSectionsQuery(IVenueRepository repository)
     {
         this.repository = repository;
     }
 
     public async Task<VenueSectionsResponse> ExecuteAsync(VenueSectionsRequest request, CancellationToken cancellation)
     {
-        var venue = await this.repository.FirstAsync(request.VenueId, cancellation);
+        var venue = await this.repository.GetAsync(request.VenueId, cancellation);
 
         return new VenueSectionsResponse(venue?.Sections?.ToList()!);
     }
