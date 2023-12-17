@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ticketing.Domain.Interfaces;
+using Ticketing.Domain.Interfaces.Repositories;
 using Ticketing.Domain.Entities.Event;
 
 namespace Ticketing.DataAccess.Repositories;

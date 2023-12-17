@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Entities.Venue;
+using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.DataAccess.Repositories;
 
-public class VenueRepository : IRepository<Venue, int>
+public class VenueRepository : IVenueRepository
 {
     private readonly DataContext context;
 

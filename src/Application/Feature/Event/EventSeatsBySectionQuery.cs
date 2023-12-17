@@ -23,7 +23,7 @@ public class EventSeatsBySectionQuery : IQueryHandler<EventSeatsBySectionRequest
         EventSeatsBySectionRequest request,
         CancellationToken cancellation)
     {
-        var seats = await this.repository.GetAsync(request.EventId, request.SectionId, cancellation);
+        var seats = await this.repository.GetWithOrderAndPriceAsync(request.EventId, request.SectionId, cancellation);
         var seatDetails = seats.Select(EventSeatMapper.ToDetailedResponse);
 
         return new EventSeatsBySectionResponse(seatDetails);
