@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketing.Domain.Entities.Event;
-using Ticketing.Domain.Entities.Venue;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.DataAccess;
@@ -16,7 +15,9 @@ public class EventSeatRepository : IEventSeatRepository
 
     public async Task<EventSeat?> GetAsync(int id, CancellationToken cancellation)
     {
-        return await this.context.EventSeats.SingleOrDefaultAsync(seat => seat.Id == id, cancellation);
+        return await this.context.EventSeats
+            .Include(seat => seat.Row!.Section!.Event)
+            .SingleOrDefaultAsync(seat => seat.Id == id, cancellation);
     }
 
     public async Task<IEnumerable<EventSeat>> GetWithOrderAndPriceAsync(
