@@ -2,10 +2,11 @@
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Entities.Venue;
+using Ticketing.Domain.Interfaces;
 
 namespace Ticketing.DataAccess;
 
-public class DataContext : DbContext
+public class DataContext : DbContext, IUnitOfWork
 {
     private readonly DatabaseSettings settings;
 
@@ -57,5 +58,10 @@ public class DataContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
+    }
+
+    public async Task SaveChanges(CancellationToken cancellationToken)
+    {
+        await this.SaveChangesAsync(cancellationToken);
     }
 }

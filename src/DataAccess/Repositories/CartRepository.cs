@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketing.Domain.Entities;
-using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.DataAccess.Repositories;
@@ -14,13 +13,12 @@ public class CartRepository : ICartRepository
         this.context = context;
     }
 
-    public async Task AddSeat(Guid cartId, EventSeat seat, CancellationToken cancellation)
+    public async Task<Cart?> GetWithSeatsAsync(Guid cartId, CancellationToken cancellation)
     {
-        var cart = await this.GetAsync(cartId, cancellation);
-        
-        cart!.Seats.Add(seat!);
-
-        await this.context.SaveChangesAsync(cancellation);
+        return await this.context.Carts
+            .Include(cart => cart.Seats)
+            .ThenInclude(seat => seat.Price)
+            .SingleOrDefaultAsync(e => e.Guid == cartId, cancellation);
     }
 
     public async Task<Cart?> GetAsync(Guid cartId, CancellationToken cancellation)
