@@ -11,12 +11,12 @@ public class EventSeatDetails
 
 public class PriceOption
 {
-    public int Id { get; set; }
+    public required int Id { get; set; }
     public required string Name { get; set; }
 }
 
 public class SeatStatus
 {
-    public int Id { get; set; }
+    public required int Id { get; set; }
     public required string Name { get; set; }
 }

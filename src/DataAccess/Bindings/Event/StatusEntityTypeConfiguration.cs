@@ -4,9 +4,9 @@ using Ticketing.Domain.Entities.Event;
 
 namespace Ticketing.DataAccess;
 
-public class StatusEntityTypeConfiguration : IEntityTypeConfiguration<Status>
+public class StatusEntityTypeConfiguration : IEntityTypeConfiguration<OrderStatus>
 {
-    public void Configure(EntityTypeBuilder<Status> builder)
+    public void Configure(EntityTypeBuilder<OrderStatus> builder)
     {
         builder.ToTable("Statuses");
 
