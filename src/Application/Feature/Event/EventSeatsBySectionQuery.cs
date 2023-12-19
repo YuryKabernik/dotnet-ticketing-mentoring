@@ -1,7 +1,8 @@
 ﻿using Ticketing.Application.CQRS;
+using Ticketing.Application.ObjectMapping;
 using Ticketing.Domain.Interfaces.Repositories;
 
-namespace Ticketing.Application;
+namespace Ticketing.Application.Feature.Event;
 
 public record EventSeatsBySectionResponse(IEnumerable<EventSeatDetails> EventSeats);
 public record EventSeatsBySectionRequest(int EventId, int SectionId);
