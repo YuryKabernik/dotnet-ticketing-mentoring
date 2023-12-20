@@ -2,6 +2,7 @@
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Entities.Ordering;
+using Ticketing.Domain.Entities.Payments;
 using Ticketing.Domain.Entities.Venue;
 using Ticketing.Domain.Interfaces;
 
@@ -19,6 +20,8 @@ public class DataContext : DbContext, IUnitOfWork
     public DbSet<User> Users { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Cart> Carts { get; set; }
+
+    public DbSet<Payment> Payments { get; set; }
 
     #region Venue sets
     public DbSet<Venue> Venues { get; set; }
