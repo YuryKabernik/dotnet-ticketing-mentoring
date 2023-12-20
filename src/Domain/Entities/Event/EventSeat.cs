@@ -1,4 +1,6 @@
-﻿namespace Ticketing.Domain.Entities.Event;
+﻿using Ticketing.Domain.Entities.Ordering;
+
+namespace Ticketing.Domain.Entities.Event;
 
 public class EventSeat
 {

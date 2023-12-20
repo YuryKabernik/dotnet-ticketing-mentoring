@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
+using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Entities.Venue;
 using Ticketing.Domain.Interfaces;
 

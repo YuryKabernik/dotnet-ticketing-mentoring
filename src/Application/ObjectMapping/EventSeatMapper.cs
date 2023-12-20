@@ -1,5 +1,5 @@
 ﻿using Riok.Mapperly.Abstractions;
-using Ticketing.Domain.Entities;
+using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Entities.Event;
 
 namespace Ticketing.Application.ObjectMapping;

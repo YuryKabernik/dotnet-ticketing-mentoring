@@ -1,6 +1,6 @@
 ﻿using Ticketing.Domain.Entities.Event;
 
-namespace Ticketing.Domain.Entities;
+namespace Ticketing.Domain.Entities.Ordering;
 
 public class Order
 {

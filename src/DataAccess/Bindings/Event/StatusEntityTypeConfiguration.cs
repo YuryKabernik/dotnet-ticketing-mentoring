@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Ticketing.Domain.Entities.Event;
+using Ticketing.Domain.Entities.Ordering;
 
 namespace Ticketing.DataAccess;
 
