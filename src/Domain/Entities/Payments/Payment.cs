@@ -10,4 +10,30 @@ public class Payment
     public decimal Price { get; set; }
     public PaymentStatusOption Status { get; set; }
     public virtual Order? Order { get; set; }
+
+    /// <summary>
+    /// Updates payment status and moves all the seats related to a payment to the sold state.
+    /// </summary>
+    public void Complete()
+    {
+        this.Status = PaymentStatusOption.Completed;
+
+        foreach (var seat in this.Order!.Seats!)
+        {
+            seat.Status = SeatStatusOption.Sold;
+        }
+    }
+
+    /// <summary>
+    /// Updates payment status and moves all the seats related to a payment to the available state.
+    /// </summary>
+    public void Fail()
+    {
+        this.Status = PaymentStatusOption.Failed;
+
+        foreach (var seat in this.Order!.Seats!)
+        {
+            seat.Status = SeatStatusOption.Available;
+        }
+    }
 }
