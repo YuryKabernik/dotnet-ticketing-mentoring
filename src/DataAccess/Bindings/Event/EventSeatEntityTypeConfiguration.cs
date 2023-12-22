@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ticketing.Domain.Entities.Event;
+using Ticketing.Domain.Enums;
 
 namespace Ticketing.DataAccess;
 
@@ -10,9 +11,13 @@ public class EventSeatEntityTypeConfiguration : IEntityTypeConfiguration<EventSe
     {
         builder.HasKey(p => p.Id);
 
+        builder.Property(p => p.Status)
+            .HasDefaultValue(SeatStatusOption.Available)
+            .IsRequired();
+
         builder.Navigation(p => p.Row)
             .IsRequired();
-        
+
         builder.Navigation(p => p.Price)
             .IsRequired();
 
@@ -20,6 +25,9 @@ public class EventSeatEntityTypeConfiguration : IEntityTypeConfiguration<EventSe
             .IsRequired(false);
 
         builder.Navigation(p => p.Cart)
+            .IsRequired(false);
+
+        builder.Navigation(p => p.Payment)
             .IsRequired(false);
     }
 }
