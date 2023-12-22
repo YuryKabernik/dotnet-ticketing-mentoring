@@ -18,6 +18,9 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
         builder.Navigation(p => p.User)
             .IsRequired();
 
+        builder.Navigation(p => p.Payment)
+            .IsRequired();
+
         builder.Navigation(p => p.Seats)
             .IsRequired();
     }

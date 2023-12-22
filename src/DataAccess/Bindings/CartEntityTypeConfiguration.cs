@@ -19,5 +19,7 @@ public class CartEntityTypeConfiguration : IEntityTypeConfiguration<Cart>
 
         builder.Navigation(p => p.User).IsRequired(false);
         builder.Navigation(p => p.Seats).IsRequired(false);
+
+        builder.Ignore(p => p.FinalPrice);
     }
 }

@@ -15,11 +15,15 @@ public class PaymentEntityTypeConfiguration : IEntityTypeConfiguration<Payment>
             .ValueGeneratedOnAdd()
             .IsRequired();
 
+        builder.Property(p=> p.Price)
+            .HasColumnType("money")
+            .IsRequired();
+
         builder.Property(p => p.Status)
             .HasDefaultValue(PaymentStatusOption.Pending)
             .IsRequired();
 
-        builder.Navigation(p => p.Seats)
+        builder.Navigation(p => p.Order)
             .IsRequired();
     }
 }
