@@ -9,7 +9,7 @@ public class Payment
     public Guid PaymentGuid { get; set; }
     public decimal Price { get; set; }
     public PaymentStatusOption Status { get; set; }
-    public virtual Order? Order { get; set; }
+    public virtual Order Order { get; set; }
 
     /// <summary>
     /// Updates payment status and moves all the seats related to a payment to the sold state.
@@ -17,6 +17,7 @@ public class Payment
     public void Complete()
     {
         this.Status = PaymentStatusOption.Completed;
+        this.Order.Status = OrderStatusOption.Paid;
 
         foreach (var seat in this.Order!.Seats!)
         {
@@ -30,6 +31,7 @@ public class Payment
     public void Fail()
     {
         this.Status = PaymentStatusOption.Failed;
+        this.Order.Status = OrderStatusOption.Canceled;
 
         foreach (var seat in this.Order!.Seats!)
         {

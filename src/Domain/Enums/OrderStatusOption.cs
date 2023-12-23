@@ -4,5 +4,6 @@ public enum OrderStatusOption
 {
     Submitted = 0,
     PendingPayment,
-    Paid
+    Paid,
+    Canceled
 }
