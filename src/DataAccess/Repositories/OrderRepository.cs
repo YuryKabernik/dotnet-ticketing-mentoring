@@ -2,33 +2,33 @@
 using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Interfaces.Repositories;
 
-namespace Ticketing.DataAccess;
+namespace Ticketing.DataAccess.Repositories;
 
 public class OrderRepository : IOrderRepository
 {
-    private readonly DataContext context;
+    private readonly DataContext _context;
 
     public OrderRepository(DataContext context)
     {
-        this.context = context;
+        this._context = context;
     }
 
     public async Task Add(Order order, CancellationToken cancellation)
     {
-        await this.context.AddAsync(order, cancellation);
+        await this._context.AddAsync(order, cancellation);
     }
 
-    public async Task<Order?> GetAsync(int id, CancellationToken cancellation)
+    public async Task<Order> GetAsync(int id, CancellationToken cancellation)
     {
-        return await this.context.Orders
+        return await this._context.Orders
             .Include(order => order.Seats)
             .Include(order => order.Status)
             .Include(order => order.Payment)
-            .SingleOrDefaultAsync(order => order.Id == id, cancellation);
+            .SingleAsync(order => order.Id == id, cancellation);
     }
 
-    public async Task<IEnumerable<Order>?> ListAsync(CancellationToken cancellation)
+    public async Task<IEnumerable<Order>> ListAsync(CancellationToken cancellation)
     {
-        return await this.context.Orders.ToListAsync(cancellation);
+        return await this._context.Orders.ToListAsync(cancellation);
     }
 }

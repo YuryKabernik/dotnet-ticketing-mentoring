@@ -1,6 +1,6 @@
 ﻿using Ticketing.Domain.Entities.Payments;
 
-namespace Ticketing.Domain;
+namespace Ticketing.Domain.Interfaces.Repositories;
 
 public interface IPaymentRepository
 {

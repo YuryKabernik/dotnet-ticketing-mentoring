@@ -3,6 +3,7 @@ using Ticketing.Application.Feature.Payments.Requests;
 using Ticketing.Domain;
 using Ticketing.Domain.Enums;
 using Ticketing.Domain.Interfaces;
+using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Payments;
 

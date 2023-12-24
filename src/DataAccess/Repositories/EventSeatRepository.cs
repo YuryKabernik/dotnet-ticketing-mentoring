@@ -2,37 +2,37 @@
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Interfaces.Repositories;
 
-namespace Ticketing.DataAccess;
+namespace Ticketing.DataAccess.Repositories;
 
 public class EventSeatRepository : IEventSeatRepository
 {
-    private readonly DataContext context;
+    private readonly DataContext _context;
 
     public EventSeatRepository(DataContext context)
     {
-        this.context = context;
+        this._context = context;
     }
 
-    public async Task<EventSeat?> GetAsync(int id, CancellationToken cancellation)
+    public async Task<EventSeat> GetAsync(int eventId, CancellationToken cancellation)
     {
-        return await this.context.EventSeats
+        return await this._context.EventSeats
             .Include(seat => seat.Row!.Section!.Event)
-            .SingleOrDefaultAsync(seat => seat.Id == id, cancellation);
+            .SingleAsync(seat => seat.Id == eventId, cancellation);
     }
 
-    public async Task<IEnumerable<EventSeat>> GetWithOrderAndPriceAsync(
+    public async Task<IEnumerable<EventSeat>> GetBySectionWithOrderPriceAsync(
         int eventId,
         int sectionId,
         CancellationToken cancellation)
     {
-        var seat = await this.context.EventSeats
+        var seat = await this._context.EventSeats
             .Include(seat => seat.Price)
             .Include(seat => seat.Order)
             .Where(seat =>
                 seat.Row!.Section!.Id == sectionId &&
                 seat.Row!.Section!.Event!.Id == eventId
             )
-            .ToListAsync();
+            .ToListAsync(cancellation);
 
         return seat;
     }

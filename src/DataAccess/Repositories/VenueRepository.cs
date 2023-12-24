@@ -6,20 +6,20 @@ namespace Ticketing.DataAccess.Repositories;
 
 public class VenueRepository : IVenueRepository
 {
-    private readonly DataContext context;
+    private readonly DataContext _context;
 
     public VenueRepository(DataContext context)
     {
-        this.context = context;
+        this._context = context;
     }
 
-    public async Task<Venue?> GetAsync(int venueId, CancellationToken cancellation)
+    public async Task<Venue> GetAsync(int venueId, CancellationToken cancellation)
     {
-        return await this.context.Venues.SingleOrDefaultAsync(venue => venue.Id == venueId, cancellation);
+        return await this._context.Venues.SingleAsync(venue => venue.Id == venueId, cancellation);
     }
 
-    public async Task<IEnumerable<Venue>?> ListAsync(CancellationToken cancellation)
+    public async Task<IEnumerable<Venue>> ListAsync(CancellationToken cancellation)
     {
-        return await this.context.Venues.ToListAsync(cancellation);
+        return await this._context.Venues.ToListAsync(cancellation);
     }
 }

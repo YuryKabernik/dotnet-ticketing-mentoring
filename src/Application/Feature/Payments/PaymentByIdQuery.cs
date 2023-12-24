@@ -1,5 +1,6 @@
 ﻿using Ticketing.Application.CQRS;
 using Ticketing.Domain;
+using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Payments;
 
