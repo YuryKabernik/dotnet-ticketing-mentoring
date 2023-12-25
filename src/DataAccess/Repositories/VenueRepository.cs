@@ -13,9 +13,16 @@ public class VenueRepository : IVenueRepository
         this._context = context;
     }
 
-    public async Task<Venue> GetAsync(int venueId, CancellationToken cancellation)
+    public Task<Venue> GetAsync(int venueId, CancellationToken cancellation)
     {
-        return await this._context.Venues.SingleAsync(venue => venue.Id == venueId, cancellation);
+        return this._context.Venues.SingleAsync(venue => venue.Id == venueId, cancellation);
+    }
+
+    public Task<Venue> GetWithSectionsAsync(int venueId, CancellationToken cancellation)
+    {
+        return this._context.Venues
+            .Include(venue => venue.Sections)
+            .SingleAsync(venue => venue.Id == venueId, cancellation);
     }
 
     public async Task<IEnumerable<Venue>> ListAsync(CancellationToken cancellation)
