@@ -13,9 +13,10 @@ public class EventSeatRepository : IEventSeatRepository
         this._context = context;
     }
 
-    public async Task<EventSeat> GetAsync(int eventId, CancellationToken cancellation)
+    public async Task<EventSeat> GetWithPriceEventAsync(int eventId, CancellationToken cancellation)
     {
         return await this._context.EventSeats
+            .Include(seat => seat.Price)
             .Include(seat => seat.Row!.Section!.Event)
             .SingleAsync(seat => seat.Id == eventId, cancellation);
     }

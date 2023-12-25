@@ -1,35 +1,34 @@
-﻿using Ticketing.Application.Feature.Cart.Exception;
-using Ticketing.Application.Feature.Cart.Request;
+﻿using Ticketing.Application.Feature.Cart.Request;
 using Ticketing.Domain.Entities.Ordering;
+using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
 
-namespace Ticketing.Application;
+namespace Ticketing.Application.Feature.Carting;
 
 /// <summary>
 /// Moves all the seats in the cart to a booked state.
 /// </summary>
 public class BookSeatsCommand : ICommandHandler<BookSeatsRequest>
 {
-    private readonly IUnitOfWork unitOfWork;
-    private readonly ICartRepository cartRepository;
-    private readonly IOrderRepository orderRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICartRepository _cartRepository;
+    private readonly IOrderRepository _orderRepository;
 
     public BookSeatsCommand(
         ICartRepository cartRepository,
         IOrderRepository orderRepository,
-        IUnitOfWork unitOfWork
-        )
+        IUnitOfWork unitOfWork)
     {
-        this.cartRepository = cartRepository;
-        this.orderRepository = orderRepository;
-        this.unitOfWork = unitOfWork;
+        this._cartRepository = cartRepository;
+        this._orderRepository = orderRepository;
+        this._unitOfWork = unitOfWork;
     }
 
     public async Task ExecuteAsync(BookSeatsRequest request, CancellationToken cancellation)
     {
-        var cart = await this.cartRepository.GetWithSeatsAsync(request.CartId, cancellation);
-        CartNotFoundExceptionException.ThrowIfNull(cart);
+        var cart = await this._cartRepository.GetWithSeatsAsync(request.CartId, cancellation);
+        NotFoundException.ThrowIfNull(cart);
 
         cart!.BookSeats();
 
@@ -38,11 +37,11 @@ public class BookSeatsCommand : ICommandHandler<BookSeatsRequest>
 
         cart!.Clear();
 
-        await this.unitOfWork.SaveChanges(cancellation);
+        await this._unitOfWork.SaveChanges(cancellation);
     }
 
     private async Task RegisterOrder(Order order, CancellationToken cancellation)
     {
-        await this.orderRepository.Add(order, cancellation);
+        await this._orderRepository.Add(order, cancellation);
     }
 }
