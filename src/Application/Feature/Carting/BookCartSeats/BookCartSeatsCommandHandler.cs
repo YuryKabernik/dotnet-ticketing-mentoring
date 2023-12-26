@@ -1,21 +1,20 @@
-﻿using Ticketing.Application.Feature.Cart.Request;
-using Ticketing.Domain.Entities.Ordering;
+﻿using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
 
-namespace Ticketing.Application.Feature.Carting;
+namespace Ticketing.Application.Feature.Carting.BookCartSeats;
 
 /// <summary>
 /// Moves all the seats in the cart to a booked state.
 /// </summary>
-public class BookSeatsCommand : ICommandHandler<BookSeatsRequest>
+public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICartRepository _cartRepository;
     private readonly IOrderRepository _orderRepository;
 
-    public BookSeatsCommand(
+    public BookCartSeatsCommandHandler(
         ICartRepository cartRepository,
         IOrderRepository orderRepository,
         IUnitOfWork unitOfWork)
@@ -25,9 +24,9 @@ public class BookSeatsCommand : ICommandHandler<BookSeatsRequest>
         this._unitOfWork = unitOfWork;
     }
 
-    public async Task ExecuteAsync(BookSeatsRequest request, CancellationToken cancellation)
+    public async Task ExecuteAsync(BookCartSeatsCommand command, CancellationToken cancellation)
     {
-        var cart = await this._cartRepository.GetWithSeatsAsync(request.CartId, cancellation);
+        var cart = await this._cartRepository.GetWithSeatsAsync(command.CartId, cancellation);
         NotFoundException.ThrowIfNull(cart);
 
         cart!.BookSeats();

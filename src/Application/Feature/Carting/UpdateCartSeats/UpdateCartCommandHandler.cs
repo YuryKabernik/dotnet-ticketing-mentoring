@@ -1,22 +1,21 @@
-﻿using Ticketing.Application.Feature.Cart.Request;
-using Ticketing.Domain.Entities.Event;
+﻿using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
 
-namespace Ticketing.Application.Feature.Carting;
+namespace Ticketing.Application.Feature.Carting.UpdateCartSeats;
 
 /// <summary>
 /// Takes object of event_id, seat_id and price_id as a payload and adds a seat to the cart.
 /// Returns a cart state (with total amount) back to the caller.
 /// </summary>
-public class CartUpdateCommand : ICommandHandler<CartUpdateWithSeatRequest>
+public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICartRepository _cartRepository;
     private readonly IEventSeatRepository _seatRepository;
 
-    public CartUpdateCommand(
+    public UpdateCartCommandHandler(
         ICartRepository cartRepository,
         IEventSeatRepository eventRepository,
         IUnitOfWork unitOfWork)
@@ -26,7 +25,7 @@ public class CartUpdateCommand : ICommandHandler<CartUpdateWithSeatRequest>
         this._unitOfWork = unitOfWork;
     }
 
-    public async Task ExecuteAsync(CartUpdateWithSeatRequest request, CancellationToken cancellation)
+    public async Task ExecuteAsync(UpdateCartCommand request, CancellationToken cancellation)
     {
         var seat = await GetSeat(request.Payload, cancellation);
         var cart = await GetCart(request.CartId, cancellation);
