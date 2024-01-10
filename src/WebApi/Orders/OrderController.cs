@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ticketing.WebApi.Models;
 
 namespace Ticketing.WebApi;
@@ -7,8 +6,8 @@ namespace Ticketing.WebApi;
 /// <summary>
 /// Describes Order resources.
 /// </summary>
-[Route("orders/carts/{cartId:guid}")]
 [ApiController]
+[Route("api/orders/carts/{cartId:guid}")]
 public class OrderController : ControllerBase
 {
     private readonly Dictionary<Guid, CartInfo> Carts;
@@ -29,7 +28,9 @@ public class OrderController : ControllerBase
     /// </param>
     /// <returns></returns>
     [HttpGet]
-    public Results<NotFound, Ok<CartInfo>> GetCart(Guid cartId)
+    [ProducesResponseType<CartInfo>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IResult GetCart(Guid cartId)
     {
         if (this.Carts.ContainsKey(cartId))
         {
@@ -48,7 +49,9 @@ public class OrderController : ControllerBase
     ///     Returns a cart state (with total amount) back to the caller.    
     /// </returns>
     [HttpPost]
-    public Results<BadRequest, Ok<CartInfo>> PostCart(Guid cartId, [FromBody] SeatSelection seatDetails)
+    [ProducesResponseType<CartInfo>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public IResult PostCart(Guid cartId, [FromBody] SeatSelection seatDetails)
     {
         return TypedResults.Ok(this.Carts[cartId]);
     }
@@ -61,7 +64,9 @@ public class OrderController : ControllerBase
     /// <param name="seatId"></param>
     /// <returns></returns>
     [HttpDelete("events/{eventId:int}/seats/{seatId:int}")]
-    public Results<NotFound, NoContent> DeleteSeat(Guid cartId, int eventId, int seatId)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IResult DeleteSeat(Guid cartId, int eventId, int seatId)
     {
         if (this.Carts.ContainsKey(cartId))
         {
@@ -79,7 +84,9 @@ public class OrderController : ControllerBase
     ///     Returns a payment id.
     /// </returns>
     [HttpPut("book")]
-    public Results<NotFound, Ok<PaymentInfo>> BookAll(Guid cartId)
+    [ProducesResponseType<PaymentInfo>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IResult BookAll(Guid cartId)
     {
         if (this.Carts.ContainsKey(cartId))
         {
