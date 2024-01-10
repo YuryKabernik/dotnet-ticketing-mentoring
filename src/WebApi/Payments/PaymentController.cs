@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ticketing.WebApi.Models;
 
 namespace Ticketing.WebApi.Payments;
@@ -7,8 +6,8 @@ namespace Ticketing.WebApi.Payments;
 /// <summary>
 /// Describes Payment resources.
 /// </summary>
-[Route("/payments/{payment_id}")]
 [ApiController]
+[Route("api/payments/{payment_id:alpha}")]
 public class PaymentController : ControllerBase
 {
     private PaymentStatus PaymentInfo;
@@ -28,8 +27,10 @@ public class PaymentController : ControllerBase
     /// <returns>
     ///     Returns the status of a payment   
     /// </returns>
+    [ProducesResponseType<PaymentStatus>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
-    public Results<Ok<PaymentStatus>, NotFound> GetStatus(string paymentId)
+    public IResult GetStatus(string paymentId)
     {
         return TypedResults.Ok(this.PaymentInfo);
     }
@@ -40,7 +41,11 @@ public class PaymentController : ControllerBase
     /// <param name="paymentId"></param>
     /// <returns></returns>
     [HttpPost("complete")]
-    public Results<NoContent, NotFound, BadRequest> UpdateToComplete(string paymentId)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IResult UpdateToComplete(string paymentId)
     {
         this.PaymentInfo = PaymentStatus.Complete;
 
@@ -53,7 +58,11 @@ public class PaymentController : ControllerBase
     /// <param name="paymentId"></param>
     /// <returns></returns>
     [HttpPost("failed")]
-    public Results<NoContent, NotFound, BadRequest> UpdateToFailed(string paymentId)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IResult UpdateToFailed(string paymentId)
     {
         this.PaymentInfo = PaymentStatus.Failed;
 
