@@ -6,11 +6,12 @@ namespace Ticketing.WebApi.Events;
 /// <summary>
 /// Describes Event resources.
 /// </summary>
-[Route("events")]
 [ApiController]
+[Route("api/events")]
 public class EventController : ControllerBase
 {
     private IEnumerable<OrganizedEvent> Events { get; set; }
+
     private IEnumerable<EventSeat> Seats { get; set; }
 
     /// <summary>
@@ -29,9 +30,13 @@ public class EventController : ControllerBase
     ///     A list of available events.
     /// </returns>
     [HttpGet]
-    public Task<IEnumerable<OrganizedEvent>> GetEvents()
+    [ProducesResponseType<AvailableEvents>(StatusCodes.Status200OK)]
+    [ProducesResponseType<AvailableEvents>(StatusCodes.Status204NoContent)]
+    public Task<IResult> GetEvents()
     {
-        return Task.FromResult(this.Events);
+        return Task.FromResult(
+            Results.Ok<AvailableEvents>(new(this.Events))
+        );
     }
 
     /// <summary>
@@ -42,10 +47,13 @@ public class EventController : ControllerBase
     /// <returns>
     ///     A list of seats with seats’ status and price options.
     /// </returns>
-    [HttpGet]
-    [Route("{eventId:int}/sections/{sectionId:int}/seats")]
-    public Task<IEnumerable<EventSeat>> GetSeats(int eventId, int sectionId)
+    [HttpGet("{eventId:int}/sections/{sectionId:int}/seats")]
+    [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status200OK)]
+    [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status204NoContent)]
+    public Task<IResult> GetSeats(int eventId, int sectionId)
     {
-        return Task.FromResult(this.Seats);
+        return Task.FromResult(
+            Results.Ok<AvailableEventSeats>(new(this.Seats))
+        );
     }
 }

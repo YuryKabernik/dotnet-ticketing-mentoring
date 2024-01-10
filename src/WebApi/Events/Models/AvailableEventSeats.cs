@@ -1,4 +1,10 @@
-﻿namespace Ticketing.WebApi;
+﻿namespace Ticketing.WebApi.Events.Models;
+
+/// <summary>
+/// A seats available for booking.
+/// </summary>
+/// <param name="Seats"></param>
+public record AvailableEventSeats(IEnumerable<EventSeat> Seats);
 
 /// <summary>
 /// A seat available for booking.
