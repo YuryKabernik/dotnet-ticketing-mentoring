@@ -1,6 +1,12 @@
 ﻿namespace Ticketing.WebApi.Events.Models;
 
 /// <summary>
+/// A contract object of the organized events.
+/// </summary>
+/// <param name="Events"></param>
+public record AvailableEvents(IEnumerable<OrganizedEvent> Events);
+
+/// <summary>
 /// An event details contract.
 /// </summary>
 /// <param name="Id"></param>
