@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Ticketing.WebApi.Models;
 
 namespace Ticketing.WebApi;
@@ -6,8 +7,8 @@ namespace Ticketing.WebApi;
 /// <summary>
 /// Describes Venue resources.
 /// </summary>
-[Route("venues")]
 [ApiController]
+[Route("api/venues")]
 public class VenueController : ControllerBase
 {
     private readonly IEnumerable<EventVenue> Venues;
@@ -27,9 +28,13 @@ public class VenueController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public Task<IEnumerable<EventVenue>> GetVenues()
+    [ProducesResponseType<EventVenues>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public IResult GetVenues()
     {
-        return Task.FromResult(this.Venues);
+        return TypedResults.Ok<EventVenues>(
+            new(this.Venues)
+        );
     }
 
     /// <summary>
@@ -37,10 +42,13 @@ public class VenueController : ControllerBase
     /// </summary>
     /// <param name="venueId"></param>
     /// <returns></returns>
-    [HttpGet]
-    [Route("{venueId:int}/sections")]
-    public Task<IEnumerable<VenueSection>> GetVenues(int venueId)
+    [HttpGet("{venueId:int}/sections")]
+    [ProducesResponseType<VenueSections>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public IResult GetVenues(int venueId)
     {
-        return Task.FromResult(this.Sections);
+        return TypedResults.Ok<VenueSections>(
+            new(this.Sections)
+        );
     }
 }
