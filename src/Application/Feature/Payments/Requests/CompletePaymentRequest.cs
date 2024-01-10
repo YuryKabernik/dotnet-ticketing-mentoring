@@ -1,6 +1,8 @@
-﻿namespace Ticketing.Application.Feature.Payments.Requests;
+﻿using MediatR;
 
-public record CompletePaymentRequest
+namespace Ticketing.Application.Feature.Payments.Requests;
+
+public record CompletePaymentRequest : IRequest
 {
     public Guid PaymentId { get; internal set; }
 }

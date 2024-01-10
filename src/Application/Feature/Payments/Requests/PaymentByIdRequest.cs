@@ -1,3 +1,6 @@
-﻿namespace Ticketing.Application.Feature.Payments.Requests;
+﻿using MediatR;
+using Ticketing.Application.Feature.Payments.Responses;
 
-public record PaymentByIdRequest(Guid PaymentId);
+namespace Ticketing.Application.Feature.Payments.Requests;
+
+public record PaymentByIdRequest(Guid PaymentId) : IRequest<PaymentStatusResponse>;

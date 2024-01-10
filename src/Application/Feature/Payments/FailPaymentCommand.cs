@@ -11,10 +11,28 @@ public class FailPaymentCommand : ICommandHandler<FailPaymentRequest>
 
     public FailPaymentCommand(IPaymentRepository paymentRepository, IUnitOfWork unitOfWork)
     {
-        _paymentRepository = paymentRepository;
-        _unitOfWork = unitOfWork;
+        this._paymentRepository = paymentRepository;
+        this._unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// <see cref="MediatR"/> implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task Handle(FailPaymentRequest request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Application implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     public async Task ExecuteAsync(FailPaymentRequest request, CancellationToken cancellation)
     {
         var payment = await this._paymentRepository.GetWithSeatsAsync(request.PaymentId, cancellation);

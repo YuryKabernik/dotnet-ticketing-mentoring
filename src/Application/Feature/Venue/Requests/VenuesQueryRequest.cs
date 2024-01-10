@@ -1,3 +1,6 @@
-﻿namespace Ticketing.Application.Feature.Venue.Requests;
+﻿using MediatR;
+using Ticketing.Application.Feature.Venue.Responses;
 
-public record VenuesQueryRequest();
+namespace Ticketing.Application.Feature.Venue.Requests;
+
+public record VenuesQueryRequest() : IRequest<VenuesQueryResponse>;

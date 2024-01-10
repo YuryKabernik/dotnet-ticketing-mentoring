@@ -14,6 +14,21 @@ public class VenuesQuery : IQueryHandler<VenuesQueryRequest, VenuesQueryResponse
         this._venueRepository = venueRepository;
     }
 
+    /// <summary>
+    /// <see cref="MediatR"/> implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<VenuesQueryResponse> Handle(VenuesQueryRequest request, CancellationToken cancellationToken) =>
+        this.ExecuteAsync(request, cancellationToken);
+
+    /// <summary>
+    /// Application implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     public async Task<VenuesQueryResponse> ExecuteAsync(VenuesQueryRequest request, CancellationToken cancellation)
     {
         var result = await this._venueRepository.ListAsync(cancellation);

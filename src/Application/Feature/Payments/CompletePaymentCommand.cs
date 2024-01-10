@@ -16,6 +16,24 @@ public class CompletePaymentCommand : ICommandHandler<CompletePaymentRequest>
         this._unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// <see cref="MediatR"/> implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task Handle(CompletePaymentRequest request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Application implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     public async Task ExecuteAsync(CompletePaymentRequest request, CancellationToken cancellation)
     {
         var payment = await this._paymentRepository.GetWithSeatsAsync(request.PaymentId, cancellation);

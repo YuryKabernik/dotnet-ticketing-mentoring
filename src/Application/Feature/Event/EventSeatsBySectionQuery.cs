@@ -1,11 +1,12 @@
-﻿using Ticketing.Application.CQRS;
+﻿using MediatR;
+using Ticketing.Application.CQRS;
 using Ticketing.Application.ObjectMapping;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Event;
 
+public record EventSeatsBySectionRequest(int EventId, int SectionId) : IRequest<EventSeatsBySectionResponse>;
 public record EventSeatsBySectionResponse(IEnumerable<EventSeatDetails> EventSeats);
-public record EventSeatsBySectionRequest(int EventId, int SectionId);
 
 /// <summary>
 /// Returns the list of seats (section_id, row_id, seat_id)
@@ -20,6 +21,24 @@ public class EventSeatsBySectionQuery : IQueryHandler<EventSeatsBySectionRequest
         this.repository = repository;
     }
 
+    /// <summary>
+    /// <see cref="MediatR"/> implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task<EventSeatsBySectionResponse> Handle(EventSeatsBySectionRequest request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Application implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     public async Task<EventSeatsBySectionResponse> ExecuteAsync(
         EventSeatsBySectionRequest request,
         CancellationToken cancellation)

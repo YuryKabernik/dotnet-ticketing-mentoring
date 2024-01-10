@@ -1,4 +1,5 @@
-﻿using Ticketing.Domain.Entities.Ordering;
+﻿using Ticketing.Domain.Entities;
+using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
@@ -24,6 +25,21 @@ public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand>
         this._unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// <see cref="MediatR"/> implementation of the handler.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task Handle(BookCartSeatsCommand request, CancellationToken cancellationToken) =>
+        this.ExecuteAsync(request, cancellationToken);
+
+    /// <summary>
+    /// Application implementation of the handler.
+    /// </summary>
+    /// <param name="command"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     public async Task ExecuteAsync(BookCartSeatsCommand command, CancellationToken cancellation)
     {
         var cart = await this._cartRepository.GetWithSeatsAsync(command.CartId, cancellation);
@@ -31,16 +47,17 @@ public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand>
 
         cart!.BookSeats();
 
-        var order = Order.CreateFrom(cart!);
-        await RegisterOrder(order, cancellation);
+        await this.SubmitOrder(cart, cancellation);
 
         cart!.Clear();
 
         await this._unitOfWork.SaveChanges(cancellation);
     }
 
-    private async Task RegisterOrder(Order order, CancellationToken cancellation)
+    private async Task SubmitOrder(Cart cart, CancellationToken cancellation)
     {
+        var order = Order.CreateFrom(cart);
+
         await this._orderRepository.Add(order, cancellation);
     }
 }

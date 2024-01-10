@@ -1,6 +1,9 @@
-﻿namespace Ticketing.Application.CQRS;
+﻿using MediatR;
 
-public interface IQueryHandler<TRequest, TResponse>
+namespace Ticketing.Application.CQRS;
+
+public interface IQueryHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
     Task<TResponse> ExecuteAsync(TRequest request, CancellationToken cancellation);
 }
