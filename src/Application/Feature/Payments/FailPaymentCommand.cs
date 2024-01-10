@@ -1,4 +1,5 @@
-﻿using Ticketing.Application.Feature.Payments.Requests;
+﻿using Ticketing.Application.CQRS;
+using Ticketing.Application.Feature.Payments.Requests;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
 

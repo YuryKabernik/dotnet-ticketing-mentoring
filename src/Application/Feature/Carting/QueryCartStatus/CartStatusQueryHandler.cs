@@ -13,6 +13,12 @@ public class CartStatusQueryHandler : IQueryHandler<CartStatusQuery, CartStatusQ
         this._cartRepository = cartRepository;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    /// <param name="query"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     public async Task<CartStatusQueryResponse> ExecuteAsync(CartStatusQuery query, CancellationToken cancellation)
     {
         var cart = await this._cartRepository.GetWithSeatsAsync(query.CartId, cancellation);
@@ -20,4 +26,14 @@ public class CartStatusQueryHandler : IQueryHandler<CartStatusQuery, CartStatusQ
 
         return new CartStatusQueryResponse(query.CartId, cart!.Seats);
     }
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task<CartStatusQueryResponse> Handle(CartStatusQuery request, CancellationToken cancellationToken) =>
+        this.ExecuteAsync(request, cancellationToken);
 }

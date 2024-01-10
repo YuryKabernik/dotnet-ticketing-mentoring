@@ -1,4 +1,7 @@
-﻿namespace Ticketing.Application.Feature.Carting.UpdateCartSeats;
+﻿using MediatR;
 
-public record UpdateCartCommand(Guid CartId, SeatPayload Payload);
+namespace Ticketing.Application.Feature.Carting.UpdateCartSeats;
+
+public record UpdateCartCommand(Guid CartId, SeatPayload Payload) : IRequest;
+
 public record SeatPayload(int EventId, int SeatId, int PriceId);

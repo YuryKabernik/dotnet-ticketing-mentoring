@@ -1,4 +1,5 @@
-﻿using Ticketing.Domain.Entities;
+﻿using Ticketing.Application.CQRS;
+using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;

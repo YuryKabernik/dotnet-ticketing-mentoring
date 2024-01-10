@@ -1,3 +1,5 @@
-﻿namespace Ticketing.Application.Feature.Carting.RemoveCartSeat;
+﻿using MediatR;
 
-public record RemoveCartSeatCommand(Guid CartId, int EventId, int SeatId);
+namespace Ticketing.Application.Feature.Carting.RemoveCartSeat;
+
+public record RemoveCartSeatCommand(Guid CartId, int EventId, int SeatId) : IRequest;

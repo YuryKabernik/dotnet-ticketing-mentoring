@@ -1,4 +1,5 @@
-﻿using Ticketing.Domain.Entities.Event;
+﻿using Ticketing.Application.CQRS;
+using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
@@ -25,10 +26,25 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
         this._unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task Handle(UpdateCartCommand request, CancellationToken cancellationToken) =>
+        this.ExecuteAsync(request, cancellationToken);
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     public async Task ExecuteAsync(UpdateCartCommand request, CancellationToken cancellation)
     {
-        var seat = await GetSeat(request.Payload, cancellation);
-        var cart = await GetCart(request.CartId, cancellation);
+        var seat = await this.GetSeat(request.Payload, cancellation);
+        var cart = await this.GetCart(request.CartId, cancellation);
 
         if (seat.IsExact(
                 request.Payload.SeatId,

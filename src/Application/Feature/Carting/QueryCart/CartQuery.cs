@@ -1,3 +1,5 @@
-﻿namespace Ticketing.Application.Feature.Carting.QueryCart;
+﻿using MediatR;
 
-public record CartQuery(Guid CartId);
+namespace Ticketing.Application.Feature.Carting.QueryCart;
+
+public record CartQuery(Guid CartId) : IRequest<CartQueryResponse>;
