@@ -6,7 +6,7 @@ public class Event
     
     public required string Name { get; set; }
 
-    public virtual Venue.Venue? Venue { get; set; }
+    public virtual required Venue.Venue? Venue { get; set; }
 
     public required DateTime Date { get; set; }
 }

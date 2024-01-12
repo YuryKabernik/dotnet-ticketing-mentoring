@@ -6,7 +6,9 @@ public class Venue
     
     public required string Name { get; set; }
     
-    public Address? Address { get; set; }
+    public virtual Address? Address { get; set; }
+
+    public virtual ICollection<Section> Sections { get; set; } = new List<Section>();
 }
 
 public class Address

@@ -22,6 +22,25 @@ namespace Ticketing.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Ticketing.Domain.Entities.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("Ticketing.Domain.Entities.Event.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -74,13 +93,25 @@ namespace Ticketing.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("money");
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PriceId")
+                        .HasColumnType("int");
 
                     b.Property<int>("RowId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PriceId");
 
                     b.HasIndex("RowId");
 
@@ -105,6 +136,45 @@ namespace Ticketing.DataAccess.Migrations
                     b.ToTable("EventSections");
                 });
 
+            modelBuilder.Entity("Ticketing.Domain.Entities.Event.Price", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("money");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Price");
+                });
+
+            modelBuilder.Entity("Ticketing.Domain.Entities.Event.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses", (string)null);
+                });
+
             modelBuilder.Entity("Ticketing.Domain.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -113,7 +183,7 @@ namespace Ticketing.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("SeatId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -121,7 +191,7 @@ namespace Ticketing.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SeatId");
+                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -310,11 +380,31 @@ namespace Ticketing.DataAccess.Migrations
 
             modelBuilder.Entity("Ticketing.Domain.Entities.Event.EventSeat", b =>
                 {
+                    b.HasOne("Ticketing.Domain.Entities.Cart", "Cart")
+                        .WithMany("Seats")
+                        .HasForeignKey("CartId");
+
+                    b.HasOne("Ticketing.Domain.Entities.Order", "Order")
+                        .WithMany("Seats")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("Ticketing.Domain.Entities.Event.Price", "Price")
+                        .WithMany()
+                        .HasForeignKey("PriceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Ticketing.Domain.Entities.Event.EventRow", "Row")
                         .WithMany()
                         .HasForeignKey("RowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Price");
 
                     b.Navigation("Row");
                 });
@@ -332,9 +422,9 @@ namespace Ticketing.DataAccess.Migrations
 
             modelBuilder.Entity("Ticketing.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("Ticketing.Domain.Entities.Event.EventSeat", "Seat")
+                    b.HasOne("Ticketing.Domain.Entities.Event.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("SeatId")
+                        .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -344,7 +434,7 @@ namespace Ticketing.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Seat");
+                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });
@@ -374,7 +464,7 @@ namespace Ticketing.DataAccess.Migrations
             modelBuilder.Entity("Ticketing.Domain.Entities.Venue.Section", b =>
                 {
                     b.HasOne("Ticketing.Domain.Entities.Venue.Venue", "Venue")
-                        .WithMany()
+                        .WithMany("Sections")
                         .HasForeignKey("VenueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -391,6 +481,21 @@ namespace Ticketing.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Ticketing.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("Seats");
+                });
+
+            modelBuilder.Entity("Ticketing.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("Seats");
+                });
+
+            modelBuilder.Entity("Ticketing.Domain.Entities.Venue.Venue", b =>
+                {
+                    b.Navigation("Sections");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,5 +16,8 @@ public class VenueEntityTypeConfiguration : IEntityTypeConfiguration<Venue>
 
         builder.Navigation(e => e.Address)
             .IsRequired();
+        
+        builder.Navigation(e => e.Sections)
+            .AutoInclude();
     }
 }
