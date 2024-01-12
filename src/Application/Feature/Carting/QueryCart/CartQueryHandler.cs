@@ -16,30 +16,17 @@ public class CartQueryHandler : IQueryHandler<CartQuery, CartQueryResponse>
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    /// <param name="request"></param>
+    /// <param name="query"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public Task<CartQueryResponse> Handle(CartQuery request, CancellationToken cancellationToken) =>
-        this.ExecuteAsync(request, cancellationToken);
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    /// <param name="query"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task<CartQueryResponse> ExecuteAsync(CartQuery query, CancellationToken cancellation)
+    public async Task<CartQueryResponse> Handle(CartQuery query, CancellationToken cancellationToken)
     {
-        var cart = await this._cartRepository.GetWithSeatsAsync(query.CartId, cancellation);
+        var cart = await this._cartRepository.GetWithSeatsAsync(query.CartId, cancellationToken);
 
         if (cart is null)
             throw new NotFoundException($"Cart {query.CartId} is not found.");
-        
-        return new(
-            cart.Guid,
-            cart.Seats
-        );
-    }
 
+        return new CartQueryResponse(cart.Guid, cart.Seats);
+    }
 }

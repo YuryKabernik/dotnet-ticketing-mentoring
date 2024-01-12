@@ -13,39 +13,28 @@ public record EventSeatsResponse(IEnumerable<EventSeatDetails> EventSeats);
 /// Returns the list of seats (section_id, row_id, seat_id)
 /// with seats’ status (id, name) and price options (id, name)
 /// </summary>
-public class EventSeatsBySectionQuery : IQueryHandler<EventSeatsBySectionRequest, EventSeatsResponse>
+public class EventSeatsBySectionQueryHandler : IQueryHandler<EventSeatsBySectionRequest, EventSeatsResponse>
 {
     private readonly IEventSeatRepository _eventSeatRepository;
 
-    public EventSeatsBySectionQuery(IEventSeatRepository eventSeatRepository)
+    public EventSeatsBySectionQueryHandler(IEventSeatRepository eventSeatRepository)
     {
         this._eventSeatRepository = eventSeatRepository;
     }
 
     /// <summary>
-    /// <see cref="MediatR"/> implementation of the handler.
+    /// Application implementation of the handler.
     /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public Task<EventSeatsResponse> Handle(EventSeatsBySectionRequest request, CancellationToken cancellationToken) =>
-        this.Handle(request, cancellationToken);
-
-    /// <summary>
-    /// Application implementation of the handler.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task<EventSeatsResponse> ExecuteAsync(
-        EventSeatsBySectionRequest request,
-        CancellationToken cancellation)
+    public async Task<EventSeatsResponse> Handle(EventSeatsBySectionRequest request,
+        CancellationToken cancellationToken)
     {
         var seats = await this._eventSeatRepository.GetBySectionWithOrderPriceAsync(
             request.EventId,
             request.SectionId,
-            cancellation
+            cancellationToken
         );
 
         var seatDetails = seats.Select(EventSeatMapper.ToDetailedResponse);

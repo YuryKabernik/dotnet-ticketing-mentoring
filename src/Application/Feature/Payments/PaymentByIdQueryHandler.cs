@@ -1,17 +1,16 @@
 ﻿using Ticketing.Application.CQRS;
 using Ticketing.Application.Feature.Payments.Requests;
 using Ticketing.Application.Feature.Payments.Responses;
-using Ticketing.Domain.Enums;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Payments;
 
-public class PaymentByIdQuery : IQueryHandler<PaymentByIdRequest, PaymentStatusResponse>
+public class PaymentByIdQueryHandler : IQueryHandler<PaymentByIdRequest, PaymentStatusResponse>
 {
     private readonly IPaymentRepository _paymentRepository;
 
-    public PaymentByIdQuery(IPaymentRepository paymentRepository)
+    public PaymentByIdQueryHandler(IPaymentRepository paymentRepository)
     {
         this._paymentRepository = paymentRepository;
     }
@@ -23,18 +22,9 @@ public class PaymentByIdQuery : IQueryHandler<PaymentByIdRequest, PaymentStatusR
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public Task<PaymentStatusResponse> Handle(PaymentByIdRequest request, CancellationToken cancellationToken) =>
-        this.ExecuteAsync(request, cancellationToken);
-
-    /// <summary>
-    /// Application implementation of the handler.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task<PaymentStatusResponse> ExecuteAsync(PaymentByIdRequest request, CancellationToken cancellation)
+    public async Task<PaymentStatusResponse> Handle(PaymentByIdRequest request, CancellationToken cancellationToken)
     {
-        var payment = await this._paymentRepository.GetAsync(request.PaymentId, cancellation);
+        var payment = await this._paymentRepository.GetAsync(request.PaymentId, cancellationToken);
 
         if (payment is null)
             throw new NotFoundException($"Payment {request.PaymentId} was not found.");

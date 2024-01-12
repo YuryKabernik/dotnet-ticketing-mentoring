@@ -32,29 +32,20 @@ public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task Handle(BookCartSeatsCommand request, CancellationToken cancellationToken) =>
-        this.ExecuteAsync(request, cancellationToken);
-
-    /// <summary>
-    /// Application implementation of the handler.
-    /// </summary>
-    /// <param name="command"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task ExecuteAsync(BookCartSeatsCommand command, CancellationToken cancellation)
+    public async Task Handle(BookCartSeatsCommand request, CancellationToken cancellationToken)
     {
-        var cart = await this._cartRepository.GetWithSeatsAsync(command.CartId, cancellation);
+        var cart = await this._cartRepository.GetWithSeatsAsync(request.CartId, cancellationToken);
 
         if (cart is null)
-            throw new NotFoundException($"Cart {command.CartId} is not found.");
+            throw new NotFoundException($"Cart {request.CartId} is not found.");
 
         cart.BookSeats();
 
-        await this.SubmitOrder(cart, cancellation);
+        await this.SubmitOrder(cart, cancellationToken);
 
         cart.Clear();
 
-        await this._unitOfWork.SaveChanges(cancellation);
+        await this._unitOfWork.SaveChanges(cancellationToken);
     }
 
     private async Task SubmitOrder(Cart cart, CancellationToken cancellation)

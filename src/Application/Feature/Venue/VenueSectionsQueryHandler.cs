@@ -11,11 +11,11 @@ public record VenueSectionsResponse(IEnumerable<Section> Sections);
 /// <summary>
 /// Query all sections for the venue.
 /// </summary>
-public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSectionsResponse>
+public class VenueSectionsQueryHandler : IQueryHandler<VenueSectionsRequest, VenueSectionsResponse>
 {
     private readonly IVenueRepository _venueRepository;
 
-    public VenueSectionsQuery(IVenueRepository venueRepository)
+    public VenueSectionsQueryHandler(IVenueRepository venueRepository)
     {
         this._venueRepository = venueRepository;
     }
@@ -26,18 +26,9 @@ public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSecti
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<VenueSectionsResponse> Handle(VenueSectionsRequest request, CancellationToken cancellationToken) =>
-        this.ExecuteAsync(request, cancellationToken);
-
-    /// <summary>
-    /// Application implementation of the handler.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task<VenueSectionsResponse> ExecuteAsync(VenueSectionsRequest request, CancellationToken cancellation)
+    public async Task<VenueSectionsResponse> Handle(VenueSectionsRequest request, CancellationToken cancellationToken)
     {
-        var venue = await this._venueRepository.GetWithSectionsAsync(request.VenueId, cancellation);
+        var venue = await this._venueRepository.GetWithSectionsAsync(request.VenueId, cancellationToken);
 
         if (venue is null)
             throw new NotFoundException($"Venue {request.VenueId} was not found.");

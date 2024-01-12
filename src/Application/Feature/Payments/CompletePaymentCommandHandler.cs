@@ -6,12 +6,12 @@ using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Payments;
 
-public class CompletePaymentCommand : ICommandHandler<CompletePaymentRequest>
+public class CompletePaymentCommandHandler : ICommandHandler<CompletePaymentRequest>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPaymentRepository _paymentRepository;
 
-    public CompletePaymentCommand(IPaymentRepository paymentRepository, IUnitOfWork unitOfWork)
+    public CompletePaymentCommandHandler(IPaymentRepository paymentRepository, IUnitOfWork unitOfWork)
     {
         this._paymentRepository = paymentRepository;
         this._unitOfWork = unitOfWork;
@@ -24,24 +24,15 @@ public class CompletePaymentCommand : ICommandHandler<CompletePaymentRequest>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public Task Handle(CompletePaymentRequest request, CancellationToken cancellationToken) =>
-        this.ExecuteAsync(request, cancellationToken);
-
-    /// <summary>
-    /// Application implementation of the handler.
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task ExecuteAsync(CompletePaymentRequest request, CancellationToken cancellation)
+    public async Task Handle(CompletePaymentRequest request, CancellationToken cancellationToken)
     {
-        var payment = await this._paymentRepository.GetWithSeatsAsync(request.PaymentId, cancellation);
+        var payment = await this._paymentRepository.GetWithSeatsAsync(request.PaymentId, cancellationToken);
 
         if (payment is null)
             throw new NotFoundException($"Payment {request.PaymentId} is not found.");
 
         payment.Complete();
 
-        await this._unitOfWork.SaveChanges(cancellation);
+        await this._unitOfWork.SaveChanges(cancellationToken);
     }
 }

@@ -27,23 +27,14 @@ public class RemoveCartSeatCommandHandler : ICommandHandler<RemoveCartSeatComman
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public Task Handle(RemoveCartSeatCommand request, CancellationToken cancellationToken) =>
-        this.ExecuteAsync(request, cancellationToken);
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    /// <param name="command"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task ExecuteAsync(RemoveCartSeatCommand command, CancellationToken cancellation)
+    public async Task Handle(RemoveCartSeatCommand request, CancellationToken cancellationToken)
     {
-        var cart = await GetCartAsync(command, cancellation);
-        var seat = GetSeat(command, cart);
+        var cart = await GetCartAsync(request, cancellationToken);
+        var seat = GetSeat(request, cart);
 
         cart.Seats.Remove(seat);
 
-        await this._unitOfWork.SaveChanges(cancellation);
+        await this._unitOfWork.SaveChanges(cancellationToken);
     }
 
     private async Task<Cart> GetCartAsync(RemoveCartSeatCommand command, CancellationToken cancellation)
@@ -51,7 +42,7 @@ public class RemoveCartSeatCommandHandler : ICommandHandler<RemoveCartSeatComman
         var cart = await this._cartRepository.GetWithSeatsEventsAsync(command.CartId, cancellation);
 
         if (cart is null)
-            throw new NotFoundException($"Cart {command.CartId} is not found.");
+            throw new NotFoundException($"Cart {command.CartId} was not found.");
 
         return cart;
     }
@@ -61,7 +52,7 @@ public class RemoveCartSeatCommandHandler : ICommandHandler<RemoveCartSeatComman
         var seat = cart.Seats.FirstOrDefault(seat => seat.Id == command.SeatId);
 
         if (seat is null)
-            throw new NotFoundException($"Seat {command.SeatId} is not found.");
+            throw new NotFoundException($"Seat {command.SeatId} was not found.");
 
         return seat;
     }

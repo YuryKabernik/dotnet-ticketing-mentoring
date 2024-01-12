@@ -32,19 +32,10 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task Handle(UpdateCartCommand request, CancellationToken cancellationToken) =>
-        this.ExecuteAsync(request, cancellationToken);
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    public async Task ExecuteAsync(UpdateCartCommand request, CancellationToken cancellation)
+    public async Task Handle(UpdateCartCommand request, CancellationToken cancellationToken)
     {
-        var seat = await this.GetSeat(request.Payload, cancellation);
-        var cart = await this.GetCart(request.CartId, cancellation);
+        var seat = await this.GetSeat(request.Payload, cancellationToken);
+        var cart = await this.GetCart(request.CartId, cancellationToken);
 
         var isExact = seat.IsExact(request.Payload.SeatId, request.Payload.EventId, request.Payload.PriceId);
         
@@ -53,7 +44,7 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
             cart.Seats.Add(seat);
         }
 
-        await this._unitOfWork.SaveChanges(cancellation);
+        await this._unitOfWork.SaveChanges(cancellationToken);
     }
 
     private async Task<Domain.Entities.Cart> GetCart(Guid cartId, CancellationToken cancellation)
@@ -61,7 +52,7 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
         var cart = await this._cartRepository.GetWithSeatsAsync(cartId, cancellation);
 
         if (cart is null)
-            throw new NotFoundException($"Cart {cartId} is not found.");
+            throw new NotFoundException($"Cart {cartId} was not found.");
         
         return cart;
     }
@@ -69,7 +60,9 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
     private async Task<EventSeat> GetSeat(SeatPayload payload, CancellationToken cancellation)
     {
         var seat = await this._seatRepository.GetWithPriceEventAsync(payload.SeatId, cancellation);
-        NotFoundException.ThrowIfNull(seat);
+        
+        if (seat is null)
+            throw new NotFoundException($"Seat {payload.SeatId} was not found.");
 
         return seat;
     }
