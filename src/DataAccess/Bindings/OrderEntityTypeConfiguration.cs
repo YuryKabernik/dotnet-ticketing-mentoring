@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Ticketing.Domain.Entities;
+using Ticketing.Domain.Entities.Ordering;
+using Ticketing.Domain.Enums;
 
 namespace Ticketing.DataAccess.Bindings;
 
@@ -10,7 +11,17 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
     {
         builder.HasKey(p => p.Id);
 
-        builder.Navigation(p => p.User).IsRequired();
-        builder.Navigation(p => p.Seat).IsRequired();
+        builder.Property(p => p.Status)
+            .HasDefaultValue(OrderStatusOption.Submitted)
+            .IsRequired();
+
+        builder.Navigation(p => p.User)
+            .IsRequired();
+
+        builder.Navigation(p => p.Payment)
+            .IsRequired();
+
+        builder.Navigation(p => p.Seats)
+            .IsRequired();
     }
 }

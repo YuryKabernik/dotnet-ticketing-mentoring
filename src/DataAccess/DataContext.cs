@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
+using Ticketing.Domain.Entities.Ordering;
+using Ticketing.Domain.Entities.Payments;
 using Ticketing.Domain.Entities.Venue;
+using Ticketing.Domain.Interfaces;
 
 namespace Ticketing.DataAccess;
 
-public class DataContext : DbContext
+public class DataContext : DbContext, IUnitOfWork
 {
     private readonly DatabaseSettings settings;
 
@@ -16,6 +19,9 @@ public class DataContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+
+    public DbSet<Payment> Payments { get; set; }
 
     #region Venue sets
     public DbSet<Venue> Venues { get; set; }
@@ -58,5 +64,10 @@ public class DataContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
+    }
+
+    public async Task SaveChanges(CancellationToken cancellationToken)
+    {
+        await this.SaveChangesAsync(cancellationToken);
     }
 }

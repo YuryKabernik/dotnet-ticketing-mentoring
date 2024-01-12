@@ -25,5 +25,8 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.Property(p => p.Phone)
             .HasMaxLength(50)
             .IsRequired();
+
+        builder.Navigation(p => p.Cart).IsRequired(false);
+        builder.Navigation(p => p.Orders).IsRequired(false);
     }
 }

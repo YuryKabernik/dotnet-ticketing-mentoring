@@ -4,5 +4,5 @@ public class EventRow
 {
     public required int Id { get; set; }
 
-    public virtual EventSection? Section { get; set; }
+    public virtual required EventSection Section { get; set; }
 }

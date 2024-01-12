@@ -8,7 +8,7 @@ public class Venue
     
     public virtual Address? Address { get; set; }
 
-    public virtual IEnumerable<Section>? Sections { get; set; }
+    public virtual ICollection<Section> Sections { get; set; } = new List<Section>();
 }
 
 public class Address
