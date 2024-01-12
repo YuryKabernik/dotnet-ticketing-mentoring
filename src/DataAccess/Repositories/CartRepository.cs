@@ -13,27 +13,27 @@ public class CartRepository : ICartRepository
         this._context = context;
     }
 
-    public Task<Cart> GetWithSeatsAsync(Guid cartId, CancellationToken cancellation)
+    public Task<Cart?> GetWithSeatsAsync(Guid cartId, CancellationToken cancellation)
     {
         return this._context.Carts
             .Include(cart => cart.Seats)
             .ThenInclude(seat => seat.Price)
-            .SingleAsync(e => e.Guid == cartId, cancellation);
+            .SingleOrDefaultAsync(e => e.Guid == cartId, cancellation);
     }
 
-    public Task<Cart> GetWithSeatsEventsAsync(Guid cartId, CancellationToken cancellation)
+    public Task<Cart?> GetWithSeatsEventsAsync(Guid cartId, CancellationToken cancellation)
     {
         return this._context.Carts
             .Include(cart => cart.Seats)
-            .ThenInclude(seat => seat.Row!)
-            .ThenInclude(row => row.Section!)
+            .ThenInclude(seat => seat.Row)
+            .ThenInclude(row => row.Section)
             .ThenInclude(section => section.Event)
-            .SingleAsync(e => e.Guid == cartId, cancellation);
+            .SingleOrDefaultAsync(e => e.Guid == cartId, cancellation);
     }
 
-    public Task<Cart> GetAsync(Guid cartId, CancellationToken cancellation)
+    public Task<Cart?> GetAsync(Guid cartId, CancellationToken cancellation)
     {
-        return this._context.Carts.SingleAsync(e => e.Guid == cartId, cancellation);
+        return this._context.Carts.SingleOrDefaultAsync(e => e.Guid == cartId, cancellation);
     }
 
     public async Task<IEnumerable<Cart>> ListAsync(CancellationToken cancellation)

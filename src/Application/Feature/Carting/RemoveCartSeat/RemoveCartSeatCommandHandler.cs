@@ -1,4 +1,6 @@
 ﻿using Ticketing.Application.CQRS;
+using Ticketing.Domain.Entities;
+using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
@@ -36,17 +38,31 @@ public class RemoveCartSeatCommandHandler : ICommandHandler<RemoveCartSeatComman
     /// <returns></returns>
     public async Task ExecuteAsync(RemoveCartSeatCommand command, CancellationToken cancellation)
     {
-        var cart = await this._cartRepository.GetWithSeatsEventsAsync(command.CartId, cancellation);
-        NotFoundException.ThrowIfNull(cart);
+        var cart = await GetCartAsync(command, cancellation);
+        var seat = GetSeat(command, cart);
 
-        var seat = cart!.Seats.FirstOrDefault(seat =>
-            seat.Row!.Section!.Event!.Id == command.EventId &&
-            seat.Id == command.SeatId
-        );
-        NotFoundException.ThrowIfNull(seat);
-
-        cart.Seats.Remove(seat!);
+        cart.Seats.Remove(seat);
 
         await this._unitOfWork.SaveChanges(cancellation);
+    }
+
+    private async Task<Cart> GetCartAsync(RemoveCartSeatCommand command, CancellationToken cancellation)
+    {
+        var cart = await this._cartRepository.GetWithSeatsEventsAsync(command.CartId, cancellation);
+
+        if (cart is null)
+            throw new NotFoundException($"Cart {command.CartId} is not found.");
+
+        return cart;
+    }
+    
+    private static EventSeat GetSeat(RemoveCartSeatCommand command, Cart cart)
+    {
+        var seat = cart.Seats.FirstOrDefault(seat => seat.Id == command.SeatId);
+
+        if (seat is null)
+            throw new NotFoundException($"Seat {command.SeatId} is not found.");
+
+        return seat;
     }
 }

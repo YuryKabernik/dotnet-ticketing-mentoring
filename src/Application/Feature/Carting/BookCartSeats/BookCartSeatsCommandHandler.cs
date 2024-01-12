@@ -44,13 +44,15 @@ public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand>
     public async Task ExecuteAsync(BookCartSeatsCommand command, CancellationToken cancellation)
     {
         var cart = await this._cartRepository.GetWithSeatsAsync(command.CartId, cancellation);
-        NotFoundException.ThrowIfNull(cart);
 
-        cart!.BookSeats();
+        if (cart is null)
+            throw new NotFoundException($"Cart {command.CartId} is not found.");
+
+        cart.BookSeats();
 
         await this.SubmitOrder(cart, cancellation);
 
-        cart!.Clear();
+        cart.Clear();
 
         await this._unitOfWork.SaveChanges(cancellation);
     }

@@ -46,13 +46,11 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
         var seat = await this.GetSeat(request.Payload, cancellation);
         var cart = await this.GetCart(request.CartId, cancellation);
 
-        if (seat.IsExact(
-                request.Payload.SeatId,
-                request.Payload.EventId,
-                request.Payload.PriceId)
-           )
+        var isExact = seat.IsExact(request.Payload.SeatId, request.Payload.EventId, request.Payload.PriceId);
+        
+        if (isExact)
         {
-            cart?.Seats.Add(seat);
+            cart.Seats.Add(seat);
         }
 
         await this._unitOfWork.SaveChanges(cancellation);
@@ -61,9 +59,11 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
     private async Task<Domain.Entities.Cart> GetCart(Guid cartId, CancellationToken cancellation)
     {
         var cart = await this._cartRepository.GetWithSeatsAsync(cartId, cancellation);
-        NotFoundException.ThrowIfNull(cart);
 
-        return cart!;
+        if (cart is null)
+            throw new NotFoundException($"Cart {cartId} is not found.");
+        
+        return cart;
     }
 
     private async Task<EventSeat> GetSeat(SeatPayload payload, CancellationToken cancellation)

@@ -1,21 +1,21 @@
 ﻿using MediatR;
 using Ticketing.Application.CQRS;
-using Ticketing.Domain.Entities.Event;
+using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces.Repositories;
 
-namespace Ticketing.Application;
+namespace Ticketing.Application.Feature.Event;
 
 public record EventsRequest() : IRequest<EventsResponse>;
 
-public record EventsResponse(IEnumerable<Event> Events);
+public record EventsResponse(IEnumerable<Domain.Entities.Event.Event> Events);
 
 public class EventsQuery : IQueryHandler<EventsRequest, EventsResponse>
 {
-    private readonly IEventRepository repository;
+    private readonly IEventRepository _eventRepository;
 
-    public EventsQuery(IEventRepository repository)
+    public EventsQuery(IEventRepository eventRepository)
     {
-        this.repository = repository;
+        this._eventRepository = eventRepository;
     }
 
     /// <summary>
@@ -26,9 +26,9 @@ public class EventsQuery : IQueryHandler<EventsRequest, EventsResponse>
     /// <returns></returns>
     public async Task<EventsResponse> ExecuteAsync(EventsRequest request, CancellationToken cancellation)
     {
-        var result = await this.repository.ListAsync(cancellation);
-
-        return new EventsResponse(result!);
+        var events = await this._eventRepository.ListAsync(cancellation);
+        
+        return new EventsResponse(events);
     }
 
     /// <summary>

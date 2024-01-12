@@ -22,9 +22,11 @@ public class CartStatusQueryHandler : IQueryHandler<CartStatusQuery, CartStatusQ
     public async Task<CartStatusQueryResponse> ExecuteAsync(CartStatusQuery query, CancellationToken cancellation)
     {
         var cart = await this._cartRepository.GetWithSeatsAsync(query.CartId, cancellation);
-        NotFoundException.ThrowIfNull(cart);
 
-        return new CartStatusQueryResponse(query.CartId, cart!.Seats);
+        if (cart is null)
+            throw new NotFoundException($"Cart {query.CartId} is not found.");
+
+        return new CartStatusQueryResponse(query.CartId, cart.Seats);
     }
 
     /// <summary>

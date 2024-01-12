@@ -6,11 +6,11 @@ namespace Ticketing.Application.Feature.Carting.QueryCart;
 
 public class CartQueryHandler : IQueryHandler<CartQuery, CartQueryResponse>
 {
-    private readonly ICartRepository _repository;
+    private readonly ICartRepository _cartRepository;
 
-    public CartQueryHandler(ICartRepository repository)
+    public CartQueryHandler(ICartRepository cartRepository)
     {
-        this._repository = repository;
+        this._cartRepository = cartRepository;
     }
 
     /// <summary>
@@ -31,12 +31,14 @@ public class CartQueryHandler : IQueryHandler<CartQuery, CartQueryResponse>
     /// <returns></returns>
     public async Task<CartQueryResponse> ExecuteAsync(CartQuery query, CancellationToken cancellation)
     {
-        var result = await this._repository.GetWithSeatsAsync(query.CartId, cancellation);
-        NotFoundException.ThrowIfNull(result!);
+        var cart = await this._cartRepository.GetWithSeatsAsync(query.CartId, cancellation);
 
+        if (cart is null)
+            throw new NotFoundException($"Cart {query.CartId} is not found.");
+        
         return new(
-            result!.Guid,
-            result!.Seats
+            cart.Guid,
+            cart.Seats
         );
     }
 

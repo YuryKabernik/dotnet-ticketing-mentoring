@@ -13,17 +13,17 @@ public class PaymentRepository : IPaymentRepository
         this._context = context;
     }
 
-    public Task<Payment> GetAsync(Guid id, CancellationToken cancellation)
+    public Task<Payment?> GetAsync(Guid id, CancellationToken cancellation)
     {
         return this._context.Payments
-            .SingleAsync(payment => payment.PaymentGuid == id, cancellation);
+            .SingleOrDefaultAsync(payment => payment.PaymentGuid == id, cancellation);
     }
 
-    public Task<Payment> GetWithSeatsAsync(Guid id, CancellationToken cancellation)
+    public Task<Payment?> GetWithSeatsAsync(Guid id, CancellationToken cancellation)
     {
         return this._context.Payments
             .Include(payment => payment.Order)
             .ThenInclude(order => order!.Seats)
-            .SingleAsync(payment => payment.PaymentGuid == id, cancellation);
+            .SingleOrDefaultAsync(payment => payment.PaymentGuid == id, cancellation);
     }
 }

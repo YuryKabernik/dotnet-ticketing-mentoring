@@ -1,10 +1,11 @@
 ﻿using Ticketing.Application.CQRS;
 using Ticketing.Application.Feature.Payments.Requests;
 using Ticketing.Application.Feature.Payments.Responses;
+using Ticketing.Domain.Enums;
+using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Payments;
-
 
 public class PaymentByIdQuery : IQueryHandler<PaymentByIdRequest, PaymentStatusResponse>
 {
@@ -34,9 +35,15 @@ public class PaymentByIdQuery : IQueryHandler<PaymentByIdRequest, PaymentStatusR
     public async Task<PaymentStatusResponse> ExecuteAsync(PaymentByIdRequest request, CancellationToken cancellation)
     {
         var payment = await this._paymentRepository.GetAsync(request.PaymentId, cancellation);
-        var statusName = Enum.GetName(payment!.Status);
 
-        return new(statusName!);
+        if (payment is null)
+            throw new NotFoundException($"Payment {request.PaymentId} was not found.");
+
+        var statusName = Enum.GetName(payment.Status);
+
+        if (statusName is null)
+            throw new InvalidCastException($"Payment status {payment.Status} match was not found.");
+
+        return new PaymentStatusResponse(statusName);
     }
-
 }

@@ -1,5 +1,6 @@
 ﻿using Ticketing.Application.CQRS;
 using Ticketing.Application.Feature.Payments.Requests;
+using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;
 
@@ -23,10 +24,8 @@ public class FailPaymentCommand : ICommandHandler<FailPaymentRequest>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public Task Handle(FailPaymentRequest request, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    public Task Handle(FailPaymentRequest request, CancellationToken cancellationToken) =>
+        this.ExecuteAsync(request, cancellationToken);
 
     /// <summary>
     /// Application implementation of the handler.
@@ -37,6 +36,9 @@ public class FailPaymentCommand : ICommandHandler<FailPaymentRequest>
     public async Task ExecuteAsync(FailPaymentRequest request, CancellationToken cancellation)
     {
         var payment = await this._paymentRepository.GetWithSeatsAsync(request.PaymentId, cancellation);
+
+        if (payment is null)
+            throw new NotFoundException($"Payment {request.PaymentId} is not found.");
 
         payment.Fail();
 

@@ -9,7 +9,7 @@ public class Cart
     public Guid Guid { get; set; }
     public DateTime CreatedOn { get; set; }
 
-    public virtual User User { get; set; }
+    public virtual User? User { get; set; }
     public virtual ICollection<EventSeat> Seats { get; set; } = new List<EventSeat>();
 
     public decimal FinalPrice

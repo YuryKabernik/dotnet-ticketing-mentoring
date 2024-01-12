@@ -1,6 +1,7 @@
 ﻿using Ticketing.Application.CQRS;
 using Ticketing.Application.Feature.Venue.Requests;
 using Ticketing.Domain.Entities.Venue;
+using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Venue;
@@ -25,8 +26,8 @@ public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSecti
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<VenueSectionsResponse> Handle(VenueSectionsRequest request, CancellationToken cancellationToken)
-        => this.ExecuteAsync(request, cancellationToken);
+    public Task<VenueSectionsResponse> Handle(VenueSectionsRequest request, CancellationToken cancellationToken) =>
+        this.ExecuteAsync(request, cancellationToken);
 
     /// <summary>
     /// Application implementation of the handler.
@@ -38,6 +39,9 @@ public class VenueSectionsQuery : IQueryHandler<VenueSectionsRequest, VenueSecti
     {
         var venue = await this._venueRepository.GetWithSectionsAsync(request.VenueId, cancellation);
 
-        return new VenueSectionsResponse(venue?.Sections!);
+        if (venue is null)
+            throw new NotFoundException($"Venue {request.VenueId} was not found.");
+
+        return new VenueSectionsResponse(venue.Sections);
     }
 }

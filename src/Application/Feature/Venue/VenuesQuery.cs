@@ -31,8 +31,8 @@ public class VenuesQuery : IQueryHandler<VenuesQueryRequest, VenuesQueryResponse
     /// <returns></returns>
     public async Task<VenuesQueryResponse> ExecuteAsync(VenuesQueryRequest request, CancellationToken cancellation)
     {
-        var result = await this._venueRepository.ListAsync(cancellation);
+        var venues = await this._venueRepository.ListAsync(cancellation);
 
-        return new VenuesQueryResponse(result!);
+        return new VenuesQueryResponse(venues);
     }
 }

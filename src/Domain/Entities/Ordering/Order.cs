@@ -1,6 +1,7 @@
 ﻿using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Entities.Payments;
 using Ticketing.Domain.Enums;
+using Ticketing.Domain.Exceptions;
 
 namespace Ticketing.Domain.Entities.Ordering;
 
@@ -12,14 +13,20 @@ public class Order
     public virtual User? User { get; set; }
     public virtual Payment? Payment { get; set; }
 
-    public virtual ICollection<EventSeat>? Seats { get; set; } = new List<EventSeat>();
+    public virtual ICollection<EventSeat> Seats { get; set; } = new List<EventSeat>();
 
-    public static Order CreateFrom(Cart cart) => new()
+    public static Order CreateFrom(Cart cart)
     {
-        Seats = cart.Seats,
-        Payment = new()
+        if (cart.Seats.Count < 1)
+            throw new NotFoundException($"Invalid number of seats in the Cart {cart.Guid} to create an Order.");
+
+        return new Order
         {
-            Price = cart.FinalPrice
-        }
-    };
+            Seats = cart.Seats,
+            Payment = new()
+            {
+                Price = cart.FinalPrice
+            }
+        };
+    }
 }
