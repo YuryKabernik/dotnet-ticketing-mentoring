@@ -31,7 +31,7 @@ public class EventController : ControllerBase
     /// </returns>
     [HttpGet]
     [ProducesResponseType<AvailableEvents>(StatusCodes.Status200OK)]
-    [ProducesResponseType<AvailableEvents>(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<AvailableEvents>(StatusCodes.Status404NotFound)]
     public Task<IResult> GetEvents()
     {
         return Task.FromResult(
@@ -49,7 +49,7 @@ public class EventController : ControllerBase
     /// </returns>
     [HttpGet("{eventId:int}/sections/{sectionId:int}/seats")]
     [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status200OK)]
-    [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status404NotFound)]
     public Task<IResult> GetSeats(int eventId, int sectionId)
     {
         return Task.FromResult(

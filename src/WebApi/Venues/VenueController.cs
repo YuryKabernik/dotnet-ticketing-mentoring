@@ -29,7 +29,7 @@ public class VenueController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType<EventVenues>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IResult GetVenues()
     {
         return TypedResults.Ok<EventVenues>(
@@ -44,7 +44,7 @@ public class VenueController : ControllerBase
     /// <returns></returns>
     [HttpGet("{venueId:int}/sections")]
     [ProducesResponseType<VenueSections>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IResult GetVenues(int venueId)
     {
         return TypedResults.Ok<VenueSections>(

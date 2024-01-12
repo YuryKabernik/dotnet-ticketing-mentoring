@@ -42,14 +42,12 @@ public class PaymentController : ControllerBase
     /// <returns></returns>
     [HttpPost("complete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IResult UpdateToComplete(string paymentId)
     {
         this.PaymentInfo = PaymentStatus.Complete;
 
-        return TypedResults.NoContent();
+        return TypedResults.Ok();
     }
 
     /// <summary>
@@ -59,13 +57,11 @@ public class PaymentController : ControllerBase
     /// <returns></returns>
     [HttpPost("failed")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IResult UpdateToFailed(string paymentId)
     {
         this.PaymentInfo = PaymentStatus.Failed;
 
-        return TypedResults.NoContent();
+        return TypedResults.Ok();
     }
 }
