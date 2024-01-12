@@ -50,7 +50,7 @@ public class OrderController : ControllerBase
     /// </returns>
     [HttpPost]
     [ProducesResponseType<CartInfo>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IResult PostCart(Guid cartId, [FromBody] SeatSelection seatDetails)
     {
         return TypedResults.Ok(this.Carts[cartId]);
