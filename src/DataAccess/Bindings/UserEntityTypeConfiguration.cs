@@ -27,6 +27,6 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder.Navigation(p => p.Cart).IsRequired(false);
-        builder.Navigation(p => p.Orders).IsRequired(false);
+        builder.Navigation(p => p.Orders);
     }
 }
