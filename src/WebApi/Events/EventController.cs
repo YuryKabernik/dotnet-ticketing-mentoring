@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net.Mime;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Ticketing.Application.Feature.Event;
+using Ticketing.Application.Feature.Event.Requests;
+using Ticketing.Application.Feature.Event.Response;
+using Ticketing.WebApi.Events.Mappers;
 using Ticketing.WebApi.Events.Models;
 
 namespace Ticketing.WebApi.Events;
@@ -8,35 +14,24 @@ namespace Ticketing.WebApi.Events;
 /// </summary>
 [ApiController]
 [Route("api/events")]
-public class EventController : ControllerBase
+public class EventController(IMediator mediator) : ControllerBase
 {
-    private IEnumerable<OrganizedEvent> Events { get; set; }
-
-    private IEnumerable<EventSeat> Seats { get; set; }
-
-    /// <summary>
-    /// Initializes DI services.
-    /// </summary>
-    public EventController()
-    {
-        this.Events = new List<OrganizedEvent>();
-        this.Seats = new List<EventSeat>();
-    }
-
     /// <summary>
     /// Returns a list of events available for booking.
     /// </summary>
+    /// <param name="cancellationToken"></param>
     /// <returns>
     ///     A list of available events.
     /// </returns>
     [HttpGet]
-    [ProducesResponseType<AvailableEvents>(StatusCodes.Status200OK)]
-    [ProducesResponseType<AvailableEvents>(StatusCodes.Status404NotFound)]
-    public Task<IResult> GetEvents()
+    [ProducesResponseType<AvailableEvents>(StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IResult> GetEvents(CancellationToken cancellationToken)
     {
-        return Task.FromResult(
-            Results.Ok<AvailableEvents>(new(this.Events))
-        );
+        EventsRequest request = new();
+        EventsResponse response = await mediator.Send(request, cancellationToken);
+
+        return Results.Ok(response.ToAvailableEvents());
     }
 
     /// <summary>
@@ -44,16 +39,18 @@ public class EventController : ControllerBase
     /// </summary>
     /// <param name="eventId">Dedicated event to search within.</param>
     /// <param name="sectionId">Dedicated section to search within.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>
     ///     A list of seats with seats’ status and price options.
     /// </returns>
     [HttpGet("{eventId:int}/sections/{sectionId:int}/seats")]
-    [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status200OK)]
-    [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status404NotFound)]
-    public Task<IResult> GetSeats(int eventId, int sectionId)
+    [ProducesResponseType<AvailableEventSeats>(StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IResult> GetSeats(int eventId, int sectionId, CancellationToken cancellationToken)
     {
-        return Task.FromResult(
-            Results.Ok<AvailableEventSeats>(new(this.Seats))
-        );
+        EventSeatsBySectionRequest request = new(eventId, sectionId);
+        EventSeatsResponse response = await mediator.Send(request, cancellationToken);
+
+        return Results.Ok(response.ToAvailableEventSeats());
     }
 }

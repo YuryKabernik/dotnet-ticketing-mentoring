@@ -14,7 +14,4 @@ public static partial class EventVenueMapper
     [MapProperty(nameof(Venue.Name), nameof(EventVenue.Name))]
     [MapProperty(nameof(Venue.Address), nameof(EventVenue.Address))]
     public static partial EventVenue ToEventVenue(this Venue venue);
-
-    private static string ToString(this Address address) =>
-        $"{address.Country}, {address.City}, {address.Building}";
 }

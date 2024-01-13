@@ -4,7 +4,7 @@
 /// A seats available for booking.
 /// </summary>
 /// <param name="Seats"></param>
-public record AvailableEventSeats(IEnumerable<EventSeat> Seats);
+public record AvailableEventSeats(IEnumerable<AvailableEventSeat> Seats);
 
 /// <summary>
 /// A seat available for booking.
@@ -21,21 +21,21 @@ public record AvailableEventSeats(IEnumerable<EventSeat> Seats);
 /// <param name="Status">
 /// A status of the seat.
 /// </param>
-/// <param name="PriceOption">
+/// <param name="Price">
 /// A seat price.
 /// </param>
-public record EventSeat(int SectionId, int RowId, int SeatId, SeatStatus Status, SeatPriceOption PriceOption);
+public record AvailableEventSeat(int SectionId, int RowId, int SeatId, SeatStatusNow Status, PriceOptionNow Price);
 
 /// <summary>
 /// A status of the seat.
 /// </summary>
 /// <param name="Id"></param>
 /// <param name="Name"></param>
-public record SeatStatus(int Id, string Name);
+public record SeatStatusNow(int Id, string Name);
 
 /// <summary>
 /// A seat price.
 /// </summary>
 /// <param name="Id"></param>
 /// <param name="Name"></param>
-public record SeatPriceOption(int Id, string Name);
+public record PriceOptionNow(int Id, string Name);
