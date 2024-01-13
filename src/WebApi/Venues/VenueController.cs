@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System.Net.Mime;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Ticketing.Application.Feature.Venue.Requests;
+using Ticketing.Application.Feature.Venue.Responses;
 using Ticketing.WebApi.Models;
 
 namespace Ticketing.WebApi;
@@ -9,46 +12,38 @@ namespace Ticketing.WebApi;
 /// </summary>
 [ApiController]
 [Route("api/venues")]
-public class VenueController : ControllerBase
+public class VenueController(IMediator mediator) : ControllerBase
 {
-    private readonly IEnumerable<EventVenue> Venues;
-    private readonly IEnumerable<VenueSection> Sections;
-
-    /// <summary>
-    /// Initializes DI services.
-    /// </summary>
-    public VenueController()
-    {
-        this.Venues = new List<EventVenue>();
-        this.Sections = new List<VenueSection>();
-    }
-
     /// <summary>
     /// Returns all venues
     /// </summary>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType<EventVenues>(StatusCodes.Status200OK)]
+    [ProducesResponseType<EventVenues>(StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IResult GetVenues()
+    public async Task<IResult> GetVenues(CancellationToken cancellationToken)
     {
-        return TypedResults.Ok<EventVenues>(
-            new(this.Venues)
-        );
+        VenuesQueryRequest request = new();
+        VenuesQueryResponse response = await mediator.Send(request, cancellationToken);
+
+        return Results.Ok(response.ToEventVenues());
     }
 
     /// <summary>
     /// Returns all sections for the venue.
     /// </summary>
     /// <param name="venueId"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet("{venueId:int}/sections")]
-    [ProducesResponseType<VenueSections>(StatusCodes.Status200OK)]
+    [ProducesResponseType<VenueSections>(StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IResult GetVenues(int venueId)
+    public async Task<IResult> GetVenues(int venueId, CancellationToken cancellationToken)
     {
-        return TypedResults.Ok<VenueSections>(
-            new(this.Sections)
-        );
+        VenueSectionsRequest request = new(venueId);
+        VenueSectionsResponse response = await mediator.Send(request, cancellationToken);
+
+        return TypedResults.Ok(response.ToVenueSections());
     }
 }
