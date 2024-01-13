@@ -1,7 +1,8 @@
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Ticketing.Application;
+using Ticketing.DataAccess.DependencyInjection;
 using Ticketing.WebApi.Startup;
-using DataAccessRegistry = Ticketing.DataAccess.DependencyInjection.DependencyRegistry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerGenOptionsBuilder>();
 builder.Services.AddSwaggerGen();
 
-DataAccessRegistry.Register(builder.Services);
+builder.Services
+    .AddDataAccess()
+    .AddApplication();
 
 var app = builder.Build();
 
