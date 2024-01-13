@@ -2,4 +2,4 @@
 
 public record VenueSections(IEnumerable<VenueSection> Sections);
 
-public record VenueSection();
+public record VenueSection(string Label);
