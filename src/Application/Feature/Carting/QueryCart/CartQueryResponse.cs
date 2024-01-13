@@ -2,4 +2,4 @@
 
 namespace Ticketing.Application.Feature.Carting.QueryCart;
 
-public record CartQueryResponse(Guid CartId, IEnumerable<EventSeat> Seats);
+public record CartQueryResponse(Guid CartId, ICollection<EventSeat> Seats);

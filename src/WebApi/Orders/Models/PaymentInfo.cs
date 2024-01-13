@@ -1,3 +1,3 @@
 ﻿namespace Ticketing.WebApi.Models;
 
-public record PaymentInfo(string PaymentId);
+public record PaymentInfo(Guid PaymentId);
