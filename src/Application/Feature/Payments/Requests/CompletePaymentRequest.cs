@@ -2,7 +2,4 @@
 
 namespace Ticketing.Application.Feature.Payments.Requests;
 
-public record CompletePaymentRequest : IRequest
-{
-    public Guid PaymentId { get; internal set; }
-}
+public record CompletePaymentRequest(Guid PaymentId) : IRequest;
