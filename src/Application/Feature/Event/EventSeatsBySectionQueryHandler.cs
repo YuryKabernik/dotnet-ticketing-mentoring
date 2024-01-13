@@ -1,13 +1,10 @@
-﻿using MediatR;
-using Ticketing.Application.CQRS;
+﻿using Ticketing.Application.CQRS;
+using Ticketing.Application.Feature.Event.Requests;
+using Ticketing.Application.Feature.Event.Response;
 using Ticketing.Application.ObjectMapping;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Event;
-
-public record EventSeatsBySectionRequest(int EventId, int SectionId) : IRequest<EventSeatsResponse>;
-
-public record EventSeatsResponse(IEnumerable<EventSeatDetails> EventSeats);
 
 /// <summary>
 /// Returns the list of seats (section_id, row_id, seat_id)

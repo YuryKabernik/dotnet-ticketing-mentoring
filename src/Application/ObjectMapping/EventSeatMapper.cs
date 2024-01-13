@@ -1,4 +1,5 @@
 ﻿using Riok.Mapperly.Abstractions;
+using Ticketing.Application.Feature.Event.Response;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Enums;
 
@@ -20,9 +21,9 @@ public static partial class EventSeatMapper
     [MapProperty(nameof(Price.Name), nameof(PriceOption.Name))]
     public static partial PriceOption ToPriceOption(Price price);
 
-    public static SeatStatus ToSeatStatus(SeatStatusOption option) => new()
-    {
-        Id = (int)option,
-        Name = Enum.GetName(option) ?? Enum.GetName(SeatStatusOption.Available)!
-    };
+    public static SeatStatus ToSeatStatus(SeatStatusOption option) => new
+    (
+        (int)option,
+        Enum.GetName(option) ?? Enum.GetName(SeatStatusOption.Available)!
+    );
 }
