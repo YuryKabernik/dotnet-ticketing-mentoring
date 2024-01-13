@@ -17,8 +17,12 @@ public class CartEntityTypeConfiguration : IEntityTypeConfiguration<Cart>
             .HasDefaultValueSql("getdate()")
             .IsRequired();
 
-        builder.Navigation(p => p.User).IsRequired(false);
-        builder.Navigation(p => p.Seats).IsRequired(false);
+        builder.HasOne(p => p.User)
+            .WithOne(p => p.Cart)
+            .HasForeignKey<Cart>(c => c.Id)
+            .IsRequired(false);
+
+        builder.Navigation(p => p.Seats);
 
         builder.Ignore(p => p.FinalPrice);
     }
