@@ -2,8 +2,9 @@
 
 public class DatabaseSettings
 {
-    public required string ConnectionString { get; set; }
-    public required int TimeoutSeconds { get; set; }
-    public required int RetryAttempts { get; set; }
-    public required int RetryDelaySeconds { get; set; }
+    public static readonly string SectionName = "Database";
+    public required string ConnectionString { get; init; }
+    public required int TimeoutSeconds { get; init; }
+    public required int RetryAttempts { get; init; }
+    public required int RetryDelaySeconds { get; init; }
 }

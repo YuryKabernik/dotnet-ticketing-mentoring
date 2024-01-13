@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Options;
 
 namespace Ticketing.DataAccess;
 
@@ -7,9 +8,9 @@ namespace Ticketing.DataAccess;
 /// More Info:
 /// <see cref="https://learn.microsoft.com/en-us/ef/core/cli/dbcontext-creation?tabs=dotnet-core-cli#from-a-design-time-factory"/>
 /// </summary>
-public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataContext>
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataContext>, IOptions<DatabaseSettings>
 {
-    private static DatabaseSettings _settings = new DatabaseSettings()
+    public DatabaseSettings Value { get; } = new()
     {
         ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Ticketing;Trusted_Connection=True;",
         TimeoutSeconds = 30,
@@ -17,9 +18,5 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataContex
         RetryDelaySeconds = 5
     };
 
-    public DataContext CreateDbContext(string[] args)
-    {
-
-        return new DataContext(_settings);
-    }
+    public DataContext CreateDbContext(string[] args) => new(this);
 }

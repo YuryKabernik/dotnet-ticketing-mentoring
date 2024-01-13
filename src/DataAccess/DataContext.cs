@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Entities.Ordering;
@@ -12,9 +13,9 @@ public class DataContext : DbContext, IUnitOfWork
 {
     private readonly DatabaseSettings settings;
 
-    public DataContext(DatabaseSettings settings)
+    public DataContext(IOptions<DatabaseSettings> settings)
     {
-        this.settings = settings;
+        this.settings = settings.Value;
     }
 
     public DbSet<User> Users { get; set; }
