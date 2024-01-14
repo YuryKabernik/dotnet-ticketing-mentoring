@@ -12,7 +12,7 @@ using Ticketing.DataAccess;
 namespace Ticketing.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240113195456_SyncUpDbWithModel")]
+    [Migration("20240114162447_SyncUpDbWithModel")]
     partial class SyncUpDbWithModel
     {
         /// <inheritdoc />

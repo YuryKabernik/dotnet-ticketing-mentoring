@@ -51,24 +51,6 @@ namespace Ticketing.DataAccess.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "CreatedOn",
-                table: "Carts",
-                type: "datetime2",
-                nullable: false,
-                defaultValueSql: "getdate()",
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "Carts",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .OldAnnotation("SqlServer:Identity", "1, 1");
-
             migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
@@ -150,24 +132,6 @@ namespace Ticketing.DataAccess.Migrations
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "CreatedOn",
-                table: "Carts",
-                type: "datetime2",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2",
-                oldDefaultValueSql: "getdate()");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "Carts",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .Annotation("SqlServer:Identity", "1, 1");
 
             migrationBuilder.CreateTable(
                 name: "Statuses",

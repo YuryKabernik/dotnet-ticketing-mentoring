@@ -12,7 +12,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataContex
 {
     public DatabaseSettings Value { get; } = new()
     {
-        ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Ticketing;Trusted_Connection=True;",
+        ConnectionString = "Server=localhost;Database=Ticketing;Trusted_Connection=True;TrustServerCertificate=true;User=TktUser;",
         TimeoutSeconds = 30,
         RetryAttempts = 3,
         RetryDelaySeconds = 5
