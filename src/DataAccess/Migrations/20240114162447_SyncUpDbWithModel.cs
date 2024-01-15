@@ -12,7 +12,7 @@ namespace Ticketing.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Orders_Statuses_StatusId",
+                name: "FK_Orders_Status_StatusId",
                 table: "Orders");
 
             migrationBuilder.DropTable(
@@ -152,7 +152,7 @@ namespace Ticketing.DataAccess.Migrations
                 column: "StatusId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Orders_Statuses_StatusId",
+                name: "FK_Orders_Status_StatusId",
                 table: "Orders",
                 column: "StatusId",
                 principalTable: "Statuses",
