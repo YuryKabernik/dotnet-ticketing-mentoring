@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.DataAccess.Depend
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{61D6C68E-34BC-48C6-B320-CC84A5967C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.DataAccess.UnitTests", "Ticketing.DataAccess.UnitTests\Ticketing.DataAccess.UnitTests.csproj", "{F73BB423-7EEC-4CD0-9F6F-19E4A5F42E50}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.DataAccess.UnitTests", "tests\Ticketing.DataAccess.UnitTests\Ticketing.DataAccess.UnitTests.csproj", "{F73BB423-7EEC-4CD0-9F6F-19E4A5F42E50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.WebAPI.UnitTests", "Ticketing.WebAPI.UnitTests\Ticketing.WebAPI.UnitTests.csproj", "{819830DB-FC8D-486E-974D-59301C70C490}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.WebAPI.UnitTests", "tests\Ticketing.WebAPI.UnitTests\Ticketing.WebAPI.UnitTests.csproj", "{819830DB-FC8D-486E-974D-59301C70C490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
