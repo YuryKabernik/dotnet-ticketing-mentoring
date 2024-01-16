@@ -28,7 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\src\DataAccess\Ticketing.DataAccess.csproj" />
+		<ProjectReference Include="..\..\src\DataAccess\Ticketing.DataAccess.csproj" />
 	</ItemGroup>
 
 </Project>
