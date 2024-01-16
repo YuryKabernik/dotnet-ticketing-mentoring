@@ -13,7 +13,7 @@ public class DataContext : DbContext, IUnitOfWork
 {
     private readonly DatabaseSettings settings;
 
-    public DataContext(IOptions<DatabaseSettings> settings)
+    public DataContext(IOptions<DatabaseSettings> settings) : base()
     {
         this.settings = settings.Value;
     }

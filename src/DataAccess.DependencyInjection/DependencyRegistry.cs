@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Ticketing.DataAccess.Options;
+using Ticketing.DataAccess.Setup;
 using Ticketing.DataAccess.Repositories;
 using Ticketing.Domain.Interfaces;
 using Ticketing.Domain.Interfaces.Repositories;

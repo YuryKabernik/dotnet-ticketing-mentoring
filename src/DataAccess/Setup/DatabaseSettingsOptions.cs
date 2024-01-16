@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Ticketing.DataAccess.Options;
+namespace Ticketing.DataAccess.Setup;
 
 public class DatabaseSettingsOptions : IConfigureOptions<DatabaseSettings>
 {
