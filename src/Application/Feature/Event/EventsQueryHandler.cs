@@ -1,13 +1,10 @@
-﻿using MediatR;
-using Ticketing.Application.CQRS;
+﻿using Ticketing.Application.CQRS;
+using Ticketing.Application.Feature.Event.Requests;
+using Ticketing.Application.Feature.Event.Response;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Event;
-
-public record EventsRequest() : IRequest<EventsResponse>;
-
-public record EventsResponse(IEnumerable<Domain.Entities.Event.Event> Events);
 
 public class EventsQueryHandler : IQueryHandler<EventsRequest, EventsResponse>
 {
@@ -30,7 +27,7 @@ public class EventsQueryHandler : IQueryHandler<EventsRequest, EventsResponse>
 
         if (events is null)
             throw new NotFoundException($"A list of Events was not found");
-        
+
         return new EventsResponse(events);
     }
 }

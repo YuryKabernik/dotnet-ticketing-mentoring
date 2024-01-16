@@ -10,8 +10,8 @@ public class Order
     public int Id { get; set; }
     public OrderStatusOption Status { get; set; }
 
-    public virtual User? User { get; set; }
-    public virtual Payment? Payment { get; set; }
+    public virtual required User User { get; set; }
+    public virtual required Payment Payment { get; set; }
 
     public virtual ICollection<EventSeat> Seats { get; set; } = new List<EventSeat>();
 
@@ -22,6 +22,7 @@ public class Order
 
         return new Order
         {
+            User = cart.User,
             Seats = cart.Seats,
             Payment = new()
             {

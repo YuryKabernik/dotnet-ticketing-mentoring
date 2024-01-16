@@ -17,7 +17,7 @@ public class EventEntityTypeConfiguration : IEntityTypeConfiguration<Event>
         builder.Navigation(p => p.Venue)
             .IsRequired();
 
-        builder.Property(p => p.Date)
+        builder.Property(p => p.DateTime)
             .HasColumnType("datetime")
             .IsRequired();
     }

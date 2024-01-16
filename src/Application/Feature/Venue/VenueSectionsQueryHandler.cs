@@ -1,12 +1,10 @@
 ﻿using Ticketing.Application.CQRS;
 using Ticketing.Application.Feature.Venue.Requests;
-using Ticketing.Domain.Entities.Venue;
+using Ticketing.Application.Feature.Venue.Responses;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces.Repositories;
 
 namespace Ticketing.Application.Feature.Venue;
-
-public record VenueSectionsResponse(IEnumerable<Section> Sections);
 
 /// <summary>
 /// Query all sections for the venue.
