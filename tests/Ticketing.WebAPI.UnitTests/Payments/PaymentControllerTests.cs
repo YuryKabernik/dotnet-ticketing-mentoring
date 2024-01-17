@@ -7,6 +7,8 @@ using Ticketing.Application.Feature.Payments.Responses;
 using Ticketing.WebApi.Models;
 using Ticketing.WebApi.Payments;
 
+namespace Ticketing.WebAPI.UnitTests.Payments;
+
 public class PaymentControllerTests
 {
     private readonly Guid _testPaymentId = Guid.NewGuid();
