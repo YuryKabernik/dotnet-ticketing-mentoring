@@ -6,19 +6,19 @@ namespace Ticketing.Domain.Entities.Event;
 
 public class EventSeat
 {
-    public required int Id { get; init; }
+    public required int Id { get; set; }
 
     public required SeatStatusOption Status { get; set; }
 
-    public virtual required EventRow Row { get; init; }
+    public virtual required EventRow Row { get; set; }
 
-    public virtual required Price Price { get; init; }
+    public virtual required Price Price { get; set; }
 
-    public virtual Order? Order { get; init; }
+    public virtual Order? Order { get; set; }
 
-    public virtual Cart? Cart { get; init; }
+    public virtual Cart? Cart { get; set; }
 
-    public virtual Payment? Payment { get; init; }
+    public virtual Payment? Payment { get; set; }
 
     public bool IsExact(int seatId, int eventId, int priceId)
     {

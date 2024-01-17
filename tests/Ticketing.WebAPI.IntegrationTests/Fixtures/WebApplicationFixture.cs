@@ -7,7 +7,7 @@ namespace Ticketing.WebAPI.IntegrationTests.Fixtures
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment("Development");
+            builder.UseEnvironment("Local-QA");
             builder.UseSetting("Database:ConnectionString", "Server=(localdb)\\mssqllocaldb;Database=Ticketing;Trusted_Connection=True;");
         }
     }

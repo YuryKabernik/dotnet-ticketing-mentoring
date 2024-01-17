@@ -13,7 +13,7 @@ public static class DependencyRegistry
     {
         services.AddTransient<IConfigureOptions<DatabaseSettings>, DatabaseSettingsOptions>();
         services.AddDbContext<DataContext>();
-        services.AddScoped<IUnitOfWork, DataContext>();
+        services.AddDbContext<IUnitOfWork, DataContext>();
         
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<IEventRepository, EventRepository>();

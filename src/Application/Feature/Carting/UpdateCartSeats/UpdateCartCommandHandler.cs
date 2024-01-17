@@ -1,4 +1,5 @@
-﻿using Ticketing.Application.CQRS;
+﻿using MediatR;
+using Ticketing.Application.CQRS;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
@@ -37,12 +38,8 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
         var seat = await this.GetSeat(request.Payload, cancellationToken);
         var cart = await this.GetCart(request.CartId, cancellationToken);
 
-        var isExact = seat.IsExact(request.Payload.SeatId, request.Payload.EventId, request.Payload.PriceId);
-        
-        if (isExact)
-        {
-            cart.Seats.Add(seat);
-        }
+        seat.Cart = cart;
+        cart.Seats.Add(seat);
 
         await this._unitOfWork.SaveChanges(cancellationToken);
     }
@@ -53,16 +50,25 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
 
         if (cart is null)
             throw new NotFoundException($"Cart {cartId} was not found.");
-        
+
         return cart;
     }
 
     private async Task<EventSeat> GetSeat(SeatPayload payload, CancellationToken cancellation)
     {
         var seat = await this._seatRepository.GetWithPriceEventAsync(payload.SeatId, cancellation);
-        
+
         if (seat is null)
             throw new NotFoundException($"Seat {payload.SeatId} was not found.");
+
+        var isExact = seat.IsExact(payload.SeatId, payload.EventId, payload.PriceId);
+
+        if (!isExact)
+        {
+            throw new NotFoundException(
+                $"Seat {payload.SeatId} of event {payload.EventId} and price {payload.PriceId} was not found."
+            );
+        }
 
         return seat;
     }

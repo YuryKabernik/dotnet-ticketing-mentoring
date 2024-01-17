@@ -3,7 +3,7 @@ using Ticketing.Domain.Enums;
 
 namespace Ticketing.Tests.Core.DataSeeds.EventRelated
 {
-    internal class EventSeatDataSeed
+    public class EventSeatDataSeed
     {
         private static readonly Faker<EventSeat> faker = new Faker<EventSeat>()
             .RuleFor(venue => venue.Status, setter => SeatStatusOption.Available)
