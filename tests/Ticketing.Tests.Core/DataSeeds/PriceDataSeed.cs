@@ -1,6 +1,6 @@
 ﻿using Ticketing.Domain.Entities.Event;
 
-namespace Ticketing.DataAccess.UnitTests.DataSeeds
+namespace Ticketing.Tests.Core.DataSeeds
 {
     internal class PriceDataSeed
     {

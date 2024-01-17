@@ -1,6 +1,6 @@
 ﻿using Ticketing.Domain.Entities.Venue;
 
-namespace Ticketing.DataAccess.UnitTests.DataSeeds.VenueRelated
+namespace Ticketing.Tests.Core.DataSeeds.VenueRelated
 {
     internal class VenueDataSeed
     {

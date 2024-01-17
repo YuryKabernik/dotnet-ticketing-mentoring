@@ -1,7 +1,7 @@
-﻿using Ticketing.DataAccess.UnitTests.DataSeeds.VenueRelated;
-using Ticketing.Domain.Entities.Event;
+﻿using Ticketing.Domain.Entities.Event;
+using Ticketing.Tests.Core.DataSeeds.VenueRelated;
 
-namespace Ticketing.DataAccess.UnitTests.DataSeeds.EventRelated
+namespace Ticketing.Tests.Core.DataSeeds.EventRelated
 {
     internal class EventDataSeed
     {

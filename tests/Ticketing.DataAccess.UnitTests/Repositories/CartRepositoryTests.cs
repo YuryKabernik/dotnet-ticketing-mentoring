@@ -1,13 +1,13 @@
 ﻿using Ticketing.DataAccess.Repositories;
-using Ticketing.DataAccess.UnitTests.DataSeeds;
 using Ticketing.DataAccess.UnitTests.Fixtures;
 using Ticketing.Domain.Entities;
+using Ticketing.Tests.Core.DataSeeds;
 
 namespace Ticketing.DataAccess.UnitTests;
 
 public class CartRepositoryTests : RepositoryTestsBase
 {
-    public static Guid CartId = Guid.NewGuid();
+    private readonly static Guid _cartId = Guid.NewGuid();
     private readonly CartRepository _cartRepository;
 
     public CartRepositoryTests(LocalDbTestDatabaseFixture databaseFixture) : base(databaseFixture)
@@ -18,7 +18,7 @@ public class CartRepositoryTests : RepositoryTestsBase
     [Fact]
     public async Task GetWithSeatsAsync_PriceNotZeroAndRowsAreExcluded()
     {
-        Cart? result = await this._cartRepository.GetWithSeatsAsync(CartId, CancellationToken.None);
+        Cart? result = await this._cartRepository.GetWithSeatsAsync(_cartId, CancellationToken.None);
 
         Assert.NotNull(result);
         Assert.NotEqual(0, result.FinalPrice);
@@ -28,7 +28,7 @@ public class CartRepositoryTests : RepositoryTestsBase
     [Fact]
     public async Task GetWithSeatsEventsAsync_FinalPriceNotZeroAndEventsAreIncluded()
     {
-        Cart? result = await this._cartRepository.GetWithSeatsEventsAsync(CartId, CancellationToken.None);
+        Cart? result = await this._cartRepository.GetWithSeatsEventsAsync(_cartId, CancellationToken.None);
 
         Assert.NotNull(result);
         Assert.NotEqual(0, result.FinalPrice);
@@ -38,7 +38,7 @@ public class CartRepositoryTests : RepositoryTestsBase
     [Fact]
     public async Task GetAsync_FinalPriceIsZeroAndNoRelatedIncluded()
     {
-        Cart? result = await this._cartRepository.GetAsync(CartId, CancellationToken.None);
+        Cart? result = await this._cartRepository.GetAsync(_cartId, CancellationToken.None);
 
         Assert.NotNull(result);
         Assert.Equal(0, result.FinalPrice);
@@ -62,7 +62,7 @@ public class CartRepositoryTests : RepositoryTestsBase
     private void SeedCart(DataContext context)
     {
         Cart cart = CartDataSeed.Seed();
-        cart.Guid = CartId;
+        cart.Guid = _cartId;
 
         context.Add(cart);
     }

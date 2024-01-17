@@ -1,9 +1,9 @@
-﻿using Ticketing.DataAccess.UnitTests.DataSeeds.EventRelated;
+﻿using Ticketing.Tests.Core.DataSeeds.EventRelated;
 using Ticketing.Domain.Entities;
 
-namespace Ticketing.DataAccess.UnitTests.DataSeeds
+namespace Ticketing.Tests.Core.DataSeeds
 {
-    internal class CartDataSeed
+    public class CartDataSeed
     {
         private static readonly Faker<Cart> faker = new Faker<Cart>()
             .RuleFor(venue => venue.Guid, setter => setter.Random.Uuid())

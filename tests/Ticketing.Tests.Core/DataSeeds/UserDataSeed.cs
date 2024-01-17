@@ -1,6 +1,6 @@
 ﻿using Ticketing.Domain.Entities;
 
-namespace Ticketing.DataAccess.UnitTests.DataSeeds
+namespace Ticketing.Tests.Core.DataSeeds
 {
     internal class UserDataSeed
     {

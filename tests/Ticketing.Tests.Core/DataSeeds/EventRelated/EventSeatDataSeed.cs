@@ -1,7 +1,7 @@
 ﻿using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Enums;
 
-namespace Ticketing.DataAccess.UnitTests.DataSeeds.EventRelated
+namespace Ticketing.Tests.Core.DataSeeds.EventRelated
 {
     internal class EventSeatDataSeed
     {
