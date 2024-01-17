@@ -32,3 +32,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace Ticketing.WebApi
+{
+    public partial class Program { }
+}
