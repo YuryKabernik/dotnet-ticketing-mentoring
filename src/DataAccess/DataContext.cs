@@ -69,6 +69,7 @@ public class DataContext : DbContext, IUnitOfWork
 
     public async Task SaveChanges(CancellationToken cancellationToken)
     {
+        this.ChangeTracker.DetectChanges();
         await this.SaveChangesAsync(cancellationToken);
     }
 }

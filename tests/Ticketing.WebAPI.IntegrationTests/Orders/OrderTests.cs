@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Ticketing.DataAccess;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;

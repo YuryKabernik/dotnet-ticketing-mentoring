@@ -38,7 +38,6 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
         var seat = await this.GetSeat(request.Payload, cancellationToken);
         var cart = await this.GetCart(request.CartId, cancellationToken);
 
-        seat.Cart = cart;
         cart.Seats.Add(seat);
 
         await this._unitOfWork.SaveChanges(cancellationToken);
