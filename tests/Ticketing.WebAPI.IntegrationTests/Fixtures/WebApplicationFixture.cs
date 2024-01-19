@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using WebApiApplication = Ticketing.WebApi.Program;
 
-namespace Ticketing.WebAPI.IntegrationTests.Fixtures
+namespace Ticketing.WebApi.IntegrationTests.Fixtures
 {
     public class WebApplicationFixture : WebApplicationFactory<WebApiApplication>
     {

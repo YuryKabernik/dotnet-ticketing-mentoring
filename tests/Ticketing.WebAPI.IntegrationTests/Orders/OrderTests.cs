@@ -4,26 +4,21 @@ using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Tests.Core.DataSeeds;
 using Ticketing.Tests.Core.DataSeeds.EventRelated;
+using Ticketing.WebApi.IntegrationTests.Fixtures;
 using Ticketing.WebApi.Models;
 using Ticketing.WebApi.Orders.Models;
-using Ticketing.WebAPI.IntegrationTests.Fixtures;
 
-namespace Ticketing.WebAPI.IntegrationTests.Orders;
+namespace Ticketing.WebApi.IntegrationTests.Orders;
 
-public class OrderTests : IClassFixture<WebApplicationFixture>
+public class OrderTests : IntegrationTestsBase
 {
     private const string EndpointTemplate = "api/orders/carts/{0}";
 
-    private readonly WebApplicationFixture _factory;
-    private readonly HttpClient _client;
     private Cart _testCart;
 
     public OrderTests(WebApplicationFixture webApplicationFactory)
+        : base(webApplicationFactory)
     {
-        this._factory = webApplicationFactory;
-        this._client = this._factory.CreateClient();
-
-        this.InitializeDatabase();
         this._testCart = this.InitializeDatabaseWithCart();
     }
 
@@ -99,14 +94,6 @@ public class OrderTests : IClassFixture<WebApplicationFixture>
         Assert.Equal($"Can't find the requested resource (/{uri}).", message);
     }
 
-    private void InitializeDatabase()
-    {
-        using DataContext dataContext = this.GetDbContext();
-
-        dataContext.Database.EnsureDeleted();
-        dataContext.Database.EnsureCreated();
-    }
-
     private Cart InitializeDatabaseWithCart()
     {
         using DataContext dataContext = this.GetDbContext();
@@ -127,13 +114,5 @@ public class OrderTests : IClassFixture<WebApplicationFixture>
         dataContext.SaveChanges();
 
         return seat;
-    }
-
-    private DataContext GetDbContext()
-    {
-        IServiceScope scope = this._factory.Services.CreateScope();
-        var scopedServices = scope.ServiceProvider;
-
-        return scopedServices.GetRequiredService<DataContext>();
     }
 }
