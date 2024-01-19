@@ -23,7 +23,7 @@ public class OrderController(IMediator mediator) : ControllerBase
     /// Returns a list of items in a cart.
     /// </summary>
     /// <param name="cartId">
-    ///     A cart id is a uuid, generated and stored on the client side.
+    ///     A cart id is a guid, generated and stored on the client side.
     /// </param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -42,14 +42,14 @@ public class OrderController(IMediator mediator) : ControllerBase
     /// <summary>
     ///     Adds a seat to the cart.
     /// </summary>
-    /// <param name="cartId">A cart uuid.</param>
+    /// <param name="cartId">A cart guid.</param>
     /// <param name="seatDetails">An object of event_id, seat_id and price_id as a payload.</param>
     /// <param name="cancellationToken"></param>
     /// <returns>
     ///     Returns a cart state (with total amount) back to the caller.    
     /// </returns>
     [HttpPost]
-    [ProducesResponseType<CartInfo>(StatusCodes.Status200OK)]
+    [ProducesResponseType<CartInfo>(StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IResult> PostCart(
         [FromRoute] Guid cartId,
@@ -59,13 +59,13 @@ public class OrderController(IMediator mediator) : ControllerBase
         UpdateCartCommand command = new(cartId, seatDetails.ToSeatPayload());
         await mediator.Send(command, cancellationToken);
 
-        return await GetCart(cartId, cancellationToken);
+        return await this.GetCart(cartId, cancellationToken);
     }
 
     /// <summary>
     ///     Deletes a seat for a specific cart.
     /// </summary>
-    /// <param name="cartId">A cart uuid.</param>
+    /// <param name="cartId">A cart guid.</param>
     /// <param name="eventId"></param>
     /// <param name="seatId"></param>
     /// <param name="cancellationToken"></param>
@@ -84,7 +84,7 @@ public class OrderController(IMediator mediator) : ControllerBase
     /// <summary>
     ///     Moves all the seats in the cart to a booked state.
     /// </summary>
-    /// <param name="cartId">A cart uuid.</param>
+    /// <param name="cartId">A cart guid.</param>
     /// <param name="cancellationToken"></param>
     /// <returns>
     ///     Returns a payment id.
