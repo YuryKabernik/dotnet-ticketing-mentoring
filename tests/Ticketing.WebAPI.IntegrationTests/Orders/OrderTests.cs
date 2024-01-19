@@ -96,7 +96,7 @@ public class OrderTests : IntegrationTestsBase
 
     private Cart InitializeDatabaseWithCart()
     {
-        using DataContext dataContext = this.GetDbContext();
+        using DataContext dataContext = this._factory.GetDbContext();
         var cart = CartDataSeed.Seed();
 
         dataContext.Add(cart);
@@ -107,7 +107,7 @@ public class OrderTests : IntegrationTestsBase
 
     private EventSeat InitializeDatabaseWithSeat()
     {
-        using DataContext dataContext = this.GetDbContext();
+        using DataContext dataContext = this._factory.GetDbContext();
         var seat = EventSeatDataSeed.Seed();
 
         dataContext.Add(seat);

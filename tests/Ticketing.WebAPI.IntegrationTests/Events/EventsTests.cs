@@ -54,7 +54,7 @@ public class EventsTests : IntegrationTestsBase
 
     private EventSeat InitializeDatabaseWithEventSeats()
     {
-        using DataContext dataContext = this.GetDbContext();
+        using DataContext dataContext = this._factory.GetDbContext();
         var eventSeat = EventSeatDataSeed.Seed();
 
         dataContext.Add(eventSeat);
