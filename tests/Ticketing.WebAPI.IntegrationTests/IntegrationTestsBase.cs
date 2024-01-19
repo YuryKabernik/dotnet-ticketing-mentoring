@@ -5,6 +5,9 @@ namespace Ticketing.WebApi.IntegrationTests;
 
 public class IntegrationTestsBase : IClassFixture<WebApplicationFixture>
 {
+    private static readonly object _lock = new();
+    private static bool _databaseInitialized;
+
     protected readonly HttpClient _client;
     private readonly WebApplicationFixture _factory;
 
@@ -13,7 +16,15 @@ public class IntegrationTestsBase : IClassFixture<WebApplicationFixture>
         this._factory = applicationFixture;
         this._client = applicationFixture.CreateClient();
 
-        this.InitializeDatabase();
+        lock (_lock)
+        {
+            if (_databaseInitialized)
+                return;
+
+            this.InitializeDatabase();
+
+            _databaseInitialized = true;
+        }
     }
 
     protected void InitializeDatabase()
