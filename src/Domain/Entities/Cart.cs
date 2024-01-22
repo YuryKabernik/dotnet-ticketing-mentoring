@@ -17,6 +17,13 @@ public class Cart
         get => this.Seats?.Sum(seat => seat.Price?.Amount) ?? 0;
     }
 
+    public void Add(EventSeat seat)
+    {
+        seat.Status = SeatStatusOption.Selected;
+
+        this.Seats.Add(seat);
+    }
+
     public void BookSeats()
     {
         foreach (var seat in this.Seats)
@@ -28,5 +35,12 @@ public class Cart
     public void Clear()
     {
         this.Seats.Clear();
+    }
+
+    public void Remove(EventSeat seat)
+    {
+        seat.Status = SeatStatusOption.Available;
+
+        this.Seats.Remove(seat);
     }
 }

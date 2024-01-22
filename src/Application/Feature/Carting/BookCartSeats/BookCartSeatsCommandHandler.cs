@@ -1,4 +1,6 @@
-﻿using Ticketing.Application.CQRS;
+﻿using MediatR;
+using Ticketing.Application.CQRS;
+using Ticketing.Application.Feature.Carting.BookCartSeats.Notifications;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Entities.Payments;
@@ -16,15 +18,18 @@ public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand,
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICartRepository _cartRepository;
     private readonly IOrderRepository _orderRepository;
+    private readonly IPublisher _publisher;
 
     public BookCartSeatsCommandHandler(
         ICartRepository cartRepository,
         IOrderRepository orderRepository,
+        IPublisher publisher,
         IUnitOfWork unitOfWork)
     {
         this._cartRepository = cartRepository;
         this._orderRepository = orderRepository;
         this._unitOfWork = unitOfWork;
+        this._publisher = publisher;
     }
 
     /// <summary>
@@ -43,6 +48,7 @@ public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand,
         var payment = await this.SubmitOrder(cart, cancellationToken);
 
         await this._unitOfWork.SaveChanges(cancellationToken);
+        await this.NotifyDependent(payment.Order, cancellationToken);
 
         return new BookCartSeatsResponse(payment.PaymentGuid);
     }
@@ -54,7 +60,12 @@ public class BookCartSeatsCommandHandler : ICommandHandler<BookCartSeatsCommand,
         cart.BookSeats();
         await this._orderRepository.Add(order, cancellation);
         cart.Clear();
-        
+
         return order.Payment;
+    }
+
+    private async Task NotifyDependent(Order order, CancellationToken cancellationToken)
+    {
+        await this._publisher.Publish(new SeatsBookedNotification(order), cancellationToken);
     }
 }

@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CQRS\Behavior\**" />
+    <EmbeddedResource Remove="CQRS\Behavior\**" />
+    <None Remove="CQRS\Behavior\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\Ticketing.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Riok.Mapperly" Version="3.3.0" />
   </ItemGroup>
 

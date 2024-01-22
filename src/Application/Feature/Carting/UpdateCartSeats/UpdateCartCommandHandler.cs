@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Ticketing.Application.CQRS;
+using Ticketing.Application.Feature.Carting.UpdateCartSeats.Notifications;
+using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
@@ -16,15 +18,18 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICartRepository _cartRepository;
     private readonly IEventSeatRepository _seatRepository;
+    private readonly IPublisher _publisher;
 
     public UpdateCartCommandHandler(
         ICartRepository cartRepository,
         IEventSeatRepository eventRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IPublisher publisher)
     {
         this._cartRepository = cartRepository;
         this._seatRepository = eventRepository;
         this._unitOfWork = unitOfWork;
+        this._publisher = publisher;
     }
 
     /// <summary>
@@ -38,12 +43,13 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
         var seat = await this.GetSeat(request.Payload, cancellationToken);
         var cart = await this.GetCart(request.CartId, cancellationToken);
 
-        cart.Seats.Add(seat);
+        cart.Add(seat);
 
         await this._unitOfWork.SaveChanges(cancellationToken);
+        await this.NotifyDependent(seat, cancellationToken);
     }
 
-    private async Task<Domain.Entities.Cart> GetCart(Guid cartId, CancellationToken cancellation)
+    private async Task<Cart> GetCart(Guid cartId, CancellationToken cancellation)
     {
         var cart = await this._cartRepository.GetWithSeatsAsync(cartId, cancellation);
 
@@ -70,5 +76,10 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
         }
 
         return seat;
+    }
+
+    private async Task NotifyDependent(EventSeat seat, CancellationToken cancellationToken)
+    {
+        await this._publisher.Publish(new SeatSelectedNotification(seat), cancellationToken);
     }
 }

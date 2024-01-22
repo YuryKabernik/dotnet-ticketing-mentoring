@@ -29,10 +29,10 @@ public class RemoveCartSeatCommandHandler : ICommandHandler<RemoveCartSeatComman
     /// <exception cref="NotImplementedException"></exception>
     public async Task Handle(RemoveCartSeatCommand request, CancellationToken cancellationToken)
     {
-        var cart = await GetCartAsync(request, cancellationToken);
+        var cart = await this.GetCartAsync(request, cancellationToken);
         var seat = GetSeat(request, cart);
 
-        cart.Seats.Remove(seat);
+        cart.Remove(seat);
 
         await this._unitOfWork.SaveChanges(cancellationToken);
     }
