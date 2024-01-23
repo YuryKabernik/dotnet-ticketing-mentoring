@@ -1,5 +1,6 @@
 ﻿using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Enums;
+using Ticketing.Domain.Exceptions;
 
 namespace Ticketing.Domain.Entities;
 
@@ -19,6 +20,9 @@ public class Cart
 
     public void Add(EventSeat seat)
     {
+        if (seat.Status != SeatStatusOption.Available || seat.Cart is not null)
+            throw new ConflictOnChangeException("The seat can't be selected as it is occupied already.");
+
         seat.Status = SeatStatusOption.Selected;
 
         this.Seats.Add(seat);

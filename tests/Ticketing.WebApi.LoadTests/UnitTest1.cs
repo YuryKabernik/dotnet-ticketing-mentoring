@@ -18,24 +18,25 @@ public class UnitTest1 : IClassFixture<WebApplicationFixture>
 {
     private const string EndpointTemplate = "api/orders/carts/{0}";
 
-    private readonly HttpClient _client;
+    private readonly int _clientRequests;
     private readonly WebApplicationFixture _factory;
 
     public UnitTest1(WebApplicationFixture applicationFixture)
     {
         this._factory = applicationFixture;
-        this._client = applicationFixture.CreateClient();
+        this._clientRequests = 100;
     }
 
     [Fact]
     public void PostCart_ValidSeat_AddsSeatToCart()
     {
+        int expectedFailsCount = this._clientRequests - 1;
         string selectedSeat = this.CreateSeatSerialized();
         IThreadGroupChild[] testPlanChildren = this.Build_AddSeatToCart_TestSamples(selectedSeat);
         
         TestPlanStats stats = Run(testPlanChildren);
 
-        Assert.True(stats.Overall.SampleTimePercentile99 < TimeSpan.FromSeconds(5));
+        Assert.Equal(expectedFailsCount, stats.Overall.ErrorsCount);
     }
 
     private string CreateSeatSerialized()
@@ -79,7 +80,7 @@ public class UnitTest1 : IClassFixture<WebApplicationFixture>
     private IEnumerable<Cart> InitializeDatabaseWithCarts()
     {
         using DataContext dataContext = this._factory.GetDbContext();
-        var carts = CartDataSeed.Seed(1000);
+        var carts = CartDataSeed.Seed(this._clientRequests);
 
         dataContext.AddRange(carts);
         dataContext.SaveChanges();
