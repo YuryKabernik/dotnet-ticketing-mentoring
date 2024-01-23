@@ -12,5 +12,7 @@ namespace Ticketing.Tests.Core.DataSeeds
             .RuleFor(venue => venue.User, setter => UserDataSeed.Seed());
 
         public static Cart Seed() => faker.Generate();
+
+        public static IEnumerable<Cart> Seed(int number) => faker.Generate(number);
     }
 }
