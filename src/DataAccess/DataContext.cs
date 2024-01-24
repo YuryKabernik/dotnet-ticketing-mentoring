@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
@@ -54,9 +56,7 @@ public class DataContext : DbContext, IUnitOfWork
 
         optionsBuilder.UseSqlServer(
             this.settings.ConnectionString,
-            providerOptions => providerOptions
-                .CommandTimeout(timeout.Seconds)
-                .EnableRetryOnFailure(this.settings.RetryAttempts, delay, default)
+            providerOptions => providerOptions.CommandTimeout(timeout.Seconds)
         );
     }
 
@@ -71,5 +71,12 @@ public class DataContext : DbContext, IUnitOfWork
     {
         this.ChangeTracker.DetectChanges();
         await this.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<IDbTransaction> BeginTransactionAsync(IsolationLevel level, CancellationToken cancellationTokens)
+    {
+        var transactionEf = await base.Database.BeginTransactionAsync(level, cancellationTokens);
+
+        return transactionEf.GetDbTransaction();
     }
 }

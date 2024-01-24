@@ -14,6 +14,7 @@ public class NotFoundExceptionHandler : IExceptionHandler
         {
             NotFoundException => await Write404NotFoundAsync(httpContext, cancellationToken),
             ConflictOnChangeException => await Write409ConflictAsync(httpContext, cancellationToken),
+            InvalidOperationException => await Write409ConflictAsync(httpContext, cancellationToken),
             _ => false
         };
 
