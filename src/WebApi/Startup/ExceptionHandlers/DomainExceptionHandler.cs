@@ -3,22 +3,21 @@ using Ticketing.Domain.Exceptions;
 
 namespace Ticketing.WebApi.Startup.ExceptionHandlers;
 
-public class NotFoundExceptionHandler : IExceptionHandler
+public class DomainExceptionHandler(ILogger<DomainExceptionHandler> logger) : IExceptionHandler
 {
+    private readonly ILogger<DomainExceptionHandler> _logger = logger;
+
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
-        CancellationToken cancellationToken
-    )
-        => exception switch
+        CancellationToken cancellationToken) => exception switch
         {
-            NotFoundException => await Write404NotFoundAsync(httpContext, cancellationToken),
-            ConflictOnChangeException => await Write409ConflictAsync(httpContext, cancellationToken),
-            InvalidOperationException => await Write409ConflictAsync(httpContext, cancellationToken),
+            NotFoundException => await this.Write404NotFoundAsync(httpContext, exception, cancellationToken),
+            ConflictOnChangeException => await this.Write409ConflictAsync(httpContext, exception, cancellationToken),
             _ => false
         };
 
-    private static async Task<bool> Write404NotFoundAsync(HttpContext httpContext, CancellationToken cancellationToken)
+    private async Task<bool> Write404NotFoundAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 
@@ -28,11 +27,12 @@ public class NotFoundExceptionHandler : IExceptionHandler
             $"Can't find the requested resource.";
 
         await httpContext.Response.WriteAsync(errorMessage, cancellationToken);
+        this._logger.LogInformation(eventId: 1, exception, errorMessage);
 
         return true;
     }
 
-    private static async Task<bool> Write409ConflictAsync(HttpContext httpContext, CancellationToken cancellationToken)
+    private async Task<bool> Write409ConflictAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         httpContext.Response.StatusCode = StatusCodes.Status409Conflict;
 
@@ -42,6 +42,7 @@ public class NotFoundExceptionHandler : IExceptionHandler
             $"Can't modify the target requested resource.";
 
         await httpContext.Response.WriteAsync(errorMessage, cancellationToken);
+        this._logger.LogCritical(eventId: 5, exception, errorMessage);
 
         return true;
     }
@@ -49,7 +50,7 @@ public class NotFoundExceptionHandler : IExceptionHandler
     private static string? GetRequestPath(HttpContext httpContext)
     {
         var handlerPathFeature = httpContext.Features.Get<IExceptionHandlerPathFeature>();
-        var targetResource = handlerPathFeature?.Path;
-        return targetResource;
+
+        return handlerPathFeature?.Path;
     }
 }

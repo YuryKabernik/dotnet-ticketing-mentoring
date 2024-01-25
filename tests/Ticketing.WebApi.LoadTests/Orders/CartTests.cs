@@ -30,26 +30,30 @@ public class CartTests : IClassFixture<WebApplicationFixture>, IDisposable
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task PostCart_ValidSeat_AddsSeatToCartAsync()
+    public async Task PostCart_SubmitSelectedSeatForMultipleCarts_AddsSeatToSingleCartAsync()
     {
+        int expectedConflictRequestsExceptSingleSuccessful = this._clientRequests - 1;
         var seat = this.InitializeDatabaseWithSeat();
         var carts = this.InitializeDatabaseWithCarts(this._clientRequests);
-        var body = new SeatSelection(
-            seat.Row.Section.Event.Id,
-            seat.Id,
-            seat.Price.Id
+
+        HttpResponseMessage[] responses = await this.PostAsync(seat, carts);
+
+        Assert.Single(responses, response => response.IsSuccessStatusCode);
+        Assert.Equal(
+            expectedConflictRequestsExceptSingleSuccessful,
+            responses.Count(respone => respone.StatusCode.Equals(System.Net.HttpStatusCode.Conflict))
         );
+    }
 
-        var tasks = carts.Select(async cart =>
-        {
-            string uri = string.Format(EndpointTemplate, cart.Guid);
-            return await this._httpClient.PostAsJsonAsync(uri, body);
-        })
-            .ToList();
+    private async Task<HttpResponseMessage[]> PostAsync(EventSeat seat, IEnumerable<Cart> carts)
+    {
+        var body = new SeatSelection(seat.Row.Section.Event.Id, seat.Id, seat.Price.Id);
 
-        await Task.WhenAll(tasks);
+        var tasks = carts.Select(cart =>
+            this._httpClient.PostAsJsonAsync(string.Format(EndpointTemplate, cart.Guid), body)
+        ).ToArray();
 
-        await Assert.Single(tasks, task => task.Result.IsSuccessStatusCode);
+        return await Task.WhenAll(tasks);
     }
 
     private IEnumerable<Cart> InitializeDatabaseWithCarts(int cartsCount)
