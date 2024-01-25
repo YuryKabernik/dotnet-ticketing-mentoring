@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Entities.Ordering;
 using Ticketing.Domain.Entities.Payments;
 using Ticketing.Domain.Entities.Venue;
+using Ticketing.Domain.Exceptions;
 using Ticketing.Domain.Interfaces;
 
 namespace Ticketing.DataAccess;
@@ -54,9 +57,7 @@ public class DataContext : DbContext, IUnitOfWork
 
         optionsBuilder.UseSqlServer(
             this.settings.ConnectionString,
-            providerOptions => providerOptions
-                .CommandTimeout(timeout.Seconds)
-                .EnableRetryOnFailure(this.settings.RetryAttempts, delay, default)
+            providerOptions => providerOptions.CommandTimeout(timeout.Seconds)
         );
     }
 
@@ -69,7 +70,29 @@ public class DataContext : DbContext, IUnitOfWork
 
     public async Task SaveChanges(CancellationToken cancellationToken)
     {
-        this.ChangeTracker.DetectChanges();
-        await this.SaveChangesAsync(cancellationToken);
+        try
+        {
+            this.ChangeTracker.DetectChanges();
+            await this.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException exception)
+        {
+            throw new ConflictOnChangeException("Save changes failed - concurrent changes detected!", exception);
+        }
+        catch (DbUpdateException exception)
+        {
+            throw new ConflictOnChangeException("Save changes failed - unable to apply the update!", exception);
+        }
+        catch (Exception exception) when (exception.InnerException is DbUpdateConcurrencyException or DbUpdateException)
+        {
+            throw new ConflictOnChangeException("Save changes failed!", exception);
+        }
+    }
+
+    public async Task<IDbTransaction> BeginTransactionAsync(IsolationLevel level, CancellationToken cancellationTokens)
+    {
+        var transactionEf = await base.Database.BeginTransactionAsync(level, cancellationTokens);
+
+        return transactionEf.GetDbTransaction();
     }
 }

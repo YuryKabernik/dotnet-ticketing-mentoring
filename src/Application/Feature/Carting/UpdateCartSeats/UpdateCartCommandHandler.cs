@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Data;
+using MediatR;
 using Ticketing.Application.CQRS;
 using Ticketing.Application.Feature.Carting.UpdateCartSeats.Notifications;
 using Ticketing.Domain.Entities;
@@ -40,6 +41,8 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
     /// <returns></returns>
     public async Task Handle(UpdateCartCommand request, CancellationToken cancellationToken)
     {
+        using IDbTransaction transaction = await this._unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+
         var seat = await this.GetSeat(request.Payload, cancellationToken);
         var cart = await this.GetCart(request.CartId, cancellationToken);
 
@@ -47,6 +50,8 @@ public class UpdateCartCommandHandler : ICommandHandler<UpdateCartCommand>
 
         await this._unitOfWork.SaveChanges(cancellationToken);
         await this.NotifyDependent(seat, cancellationToken);
+
+        transaction.Commit();
     }
 
     private async Task<Cart> GetCart(Guid cartId, CancellationToken cancellation)
