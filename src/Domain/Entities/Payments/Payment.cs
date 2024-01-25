@@ -10,7 +10,7 @@ public class Payment
     public Guid PaymentGuid { get; set; }
     public decimal Price { get; set; }
     public PaymentStatusOption Status { get; set; }
-    public virtual Order? Order { get; set; }
+    public virtual Order Order { get; set; }
 
     /// <summary>
     /// Updates payment status and moves all the seats related to a payment to the sold state.

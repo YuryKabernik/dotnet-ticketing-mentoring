@@ -10,7 +10,8 @@ public class CartRepositoryTests : RepositoryTestsBase
     private readonly static Guid _cartId = Guid.NewGuid();
     private readonly CartRepository _cartRepository;
 
-    public CartRepositoryTests(LocalDbTestDatabaseFixture databaseFixture) : base(databaseFixture)
+    public CartRepositoryTests(LocalDbTestDatabaseFixture databaseFixture)
+        : base(databaseFixture)
     {
         this._cartRepository = new CartRepository(this._context);
     }

@@ -3,6 +3,7 @@
 public enum SeatStatusOption
 {
     Available = 0,
+    Selected,
     Booked,
     Sold
 }

@@ -4,11 +4,14 @@ using Ticketing.Application;
 using Ticketing.DataAccess.DependencyInjection;
 using Ticketing.WebApi.Startup;
 using Ticketing.WebApi.Startup.ExceptionHandlers;
+using Ticketing.WebApi.Caching;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddResponseCaching();
+builder.Services.AddControllers(options => options.AddCacheProfileEvents());
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
 
@@ -35,6 +38,8 @@ else
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+app.UseResponseCaching();
 app.MapControllers();
 
 app.Run();

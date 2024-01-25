@@ -1,11 +1,11 @@
 ﻿using System.Net.Mime;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Ticketing.Application.Feature.Event;
 using Ticketing.Application.Feature.Event.Requests;
 using Ticketing.Application.Feature.Event.Response;
 using Ticketing.WebApi.Events.Mappers;
 using Ticketing.WebApi.Events.Models;
+using Ticketing.WebApi.Caching;
 
 namespace Ticketing.WebApi.Events;
 
@@ -14,6 +14,7 @@ namespace Ticketing.WebApi.Events;
 /// </summary>
 [ApiController]
 [Route("api/events")]
+[ResponseCache(CacheProfileName = CacheProfileRegister.EventsProfileName)]
 public class EventController(IMediator mediator) : ControllerBase
 {
     /// <summary>
