@@ -25,10 +25,4 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Ticketing.WebAPI.IntegrationTests\Ticketing.WebAPI.IntegrationTests.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="log4j2.xml">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
 </Project>
