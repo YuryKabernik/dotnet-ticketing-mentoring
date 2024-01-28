@@ -3,6 +3,8 @@ using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Ticketing.Notification.Common.Interfaces;
+using Ticketing.Notification.Common.Producers;
 using Ticketing.Notification.Common.Settings;
 
 namespace Ticketing.Notification.Common;
@@ -30,6 +32,8 @@ public static class DependencyRegister
                 mqConfigurator.ConfigureEndpoints(busContext);
             });
         });
+
+        services.AddScoped<IMessagePublisher, MessageProducer>();
 
         return services;
     }

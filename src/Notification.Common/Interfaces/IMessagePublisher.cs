@@ -1,8 +1,6 @@
-﻿using Ticketing.Notification.Common.Messages.Content;
-
-namespace Ticketing.Notification.Common.Interfaces;
+﻿namespace Ticketing.Notification.Common.Interfaces;
 
 public interface IMessagePublisher
 {
-    Task PublishAsync(NotificationMessage<EmailContent> emailNotificationMessage, CancellationToken cancellationToken);
+    Task PublishAsync<TMessage>(TMessage message, CancellationToken cancellation) where TMessage : class;
 }
