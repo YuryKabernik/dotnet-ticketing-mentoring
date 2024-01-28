@@ -29,7 +29,7 @@ public class FailPaymentCommandHandler : ICommandHandler<FailPaymentRequest>
         var payment = await this._paymentRepository.GetWithSeatsAsync(request.PaymentId, cancellationToken);
 
         if (payment is null)
-            throw new NotFoundException($"Payment {request.PaymentId} is not found.");
+            throw new NotFoundException($"PaymentId {request.PaymentId} is not found.");
 
         payment.Fail();
 
