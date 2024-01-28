@@ -6,6 +6,8 @@ namespace Ticketing.Notification.Common.Producers;
 
 internal class MessageProducer : IMessagePublisher
 {
+    private const string Message = "Message of type {type} was not sent due to an unhandled exception: {exception}";
+
     private readonly IBus _bus;
     private readonly ILogger<MessageProducer> _logger;
 
@@ -25,11 +27,7 @@ internal class MessageProducer : IMessagePublisher
         {
             var type = typeof(TMessage).FullName ?? typeof(TMessage).Name;
 
-            this._logger.LogCritical(
-                "Message of type {type} was not sent due to an unhandled exception: {exception}",
-                type,
-                exception
-            );
+            this._logger.LogCritical(Message, type, exception);
         }
     }
 }

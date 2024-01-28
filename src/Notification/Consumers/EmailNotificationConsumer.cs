@@ -1,11 +1,12 @@
 ﻿using System.Text.Json;
 using MassTransit;
 using Ticketing.Notification.Common;
+using Ticketing.Notification.Common.Interfaces;
 using Ticketing.Notification.Common.Messages.Content;
 
 namespace Ticketing.Notification.Service.Consumers;
 
-public class EmailNotificationConsumer : IConsumer<NotificationMessage<EmailContent>>
+public class EmailNotificationConsumer : IMessageConsumer<EmailContent>
 {
     private readonly ILogger<EmailNotificationConsumer> _logger;
 

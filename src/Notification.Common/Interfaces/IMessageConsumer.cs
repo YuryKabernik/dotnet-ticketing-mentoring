@@ -1,5 +1,8 @@
-﻿namespace Ticketing.Notification.Common.Interfaces;
+﻿using MassTransit;
 
-internal interface IMessageConsumer
+namespace Ticketing.Notification.Common.Interfaces;
+
+public interface IMessageConsumer<TContent> :
+    IConsumer<NotificationMessage<TContent>> where TContent : class
 {
 }
