@@ -23,7 +23,7 @@ public class Order
         return new Order
         {
             User = cart.User,
-            Seats = cart.Seats,
+            Seats = new List<EventSeat>(cart.Seats),
             Payment = new()
             {
                 Price = cart.FinalPrice
