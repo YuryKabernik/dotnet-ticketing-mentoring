@@ -1,6 +1,6 @@
 ﻿namespace Ticketing.Notification.Common.Messages.Content;
 
-public class EmailContent
+public class EmailDetails
 {
     public required RecipientInfo Recipient { get; set; }
 

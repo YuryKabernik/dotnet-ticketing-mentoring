@@ -1,26 +1,65 @@
-﻿using System.Text.Json;
-using MassTransit;
+﻿using MassTransit;
+using Microsoft.Extensions.Options;
 using Ticketing.Notification.Common;
 using Ticketing.Notification.Common.Interfaces;
 using Ticketing.Notification.Common.Messages.Content;
+using Ticketing.Notification.Service.Email;
+using Ticketing.Notification.Service.Providers.Email;
+using Ticketing.Notification.Service.Providers.Email.Interfaces;
+using Ticketing.Notification.Service.Settings;
 
 namespace Ticketing.Notification.Service.Consumers;
 
-public class EmailNotificationConsumer : IMessageConsumer<EmailContent>
+public class EmailNotificationConsumer : IMessageConsumer<EmailDetails>
 {
-    private readonly ILogger<EmailNotificationConsumer> _logger;
+    private const string EmailSubject = "Ticketing: Tickets Booked";
+    private const string EmailBodyTemplate = "Thank you {0} for using our Ticketing application! The amount to pay is {1} by the payment number {2}.";
 
-    public EmailNotificationConsumer(ILogger<EmailNotificationConsumer> logger)
+    private readonly IEmailProvider _emailProvider;
+    private readonly SenderSettings _senderOptions;
+
+    public EmailNotificationConsumer(
+        IEmailProvider emailProvider,
+        IOptions<EmailProviderConfiguration> options)
     {
-        this._logger = logger;
+        this._emailProvider = emailProvider;
+        this._senderOptions = options.Value.Sender;
     }
 
-    public Task Consume(ConsumeContext<NotificationMessage<EmailContent>> context)
+    public async Task Consume(ConsumeContext<NotificationMessage<EmailDetails>> context)
     {
-        var message = JsonSerializer.Serialize(context.Message.Content);
+        var command = new SendEmailCommand(this.ToEmailMessage(context.Message.Content));
+        await this._emailProvider.SendAsync(command, CancellationToken.None);
+    }
 
-        this._logger.LogInformation("Email Received: {message}", message);
+    private EmailMessage ToEmailMessage(EmailDetails context)
+    {
+        string emailBody = string.Format(
+            EmailBodyTemplate,
+            context.Recipient.Name,
+            context.Order.Amount,
+            context.Order.PaymentId
+        );
 
-        return Task.CompletedTask;
+        EmailMessage email = new()
+        {
+            From = new()
+            {
+                Name = this._senderOptions.Name,
+                Email = this._senderOptions.Email
+            },
+            To = new List<EmailToSection>()
+            {
+                new() {
+                    Email = context.Recipient.Email,
+                    Name = context.Recipient.Name,
+                }
+            },
+            Subject = EmailSubject,
+            TextPart = emailBody,
+            HTMLPart = emailBody
+        };
+
+        return email;
     }
 }
