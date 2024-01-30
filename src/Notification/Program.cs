@@ -7,11 +7,9 @@ using Ticketing.Notification.Service.Settings;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.Services.Configure<EmailProviderConfiguration>(
-    builder.Configuration.GetSection(EmailProviderConfiguration.SectionName)
-);
+builder.Services.ConfigureOptions<EmailProviderConfigureOptions>();
 
-builder.Services.AddNotifications(builder.Configuration);
+builder.Services.AddNotifications();
 builder.Services
     .AddHttpClient<IEmailProvider, EmailProvider>(ConfigureEmailProvider)
     .AddPolicyHandler(RetryHttpPolicy.Policy);

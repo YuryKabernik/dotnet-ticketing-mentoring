@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using MassTransit;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Ticketing.Notification.Common.Interfaces;
@@ -11,13 +10,12 @@ namespace Ticketing.Notification.Common;
 
 public static class DependencyRegister
 {
-    public static IServiceCollection AddNotifications(this IServiceCollection services, IConfigurationRoot configuration)
+    public static IServiceCollection AddNotifications(this IServiceCollection services)
     {
         var assembly = Assembly.GetEntryAssembly();
 
-        services.Configure<MessageBrokerSettings>(
-            configuration.GetSection(MessageBrokerSettings.SectionName)
-        );
+        // More info here: https://andrewlock.net/simplifying-dependency-injection-for-iconfigureoptions-with-the-configureoptions-helper/
+        services.ConfigureOptions<MessageBrokerConfigureOptions>();
 
         services.AddMassTransit(busRegister =>
         {

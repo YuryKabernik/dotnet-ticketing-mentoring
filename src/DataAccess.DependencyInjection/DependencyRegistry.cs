@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Ticketing.DataAccess.Repositories;
 using Ticketing.DataAccess.Setup;
 using Ticketing.Domain.Interfaces;
@@ -11,7 +10,8 @@ public static class DependencyRegistry
 {
     public static IServiceCollection AddDataAccess(this IServiceCollection services)
     {
-        services.AddTransient<IConfigureOptions<DatabaseSettings>, DatabaseSettingsOptions>();
+        services.ConfigureOptions<DatabaseConfigureOptions>();
+
         services.AddDbContext<DataContext>();
 
         services.AddScoped<ICartRepository, CartRepository>();

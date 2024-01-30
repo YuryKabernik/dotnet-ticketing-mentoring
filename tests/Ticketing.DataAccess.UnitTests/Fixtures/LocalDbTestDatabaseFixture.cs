@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Ticketing.DataAccess.Setup;
 
 namespace Ticketing.DataAccess.UnitTests.Fixtures
 {
