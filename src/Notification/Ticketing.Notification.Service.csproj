@@ -15,6 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Notification.Common\Ticketing.Notification.Contracts.csproj" />
+    <ProjectReference Include="..\Notification.Contracts\Ticketing.Notification.Contracts.csproj" />
   </ItemGroup>
 </Project>

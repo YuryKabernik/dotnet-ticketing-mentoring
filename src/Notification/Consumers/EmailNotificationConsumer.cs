@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Options;
-using Ticketing.Notification.Common;
-using Ticketing.Notification.Common.Interfaces;
-using Ticketing.Notification.Common.Messages.Content;
+using Ticketing.Notification.Contracts;
+using Ticketing.Notification.Contracts.Interfaces;
+using Ticketing.Notification.Contracts.Messages.Content;
 using Ticketing.Notification.Service.Email;
 using Ticketing.Notification.Service.Providers.Email;
 using Ticketing.Notification.Service.Providers.Email.Interfaces;

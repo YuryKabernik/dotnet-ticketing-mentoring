@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Ticketing.Application.Feature.Carting.BookCartSeats.Notifications;
 using Ticketing.Application.ObjectMapping;
-using Ticketing.Notification.Common;
-using Ticketing.Notification.Common.Messages.Content;
+using Ticketing.Notification.Contracts;
+using Ticketing.Notification.Contracts.Messages.Content;
 using Ticketing.Notification.Contracts.Producers.Interfaces;
 
 namespace Ticketing.Application.Notifications.Email;

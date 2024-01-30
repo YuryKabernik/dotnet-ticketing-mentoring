@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Ticketing.Application.Caching;
-using Ticketing.Notification.Common;
+using Ticketing.Notification.Contracts;
 
 namespace Ticketing.Application;
 
