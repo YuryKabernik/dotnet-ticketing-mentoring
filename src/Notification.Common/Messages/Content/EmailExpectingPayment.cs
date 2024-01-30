@@ -1,4 +1,4 @@
-﻿namespace Ticketing.Notification.Common.Messages.Content;
+﻿namespace Ticketing.Notification.Contracts.Messages.Content;
 
 public class EmailExpectingPayment
 {
@@ -20,5 +20,5 @@ public class RecipientsOrder
 
     public required Guid PaymentId { get; set; }
 
-    public int OrderId { get; set; }
+    public required int OrderId { get; set; }
 }

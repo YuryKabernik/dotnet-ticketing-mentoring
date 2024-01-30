@@ -1,4 +1,4 @@
-﻿namespace Ticketing.Notification.Common;
+﻿namespace Ticketing.Notification.Contracts;
 
 public record class NotificationMessage<TContent>
 {
@@ -7,7 +7,7 @@ public record class NotificationMessage<TContent>
     /// <summary>
     /// "ticket added to checkout", "ticket successfully checked out"
     /// </summary>
-    public string Operation { get; init; } = string.Empty;
+    public string Operation { get; set; } = string.Empty;
 
     public DateTime Timestamp { get; } = DateTime.UtcNow;
 
@@ -19,5 +19,5 @@ public record class NotificationMessage<TContent>
     /// <summary>
     /// (info that you need in the notification – order amount, order summary)
     /// </summary>
-    public TContent Content { get; init; } = default;
+    public TContent Content { get; set; } = default;
 }

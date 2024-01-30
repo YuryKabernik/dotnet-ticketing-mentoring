@@ -2,8 +2,8 @@
 using Ticketing.Application.Feature.Carting.BookCartSeats.Notifications;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Payments;
-using Ticketing.Notification.Common;
-using Ticketing.Notification.Common.Messages.Content;
+using Ticketing.Notification.Contracts;
+using Ticketing.Notification.Contracts.Messages.Content;
 
 namespace Ticketing.Application.ObjectMapping;
 

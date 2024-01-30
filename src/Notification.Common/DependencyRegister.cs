@@ -2,11 +2,11 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Ticketing.Notification.Common.Interfaces;
-using Ticketing.Notification.Common.Producers;
-using Ticketing.Notification.Common.Settings;
+using Ticketing.Notification.Contracts.Producers;
+using Ticketing.Notification.Contracts.Settings;
+using Ticketing.Notification.Contracts.Producers.Interfaces;
 
-namespace Ticketing.Notification.Common;
+namespace Ticketing.Notification.Contracts;
 
 public static class DependencyRegister
 {
@@ -31,7 +31,7 @@ public static class DependencyRegister
             });
         });
 
-        services.AddScoped<IMessagePublisher, MessageProducer>();
+        services.AddScoped<IMessageProducer, MessageProducer>();
 
         return services;
     }

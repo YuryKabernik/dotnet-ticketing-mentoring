@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Ticketing.Notification.Common.Settings;
+namespace Ticketing.Notification.Contracts.Settings;
 
 /// <summary>
 /// <inheritdoc/>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using Ticketing.Notification.Common.Settings;
+using Ticketing.Notification.Contracts.Settings;
 
 namespace Ticketing.Notification.Service.Settings;
 

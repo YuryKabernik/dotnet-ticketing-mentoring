@@ -1,6 +1,6 @@
-﻿namespace Ticketing.Notification.Common.Interfaces;
+﻿namespace Ticketing.Notification.Contracts.Producers.Interfaces;
 
-public interface IMessagePublisher
+public interface IMessageProducer
 {
     Task PublishAsync<TMessage>(TMessage message, CancellationToken cancellation) where TMessage : class;
 }

@@ -1,4 +1,4 @@
-﻿namespace Ticketing.Notification.Common.Settings;
+﻿namespace Ticketing.Notification.Contracts.Settings;
 
 public class MessageBrokerSettings
 {

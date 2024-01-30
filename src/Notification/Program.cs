@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-using Ticketing.Notification.Common;
+using Ticketing.Notification.Contracts;
 using Ticketing.Notification.Service.HttpPolicies;
 using Ticketing.Notification.Service.Providers.Email;
 using Ticketing.Notification.Service.Providers.Email.Interfaces;

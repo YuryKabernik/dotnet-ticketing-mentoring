@@ -1,10 +1,10 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
-using Ticketing.Notification.Common.Interfaces;
+using Ticketing.Notification.Contracts.Producers.Interfaces;
 
-namespace Ticketing.Notification.Common.Producers;
+namespace Ticketing.Notification.Contracts.Producers;
 
-internal class MessageProducer : IMessagePublisher
+internal class MessageProducer : IMessageProducer
 {
     private const string Message = "Message of type {type} was not sent due to an unhandled exception: {exception}";
 
