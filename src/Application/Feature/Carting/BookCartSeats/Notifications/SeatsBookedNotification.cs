@@ -6,7 +6,7 @@ namespace Ticketing.Application.Feature.Carting.BookCartSeats.Notifications;
 /// <summary>
 /// Notification message over booked seats.
 /// </summary>
-internal class SeatsBookedNotification : INotification
+public class SeatsBookedNotification : INotification
 {
     public SeatsBookedNotification(Order order)
     {

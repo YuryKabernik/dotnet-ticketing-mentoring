@@ -8,7 +8,7 @@ using Ticketing.WebApi.Models;
 namespace Ticketing.WebApi.Payments;
 
 /// <summary>
-/// Describes Payment resources.
+/// Describes PaymentId resources.
 /// </summary>
 [ApiController]
 [Route("api/payments/{payment_id:guid}")]

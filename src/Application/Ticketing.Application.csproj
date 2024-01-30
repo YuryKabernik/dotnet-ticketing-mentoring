@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Ticketing.Domain.csproj" />
+    <ProjectReference Include="..\Notification.Contracts\Ticketing.Notification.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

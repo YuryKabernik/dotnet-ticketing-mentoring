@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Ticketing.Application;
 using Ticketing.DataAccess.DependencyInjection;
 using Ticketing.WebApi.Caching;
@@ -15,12 +13,12 @@ builder.Services.AddControllers(options => options.AddCacheProfileEvents());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddExceptionHandler<DomainExceptionHandler>();
 
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerGenOptionsBuilder>();
+builder.Services.ConfigureOptions<SwaggerGenOptionsBuilder>();
 builder.Services.AddSwaggerGen();
 
-builder.Services
-    .AddDataAccess()
-    .AddApplication();
+// Add application services
+builder.Services.AddDataAccess();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 

@@ -12,7 +12,7 @@ public class PaymentEntityTypeConfiguration : IEntityTypeConfiguration<Payment>
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.PaymentGuid)
-            .ValueGeneratedOnAdd()
+            .HasDefaultValueSql("NEWSEQUENTIALID()")
             .IsRequired();
 
         builder.Property(p=> p.Price)

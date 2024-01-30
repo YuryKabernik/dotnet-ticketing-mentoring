@@ -27,12 +27,12 @@ public class PaymentByIdQueryHandler : IQueryHandler<PaymentByIdRequest, Payment
         var payment = await this._paymentRepository.GetAsync(request.PaymentId, cancellationToken);
 
         if (payment is null)
-            throw new NotFoundException($"Payment {request.PaymentId} was not found.");
+            throw new NotFoundException($"PaymentId {request.PaymentId} was not found.");
 
         var statusName = Enum.GetName(payment.Status);
 
         if (statusName is null)
-            throw new InvalidCastException($"Payment status {payment.Status} match was not found.");
+            throw new InvalidCastException($"PaymentId status {payment.Status} match was not found.");
 
         return new PaymentStatusResponse(statusName);
     }

@@ -1,4 +1,4 @@
-﻿namespace Ticketing.DataAccess;
+﻿namespace Ticketing.DataAccess.Setup;
 
 public class DatabaseSettings
 {

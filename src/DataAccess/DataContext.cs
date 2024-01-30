@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
+using Ticketing.DataAccess.Setup;
 using Ticketing.Domain.Entities;
 using Ticketing.Domain.Entities.Event;
 using Ticketing.Domain.Entities.Ordering;
