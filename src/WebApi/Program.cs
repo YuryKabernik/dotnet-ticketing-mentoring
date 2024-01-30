@@ -2,7 +2,6 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Ticketing.Application;
 using Ticketing.DataAccess.DependencyInjection;
-using Ticketing.Notification.Common;
 using Ticketing.WebApi.Caching;
 using Ticketing.WebApi.Startup;
 using Ticketing.WebApi.Startup.ExceptionHandlers;
@@ -21,8 +20,7 @@ builder.Services.AddSwaggerGen();
 
 // Add application services
 builder.Services.AddDataAccess();
-builder.Services.AddApplication();
-builder.Services.AddNotifications(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
 
 var app = builder.Build();
 

@@ -1,12 +1,16 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Ticketing.Application.Caching;
+using Ticketing.Notification.Common;
 
 namespace Ticketing.Application;
 
 public static class DependencyRegistry
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfigurationRoot configuration)
     {
+        services.AddNotifications(configuration);
+        
         services.AddMediatR(configuration =>
             configuration
                 .RegisterServicesFromAssemblyContaining(typeof(DependencyRegistry))
