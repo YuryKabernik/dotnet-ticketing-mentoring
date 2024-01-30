@@ -10,7 +10,7 @@ using Ticketing.Notification.Service.Settings;
 
 namespace Ticketing.Notification.Service.Consumers;
 
-public class EmailNotificationConsumer : IMessageConsumer<EmailDetails>
+public class EmailNotificationConsumer : IMessageConsumer<EmailExpectingPayment>
 {
     private const string EmailSubject = "Ticketing: Tickets Booked";
     private const string EmailBodyTemplate = "Thank you {0} for using our Ticketing application! The amount to pay is {1} by the payment number {2}.";
@@ -26,13 +26,13 @@ public class EmailNotificationConsumer : IMessageConsumer<EmailDetails>
         this._senderOptions = options.Value.Sender;
     }
 
-    public async Task Consume(ConsumeContext<NotificationMessage<EmailDetails>> context)
+    public async Task Consume(ConsumeContext<NotificationMessage<EmailExpectingPayment>> context)
     {
         var command = new SendEmailCommand(this.ToEmailMessage(context.Message.Content));
         await this._emailProvider.SendAsync(command, CancellationToken.None);
     }
 
-    private EmailMessage ToEmailMessage(EmailDetails context)
+    private EmailMessage ToEmailMessage(EmailExpectingPayment context)
     {
         string emailBody = string.Format(
             EmailBodyTemplate,

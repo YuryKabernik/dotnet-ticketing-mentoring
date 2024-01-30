@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.WebApi.LoadTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Notification.Service", "src\Notification\Ticketing.Notification.Service.csproj", "{0351205F-433F-435A-B419-AB474343686C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Notification.Common", "src\Notification.Common\Ticketing.Notification.Common.csproj", "{F60FE0B5-2DB8-4514-9341-57A17250286D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Notification.Contracts", "src\Notification.Common\Ticketing.Notification.Contracts.csproj", "{F60FE0B5-2DB8-4514-9341-57A17250286D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿namespace Ticketing.Notification.Common.Messages.Content;
 
-public class EmailDetails
+public class EmailExpectingPayment
 {
     public required RecipientInfo Recipient { get; set; }
 
@@ -19,4 +19,6 @@ public class RecipientsOrder
     public required decimal Amount { get; set; }
 
     public required Guid PaymentId { get; set; }
+
+    public int OrderId { get; set; }
 }

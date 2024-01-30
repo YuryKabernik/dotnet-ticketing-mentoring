@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Ticketing.Application.csproj" />
     <ProjectReference Include="..\DataAccess.DependencyInjection\Ticketing.DataAccess.DependencyInjection.csproj" />
-    <ProjectReference Include="..\Notification.Common\Ticketing.Notification.Common.csproj" />
+    <ProjectReference Include="..\Notification.Common\Ticketing.Notification.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

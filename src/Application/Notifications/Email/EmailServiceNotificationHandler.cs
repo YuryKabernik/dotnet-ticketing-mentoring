@@ -19,7 +19,7 @@ internal class EmailServiceNotificationHandler : INotificationHandler<SeatsBooke
 
     public async Task Handle(SeatsBookedNotification notification, CancellationToken cancellationToken)
     {
-        NotificationMessage<EmailDetails> emailNotificationMessage = ToEmailMessage(notification);
+        NotificationMessage<EmailExpectingPayment> emailNotificationMessage = ToEmailMessage(notification);
 
         emailNotificationMessage.Parameters.Add("customer id", notification.Order.User.Id.ToString());
         emailNotificationMessage.Parameters.Add("customer name", notification.Order.User.Email);
@@ -27,11 +27,11 @@ internal class EmailServiceNotificationHandler : INotificationHandler<SeatsBooke
         await this.publisher.PublishAsync(emailNotificationMessage, cancellationToken);
     }
 
-    private static NotificationMessage<EmailDetails> ToEmailMessage(SeatsBookedNotification notification) =>
+    private static NotificationMessage<EmailExpectingPayment> ToEmailMessage(SeatsBookedNotification notification) =>
        new()
        {
            Operation = notification.GetType().Name,
-           Content = new()
+           Content = new EmailExpectingPayment()
            {
                Recipient = GetRecipientInfo(notification.Order.User),
                Order = GetRecipientOrder(notification.Order.Payment)
@@ -42,5 +42,5 @@ internal class EmailServiceNotificationHandler : INotificationHandler<SeatsBooke
         new() { Name = user.Name, Email = user.Email };
 
     private static RecipientsOrder GetRecipientOrder(Payment payment) =>
-        new() { Amount = payment.Price, PaymentId = payment.PaymentGuid };
+        new() { Amount = payment.Price, PaymentId = payment.PaymentGuid, OrderId = payment.Order.Id };
 }
