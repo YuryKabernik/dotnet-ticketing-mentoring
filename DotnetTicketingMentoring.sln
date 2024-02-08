@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B68343DB-032
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.DataAccess", "src\DataAccess\Ticketing.DataAccess.csproj", "{620BA71D-2590-487E-91A5-31B556D7C41F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.WebAPI", "src\WebApi\Ticketing.WebAPI.csproj", "{59D1C1FA-B8A6-474D-91CE-36C56A80B053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.WebApi", "src\WebApi\Ticketing.WebApi.csproj", "{59D1C1FA-B8A6-474D-91CE-36C56A80B053}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Domain", "src\Domain\Ticketing.Domain.csproj", "{F6DF355A-5C61-40B8-AFAB-9A91296DE32D}"
 EndProject
@@ -19,9 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{61D6C68E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.DataAccess.UnitTests", "tests\Ticketing.DataAccess.UnitTests\Ticketing.DataAccess.UnitTests.csproj", "{F73BB423-7EEC-4CD0-9F6F-19E4A5F42E50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.WebAPI.UnitTests", "tests\Ticketing.WebAPI.UnitTests\Ticketing.WebAPI.UnitTests.csproj", "{819830DB-FC8D-486E-974D-59301C70C490}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.WebApi.UnitTests", "tests\Ticketing.WebApi.UnitTests\Ticketing.WebApi.UnitTests.csproj", "{819830DB-FC8D-486E-974D-59301C70C490}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.WebAPI.IntegrationTests", "tests\Ticketing.WebAPI.IntegrationTests\Ticketing.WebAPI.IntegrationTests.csproj", "{A34DB7D4-CFBF-4B83-B2D1-CE60D14DE0B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.WebApi.IntegrationTests", "tests\Ticketing.WebApi.IntegrationTests\Ticketing.WebApi.IntegrationTests.csproj", "{A34DB7D4-CFBF-4B83-B2D1-CE60D14DE0B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticketing.Tests.Core", "tests\Ticketing.Tests.Core\Ticketing.Tests.Core.csproj", "{85B87FF9-08A2-4E2B-98FA-490663047E49}"
 EndProject
