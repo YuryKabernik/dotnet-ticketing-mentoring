@@ -16,11 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: $DOTNET_VERSION
+        dotnet-version: ${{ vars.DOTNET_VERSION }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -35,7 +35,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: $DOTNET_VERSION
+        dotnet-version: ${{ vars.DOTNET_VERSION }}
 
     - name: Run Unit Tests
       run: dotnet test --filter "FullyQualifiedName~UnitTests" --verbosity normal
