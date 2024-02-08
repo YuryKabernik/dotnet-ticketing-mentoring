@@ -23,10 +23,10 @@ jobs:
         dotnet-version: ${{ vars.DOTNET_VERSION }}
     
     - name: Restore dependencies
-      run: dotnet restore DotnetTicketingMentoring.sln
+      run: dotnet restore
     
     - name: Build
-      run: dotnet build DotnetTicketingMentoring.sln --no-restore
+      run: dotnet build --no-restore
 
     - name: Run Unit Tests
-      run: dotnet test DotnetTicketingMentoring.sln --filter "FullyQualifiedName~UnitTests" --verbosity normal
+      run: dotnet test --filter "FullyQualifiedName~UnitTests" --verbosity normal
