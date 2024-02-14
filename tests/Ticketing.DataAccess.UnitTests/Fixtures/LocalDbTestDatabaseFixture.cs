@@ -31,7 +31,7 @@ namespace Ticketing.DataAccess.UnitTests.Fixtures
             }
         }
 
-        public DataContext CreateContext() => new(this._settings);
+        public DataContext CreateContext() => new DataContextFixture(this._settings);
 
         public void Cleanup()
         {

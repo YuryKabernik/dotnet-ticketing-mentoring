@@ -23,6 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Ticketing.WebAPI.IntegrationTests\Ticketing.WebAPI.IntegrationTests.csproj" />
+		<ProjectReference Include="..\Ticketing.WebApi.IntegrationTests\Ticketing.WebApi.IntegrationTests.csproj" />
 	</ItemGroup>
 </Project>

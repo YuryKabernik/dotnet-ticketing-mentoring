@@ -15,7 +15,7 @@ namespace Ticketing.DataAccess;
 
 public class DataContext : DbContext, IUnitOfWork
 {
-    private readonly DatabaseSettings settings;
+    protected readonly DatabaseSettings settings;
 
     public DataContext(IOptions<DatabaseSettings> settings) : base()
     {
