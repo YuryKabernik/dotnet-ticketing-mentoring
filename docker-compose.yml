@@ -1,0 +1,37 @@
+services:
+
+  ticketing-webapi:
+    # image: ticketing-image:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.webapi
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - ticketing-db
+      - ticketing-mq
+
+  ticketing-notify:
+    # image: ticketing-notification-image:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.notification.service
+    ports:
+      - "8003:5003"
+    depends_on:
+      - ticketing-mq
+
+  ticketing-mq:
+    image: rabbitmq:3.12-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  ticketing-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - MSSQL_SA_PASSWORD=example1234
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
