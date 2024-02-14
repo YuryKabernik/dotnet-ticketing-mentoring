@@ -42,8 +42,8 @@ public class CartRepositoryTests : RepositoryTestsBase
         Cart? result = await this._cartRepository.GetAsync(_cartId, CancellationToken.None);
 
         Assert.NotNull(result);
-        Assert.Equal(0, result.FinalPrice);
-        Assert.Empty(result.Seats);
+        Assert.NotEqual(0, result.FinalPrice);
+        Assert.NotEmpty(result.Seats);
     }
 
     [Fact]
