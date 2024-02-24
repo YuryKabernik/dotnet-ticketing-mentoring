@@ -18,14 +18,15 @@
 			"settings": {
 				"mssql.connections": [
 					{
-						"server": "localhost,1433",
+						"server": "ticketing-db,1433",
 						"database": "Ticketing",
 						"authenticationType": "SqlLogin",
 						"user": "sa",
 						"password": "P@ssw0rd",
 						"emptyPasswordInput": false,
 						"savePassword": false,
-						"profileName": "mssql-container"
+						"profileName": "mssql-container",
+						"trustServerCertificate": true
 					}
 				]
 			},
@@ -33,14 +34,16 @@
 			"extensions": [
 				"ms-dotnettools.csharp",
 				"ms-mssql.mssql",
-				"ms-dotnettools.csdevkit"
+				"ms-dotnettools.csdevkit",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		5108, // ticketing service http port 
-		15672 // rabbit MQ admin port
+		15672,// rabbit MQ admin port
+		1433 //  forward MSSQL locally
 	],
 	// "portsAttributes": {
 	// 	"5108": {
@@ -48,7 +51,7 @@
 	// 	}
 	// },
 	// postCreateCommand.sh parameters: $1=SA password, $2=dacpac path, $3=sql script(s) path
-	"postCreateCommand": "bash .devcontainer/mssql/postCreateCommand.sh 'P@ssw0rd' './bin/Debug/' './.devcontainer/mssql/'"
+	"postCreateCommand": "bash .devcontainer/mssql/postCreateCommand.sh 'P@ssw0rd' './bin/Debug/' './.devcontainer/mssql/' 'ticketing-db,1433'"
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 }
