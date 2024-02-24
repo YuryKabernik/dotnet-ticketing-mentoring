@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Ticketing.Notification.Contracts.Producers;
-using Ticketing.Notification.Contracts.Settings;
 using Ticketing.Notification.Contracts.Producers.Interfaces;
+using Ticketing.Notification.Contracts.Settings;
 
 namespace Ticketing.Notification.Contracts;
 
