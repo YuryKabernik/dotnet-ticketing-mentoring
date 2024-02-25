@@ -1,8 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Ticketing.Application;
 using Ticketing.DataAccess.DependencyInjection;
-using Ticketing.DataAccess.Setup;
 using Ticketing.WebApi.Caching;
 using Ticketing.WebApi.Startup;
 using Ticketing.WebApi.Startup.ExceptionHandlers;
@@ -26,7 +23,8 @@ builder.Services.AddApplication();
 
 // Health checks
 builder.Services.AddHealthChecks()
-    .AddDataAccessHealthCheck();
+    .AddDataAccessDependenciesHealthCheck()
+    .AddApplicationDependenciesHealthCheck();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -46,7 +44,7 @@ if (endpoints.Environment.IsDevelopment())
     endpoints.UseSwaggerUI();
 
     // health check UI middleware
-    endpoints.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
+    endpoints.UseHealthChecksUI(config => config.UIPath = "/healthchecks-ui");
 }
 else
 {

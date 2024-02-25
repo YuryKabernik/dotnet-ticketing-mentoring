@@ -29,9 +29,8 @@ public static class DependencyRegistry
         return services;
     }
 
-    public static IHealthChecksBuilder AddDataAccessHealthCheck(this IHealthChecksBuilder healthCheckBuilder)
-    {
-        return healthCheckBuilder.AddSqlServer(
+    public static IHealthChecksBuilder AddDataAccessDependenciesHealthCheck(
+        this IHealthChecksBuilder healthCheckBuilder) => healthCheckBuilder.AddSqlServer(
             name: "ticketing-db-check",
             tags: new string[] { "ready", "ticketing-db" },
             connectionStringFactory: sp =>
@@ -41,5 +40,4 @@ public static class DependencyRegistry
                 return settings.ConnectionString;
             }
         );
-    }
 }

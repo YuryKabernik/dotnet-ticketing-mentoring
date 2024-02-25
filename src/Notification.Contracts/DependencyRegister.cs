@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Ticketing.Notification.Contracts.Producers;
 using Ticketing.Notification.Contracts.Producers.Interfaces;
@@ -35,5 +34,19 @@ public static class DependencyRegister
         services.AddScoped<IMessageProducer, MessageProducer>();
 
         return services;
+    }
+
+    public static IHealthChecksBuilder AddMessageQueueHealthCheck(this IHealthChecksBuilder healthCheckBuilder)
+    {
+        return healthCheckBuilder.AddRabbitMQ(
+            name: "ticketing-mq-check",
+            tags: new string[] { "ready", "ticketing-mq" },
+            setup: (sp, options) =>
+            {
+                MessageBrokerSettings settings = sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
+
+                options.ConnectionUri = new Uri(settings.ConnectionString);
+            }
+        );
     }
 }
