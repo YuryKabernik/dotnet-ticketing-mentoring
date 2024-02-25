@@ -1,5 +1,15 @@
 {
   "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "health/ready",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5103"
+    },
     "Ticketing.Notification.Email": {
       "commandName": "Project",
       "environmentVariables": {

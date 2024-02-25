@@ -1,26 +1,26 @@
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Builder;
 using Ticketing.Notification.Contracts;
 using Ticketing.Notification.Service.HttpPolicies;
-using Ticketing.Notification.Service.Providers.Email;
-using Ticketing.Notification.Service.Providers.Email.Interfaces;
 using Ticketing.Notification.Service.Settings;
+using Ticketing.Notification.Startup;
 
-var builder = Host.CreateApplicationBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureOptions<EmailProviderConfigureOptions>();
 
 builder.Services.AddNotifications();
 builder.Services
-    .AddHttpClient<IEmailProvider, EmailProvider>(ConfigureEmailProvider)
+    .AddEmailProviderHttpClient()
     .AddPolicyHandler(RetryHttpPolicy.Policy);
 
-var host = builder.Build();
-host.Run();
+// Health checks
+builder.Services
+    .AddHealthChecks()
+    .AddMessageQueueHealthCheck();
 
-static void ConfigureEmailProvider(IServiceProvider sp, HttpClient client)
-{
-    var configuration = sp.GetRequiredService<IOptions<EmailProviderConfiguration>>().Value;
+var app = builder.Build();
 
-    client.BaseAddress = new Uri(configuration.BaseAddress);
-    client.DefaultRequestHeaders.Authorization = configuration.AuthenticationHeader;
-}
+app.MapLivenessEndpoint();
+app.MapReadinessEndpoint();
+
+app.Run();

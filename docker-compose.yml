@@ -18,7 +18,8 @@ services:
       context: .
       dockerfile: Dockerfile.notification.service
     ports:
-      - "8003:5003"
+      - "8082:8080"
+      - "8083:8081"
     depends_on:
       - ticketing-mq
 
