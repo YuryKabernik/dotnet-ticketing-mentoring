@@ -31,16 +31,18 @@ if (builder.Environment.IsDevelopment())
     builder.Services.UseHealthCheckUIConfigured();
 }
 
+// Configure the HTTP request pipeline.
 var endpoints = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Ensure swagger generations are always generated
+endpoints.UseSwagger();
+
 if (endpoints.Environment.IsDevelopment())
 {
     // exception page for developers
     endpoints.UseDeveloperExceptionPage();
 
     // swagger UI middleware
-    endpoints.UseSwagger();
     endpoints.UseSwaggerUI();
 
     // health check UI middleware
