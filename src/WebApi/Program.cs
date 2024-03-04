@@ -3,6 +3,7 @@ using Ticketing.DataAccess.DependencyInjection;
 using Ticketing.WebApi.Caching;
 using Ticketing.WebApi.Startup;
 using Ticketing.WebApi.Startup.ExceptionHandlers;
+using Ticketing.WebApi.Startup.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,27 +21,48 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDataAccess();
 builder.Services.AddApplication();
 
-var app = builder.Build();
+// Health checks
+builder.Services.AddHealthChecks()
+    .AddDataAccessDependenciesHealthCheck()
+    .AddApplicationDependenciesHealthCheck();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.UseHealthCheckUIConfigured();
+}
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+var endpoints = builder.Build();
+
+// Ensure swagger generations are always generated
+endpoints.UseSwagger();
+
+if (endpoints.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
+    // exception page for developers
+    endpoints.UseDeveloperExceptionPage();
+
+    // swagger UI middleware
+    endpoints.UseSwaggerUI();
+
+    // health check UI middleware
+    endpoints.UseHealthChecksUI(config => config.UIPath = "/healthchecks-ui");
 }
 else
 {
-    app.UseExceptionHandler("/Error");
+    endpoints.UseExceptionHandler("/Error");
 }
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
+endpoints.UseHttpsRedirection();
+endpoints.UseAuthorization();
 
-app.UseResponseCaching();
-app.MapControllers();
+endpoints.MapLivenessEndpoint();
+endpoints.MapReadinessEndpoint();
 
-app.Run();
+endpoints.UseResponseCaching();
+endpoints.MapControllers();
+
+endpoints.Run();
 
 namespace Ticketing.WebApi
 {

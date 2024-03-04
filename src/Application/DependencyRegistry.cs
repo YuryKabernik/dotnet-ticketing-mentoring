@@ -23,4 +23,7 @@ public static class DependencyRegistry
 
         return services;
     }
+
+    public static IHealthChecksBuilder AddApplicationDependenciesHealthCheck(
+        this IHealthChecksBuilder healthCheckBuilder) => healthCheckBuilder.AddMessageQueueHealthCheck();
 }

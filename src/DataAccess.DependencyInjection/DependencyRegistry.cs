@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Ticketing.DataAccess.Repositories;
 using Ticketing.DataAccess.Setup;
 using Ticketing.Domain.Interfaces;
@@ -27,4 +28,16 @@ public static class DependencyRegistry
 
         return services;
     }
+
+    public static IHealthChecksBuilder AddDataAccessDependenciesHealthCheck(
+        this IHealthChecksBuilder healthCheckBuilder) => healthCheckBuilder.AddSqlServer(
+            name: "ticketing-db-check",
+            tags: new string[] { "ready", "ticketing-db" },
+            connectionStringFactory: sp =>
+            {
+                DatabaseSettings settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+
+                return settings.ConnectionString;
+            }
+        );
 }

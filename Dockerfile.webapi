@@ -3,12 +3,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 COPY "./src/" /source
-RUN dotnet build "/source/WebApi/Ticketing.WebAPI.csproj" -c Release -o /app/build
+RUN dotnet build "/source/WebApi/Ticketing.WebApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "/source/WebApi/Ticketing.WebAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "/source/WebApi/Ticketing.WebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Ticketing.WebAPI.dll"]
+ENTRYPOINT ["dotnet", "Ticketing.WebApi.dll"]
